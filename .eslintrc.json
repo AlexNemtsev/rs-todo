@@ -1,0 +1,39 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["airbnb-base"],
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "project": "tsconfig.json",
+        "tsconfigRootDir": ".",
+        "sourceType": "module"
+      },
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
+        ],
+        "no-param-reassign": [2, { "props": false }],
+        "no-underscore-dangle": "off"
+      }
+    }
+  ],
+  "ignorePatterns": "tests"
+}
