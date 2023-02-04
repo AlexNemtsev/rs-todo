@@ -1,8 +1,10 @@
-import View from '../view/tasksView/tasksView';
+import TasksView from '../view/tasksView/tasksView';
 
 class App {
   public static start() {
-    View.draw();
+    const main: HTMLElement | null = document.querySelector('main');
+
+    if (main) TasksView.draw(main);
   }
 }
 

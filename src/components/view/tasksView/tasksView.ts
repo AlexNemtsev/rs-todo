@@ -2,8 +2,8 @@ import Builder from '../builder/builder';
 import './tasksView.scss';
 
 class TasksView {
-  public static draw() {
-    const main: HTMLElement | null = document.querySelector('main');
+  public static draw(main: HTMLElement) {
+    main.innerHTML = '';
 
     const [container, ...rest] = [
       ['container'],
@@ -13,7 +13,7 @@ class TasksView {
     ].map((item) => Builder.createBlock(item));
 
     container.append(...rest);
-    if (main) main.append(container);
+    main.append(container);
   }
 }
 

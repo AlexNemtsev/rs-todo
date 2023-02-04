@@ -1,5 +1,5 @@
 class Builder {
-  static createBlock(
+  public static createBlock(
     classes: string[],
     tag = 'div',
     text?: string,
