@@ -1,0 +1,15 @@
+.container {
+  display: grid;
+  grid-template-columns: 250px 1fr 1fr;
+  min-height: 100vh;
+}
+
+.lists {
+  background-color: rgba(var(--main-color), 0.1);
+  
+}
+
+.tasks {
+  border-left: 1px solid rgba(var(--main-color), 0.4);
+  border-right: 1px solid rgba(var(--main-color), 0.4);
+}
