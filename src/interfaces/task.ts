@@ -2,7 +2,7 @@ import Priority from './priority';
 import TaskStatus from './status';
 
 interface Task {
-  id?: number;
+  id: number;
   task: string;
   list: string;
   createdAt: Date;
