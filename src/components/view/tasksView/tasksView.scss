@@ -5,12 +5,40 @@
 }
 
 .lists {
+  padding: 15px 10px;
   background-color: rgba(var(--main-color), 0.1);
-  
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list__icon {
+  width: 26px;
+}
+
+.list__button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &--active {
+    background-color: rgba(var(--main-color), 0.3);
+  }
 }
 
 .tasks {
-  padding: 10px;
+  padding: 20px 10px;
   border-left: 1px solid rgba(var(--main-color), 0.4);
   border-right: 1px solid rgba(var(--main-color), 0.4);
 }

@@ -1,5 +1,6 @@
 import Builder from '../builder/builder';
 import TaskColumn from './taskColumn';
+import ListColumn from './listColumn';
 import Task from '../../../interfaces/task';
 import './tasksView.scss';
 
@@ -29,16 +30,17 @@ class TasksView {
   public static draw(main: HTMLElement): void {
     main.innerHTML = '';
 
-    const [container, ...rest]: HTMLElement[] = [
+    const [container, lists, tasks, details]: HTMLElement[] = [
       ['container'],
       ['lists'],
       ['tasks'],
       ['details'],
     ].map((item) => Builder.createBlock(item));
 
-    TaskColumn.draw(rest[1], fakeTasks);
+    ListColumn.draw(lists);
+    TaskColumn.draw(tasks, fakeTasks);
 
-    container.append(...rest);
+    container.append(lists, tasks, details);
     main.append(container);
   }
 }
