@@ -1,4 +1,4 @@
-import settingstemplate from './templates';
+import settingstemplates from './templates';
 import './settings.scss';
 import TaskView from '../tasksView/tasksView';
 
@@ -7,7 +7,7 @@ class SettingsView {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
       main.innerHTML = '';
-      main.innerHTML = settingstemplate.main;
+      main.innerHTML = settingstemplates.main;
       SettingsView.addListeners(main);
       SettingsView.fillSettings(0);
     }
@@ -44,16 +44,16 @@ class SettingsView {
       settingsContent.innerHTML = '';
       switch (option) {
         case 0:
-          settingsContent.innerHTML = settingstemplate.Appearance;
+          settingsContent.innerHTML = settingstemplates.Appearance;
           break;
         case 1:
-          settingsContent.innerHTML = settingstemplate.Preference;
+          settingsContent.innerHTML = settingstemplates.Preference;
           break;
         case 2:
-          settingsContent.innerHTML = settingstemplate.Hotkeys;
+          settingsContent.innerHTML = settingstemplates.Hotkeys;
           break;
         default:
-          settingsContent.innerHTML = settingstemplate.Appearance;
+          settingsContent.innerHTML = settingstemplates.Appearance;
       }
     }
   }

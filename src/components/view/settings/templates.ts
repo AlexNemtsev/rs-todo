@@ -1,4 +1,6 @@
-const settingstemplate = {
+import SettingTemplate from "../../../interfaces/settings";
+
+const settingstemplates:SettingTemplate = {
   main: `<div class="settings__container">
 <div class="settings__header">
   <h1 class="settings__title">Settings</h1>
@@ -76,4 +78,4 @@ const settingstemplate = {
 </div>`,
 };
 
-export default settingstemplate;
+export default settingstemplates;
