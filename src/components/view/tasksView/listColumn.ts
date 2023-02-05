@@ -21,6 +21,20 @@ class ListColumn {
           </button>
         </li>
       </ul>
+      <ul class="list list--main">
+        <li class="list__item">
+          <button class="list__button">
+            <img class="list__icon" src="./assets/img/task.svg" alt="Completed tasks">
+            Completed
+          </button>
+        </li>
+        <li class="list__item">
+          <button class="list__button">
+            <img class="list__icon" src="./assets/img/trash.svg" alt="Trash">
+            Trash
+          </button>
+        </li>
+      </ul>
     `;
   }
 }
