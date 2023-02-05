@@ -2,6 +2,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const prodCfg = require('./webpack.prod.config');
@@ -39,6 +40,17 @@ const baseConfig = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/assets',
+          to: path.resolve(__dirname, 'dist', 'assets'),
+          globOptions: {
+            ignore: ['**/scss/**'],
+          },
+        },
+      ],
     }),
   ],
 };

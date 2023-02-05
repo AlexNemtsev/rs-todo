@@ -1,0 +1,105 @@
+.container {
+  display: grid;
+  grid-template-columns: 250px 1fr 1fr;
+  min-height: 100vh;
+}
+
+.lists {
+  padding: 15px 10px;
+  background-color: rgba(var(--main-color), 0.1);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &--main {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(var(--main-color), 0.4);
+  }
+}
+
+.list__icon {
+  width: 26px;
+}
+
+.list__button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &--active {
+    background-color: rgba(var(--main-color), 0.3);
+  }
+}
+
+.tasks {
+  padding: 20px 10px;
+  border-left: 1px solid rgba(var(--main-color), 0.4);
+  border-right: 1px solid rgba(var(--main-color), 0.4);
+}
+
+.tasks__title {
+  margin-top: 0;
+}
+
+.task {
+  padding: 5px 0;
+}
+
+.task__label {
+  position: relative;
+	display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task__input + .task__label::before {
+	content: "";
+  box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	border: 1px solid rgb(var(--main-color));
+	border-radius: 3px;
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task__input:hover + .task__label {
+	cursor: pointer;
+}
+
+.task__input:hover + .task__label::before {
+	border: 1px solid rgba(var(--main-color), 0.6);
+}
+
+.task__input:focus + .task__label::before {
+	outline: 2px solid #101010;
+}
+
+.task__input:checked + .task__label::before {
+	background-color: rgb(var(--main-color));
+}
+
+.task__input:checked + .task__label::after {
+	content: "";
+	position: absolute;
+	top: 4px;
+	left: 3px;
+	width: 14px;
+	height: 12px;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 15 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.17114 5.55227L5.6539 10.035L13.7229 1.96606' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+	background-repeat: no-repeat;
+	background-position: 0 0;
+  background-size: contain;
+}
