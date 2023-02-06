@@ -13,7 +13,7 @@ class SettingsView {
     }
   }
 
-  public static addListeners(main: HTMLElement): void {
+  private static addListeners(main: HTMLElement): void {
     const settingsOptions: NodeListOf<Element> = document.querySelectorAll(
       '.option__item',
     );
@@ -21,11 +21,11 @@ class SettingsView {
       '.settings-done__button',
     );
 
-    doneButton?.addEventListener('click', () => {
+    doneButton?.addEventListener('click', (): void => {
       TaskView.draw(main);
     });
 
-    settingsOptions.forEach((el, index) => {
+    settingsOptions.forEach((el, index): void => {
       el.addEventListener('click', () => {
         settingsOptions.forEach((setting) =>
           setting.classList.remove('active'),
@@ -36,7 +36,7 @@ class SettingsView {
     });
   }
 
-  public static fillSettings(option: number): void {
+  private static fillSettings(option: number): void {
     const settingsContent: HTMLElement | null = document.querySelector(
       '.settings-option__content',
     );
