@@ -7,19 +7,19 @@ class ListColumn {
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/calendar.svg" alt="Calendar">
-            Today
+            ${i18next.t('mainScreen.lists.today')}
           </button>
         </li>
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/calendar.svg" alt="Calendar">
-            Tomorrow
+            ${i18next.t('mainScreen.lists.tomorrow')}
           </button>
         </li>
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/calendar7.svg" alt="Calendar">
-            Next 7 Days
+            ${i18next.t('mainScreen.lists.nextDays')}
           </button>
         </li>
       </ul>
@@ -27,13 +27,13 @@ class ListColumn {
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/task.svg" alt="Completed tasks">
-            Completed
+            ${i18next.t('mainScreen.lists.completed')}
           </button>
         </li>
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/trash.svg" alt="Trash">
-            ${i18next.t('trash-list')}
+            ${i18next.t('mainScreen.lists.trash')}
           </button>
         </li>
       </ul>

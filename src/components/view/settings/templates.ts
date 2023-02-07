@@ -1,11 +1,12 @@
+import i18next from 'i18next';
 import SettingTemplate from '../../../interfaces/settings';
 
 const settingstemplates: SettingTemplate = {
   main: `<div class="settings__container">
 <div class="settings__header">
-  <h1 class="settings__title">Settings</h1>
+  <h1 class="settings__title">${i18next.t('settings.header')}</h1>
   <button class="settings-done__button">
-    Done
+    ${i18next.t('settings.doneBtn')}
   </button>
 </div>
 <div class="settings-main__container">
