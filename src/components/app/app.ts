@@ -1,7 +1,9 @@
 import i18next from 'i18next';
+import ru from '../i18n/ru';
 
 import SettingsView from '../view/settings/settings';
 import TasksView from '../view/tasksView/tasksView';
+import en from '../i18n/en';
 
 class App {
   public static async start(): Promise<void> {
@@ -14,11 +16,8 @@ class App {
     await i18next.init({
       lng: 'ru',
       resources: {
-        ru: {
-          translation: {
-            key: 'Привет мир!',
-          },
-        },
+        ru,
+        en,
       },
     });
   }
