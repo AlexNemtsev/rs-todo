@@ -1,6 +1,6 @@
 const en = {
   translation: {
-    key: 'Hello world',
+    'trash-list': 'Trash',
   },
 };
 

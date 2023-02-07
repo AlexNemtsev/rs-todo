@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 class ListColumn {
   public static draw(listsBlock: HTMLElement): void {
     listsBlock.innerHTML = `
@@ -31,7 +33,7 @@ class ListColumn {
         <li class="list__item">
           <button class="list__button">
             <img class="list__icon" src="./assets/img/trash.svg" alt="Trash">
-            Trash
+            ${i18next.t('trash-list')}
           </button>
         </li>
       </ul>

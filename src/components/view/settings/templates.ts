@@ -1,6 +1,6 @@
-import SettingTemplate from "../../../interfaces/settings";
+import SettingTemplate from '../../../interfaces/settings';
 
-const settingstemplates:SettingTemplate = {
+const settingstemplates: SettingTemplate = {
   main: `<div class="settings__container">
 <div class="settings__header">
   <h1 class="settings__title">Settings</h1>
@@ -38,8 +38,8 @@ const settingstemplates:SettingTemplate = {
 </div>`,
   Preference: `<div class="setting-pref"><label for="Preference-language">Language:</label>
 <select name="Preference-language" id="Preference-language">
-  <option value="English">English</option>
-  <option value="Russian">Russian</option>
+  <option value="en">English</option>
+  <option value="ru">Русский</option>
 </select></div>
 <div class="setting-pref"><label for="Preference-time__format">Time Format:</label>
 <select name="Preference-time__format" id="Preference-time__format">

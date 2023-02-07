@@ -1,6 +1,6 @@
 const ru = {
   translation: {
-    key: 'Привет мир!',
+    'trash-list': 'Корзина',
   },
 };
 
