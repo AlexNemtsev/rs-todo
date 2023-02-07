@@ -1,0 +1,122 @@
+.settings__container {
+  width: 70%;
+  margin: 0 auto;
+
+  .settings__header {
+    display: flex;
+    justify-content: space-between;
+
+    .settings-done__button {
+      width: 100px;
+      height: 30px;
+      align-self: center;
+      color: white;
+      background-color: rgba(var(--main-color));
+    }
+  }
+
+  .settings-main__container {
+    height: 600px;
+    overflow: auto;
+    background-color: beige;
+    display: flex;
+
+    .settings__options {
+      width: 205px;
+      border-right: 1px solid gray;
+      height: 100%;
+
+      .options__items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 16px;
+
+        .option__item {
+          line-height: 40px;
+          font-size: 28px;
+          width: 100%;
+          cursor: pointer;
+
+          &:hover {
+            background: rgb(156, 156, 156, 0.3);
+          }
+
+          &.active::before {
+            content: '|';
+            height: 100%;
+            width: 3px;
+            background-color: rgba(var(--main-color));
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+
+    .settings-option__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+      width: 100%;
+      gap: 20px;
+      overflow: auto;
+      .setting-pref {
+        font-size: 1.2rem;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+
+        select {
+          width: 30%;
+          height: 25px;
+        }
+      }
+
+      .setting-appear {
+        display: flex;
+        width: 90%;
+        gap: 50px;
+        text-align: center;
+
+        .theme-light,
+        .theme-dark {
+          display: flex;
+          flex-direction: column;
+          width: 60px;
+          gap: 12px;
+
+          .theme-light__square {
+            height: 60px;
+            background-color: white;
+            border: 1px solid wheat;
+            border-radius: 5%;
+          }
+
+          .theme-dark__square {
+            height: 60px;
+            background-color: black;
+            border: 1px solid grey;
+            border-radius: 5%;
+          }
+        }
+
+        .task-type__def,
+        .task-type__str {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      .setting-shortcuts {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        gap: 20px;
+        div {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}
