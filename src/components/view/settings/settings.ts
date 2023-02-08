@@ -9,12 +9,12 @@ class SettingsView {
     if (main) {
       main.innerHTML = '';
       main.innerHTML = settingstemplates.main;
-      SettingsView.addListeners(main);
+      SettingsView.addListeners();
       SettingsView.fillSettings(0);
     }
   }
 
-  private static addListeners(main: HTMLElement): void {
+  private static addListeners(): void {
     const settingsOptions: NodeListOf<Element> = document.querySelectorAll(
       '.option__item',
     );
@@ -32,7 +32,7 @@ class SettingsView {
         .changeLanguage(lang)
         .then(() => {
           localStorage.setItem('lang', lang);
-          TaskView.draw(main);
+          TaskView.draw();
         })
         .catch((err) => console.log(err));
     });

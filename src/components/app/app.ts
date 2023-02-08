@@ -16,9 +16,9 @@ class App {
       },
     });
 
-    const main: HTMLElement | null = document.querySelector('main');
+    // const main: HTMLElement | null = document.querySelector('main');
 
-    if (main) TasksView.draw(main);
+    TasksView.draw();
     const SettingsButton = document.querySelector('.nav__item');
     SettingsButton?.addEventListener('click', SettingsView.drawSettings);
   }
