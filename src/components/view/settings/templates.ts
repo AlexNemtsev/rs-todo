@@ -12,9 +12,9 @@ const settingstemplates: SettingTemplate = {
 <div class="settings-main__container">
   <div class="settings__options">
     <ul class="options__items">
-      <li class="option__item active">Appearance</li>
-      <li class="option__item">Preference</li>
-      <li class="option__item">Shortcuts</li>
+      <li class="option__item active"><a href="/settings/appearance">Appearance</a></li>
+      <li class="option__item"><a href="/settings/preference">Preference</a></li>
+      <li class="option__item"><a href="/settings/hotkeys">Shortcuts</a></li>
     </ul>
   </div>
   <div class="settings-option__content"></div>
