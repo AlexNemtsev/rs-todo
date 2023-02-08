@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import settingstemplates from './templates';
 import './settings.scss';
 import TaskView from '../tasksView/tasksView';
@@ -22,7 +23,18 @@ class SettingsView {
     );
 
     doneButton?.addEventListener('click', (): void => {
-      TaskView.draw(main);
+      // TODO: сделать обработчик для списка языков и перенести в него функционал изменения языка
+      const langList = document.getElementById(
+        'Preference-language',
+      ) as HTMLSelectElement;
+      const lang = langList.value;
+      i18next
+        .changeLanguage(lang)
+        .then(() => {
+          localStorage.setItem('lang', lang);
+          TaskView.draw(main);
+        })
+        .catch((err) => console.log(err));
     });
 
     settingsOptions.forEach((el, index): void => {

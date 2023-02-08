@@ -1,11 +1,12 @@
-import SettingTemplate from "../../../interfaces/settings";
+import i18next from 'i18next';
+import SettingTemplate from '../../../interfaces/settings';
 
-const settingstemplates:SettingTemplate = {
+const settingstemplates: SettingTemplate = {
   main: `<div class="settings__container">
 <div class="settings__header">
-  <h1 class="settings__title">Settings</h1>
+  <h1 class="settings__title">${i18next.t('settings.header')}</h1>
   <button class="settings-done__button">
-    Done
+    ${i18next.t('settings.doneBtn')}
   </button>
 </div>
 <div class="settings-main__container">
@@ -38,8 +39,8 @@ const settingstemplates:SettingTemplate = {
 </div>`,
   Preference: `<div class="setting-pref"><label for="Preference-language">Language:</label>
 <select name="Preference-language" id="Preference-language">
-  <option value="English">English</option>
-  <option value="Russian">Russian</option>
+  <option value="en">English</option>
+  <option value="ru">Русский</option>
 </select></div>
 <div class="setting-pref"><label for="Preference-time__format">Time Format:</label>
 <select name="Preference-time__format" id="Preference-time__format">
