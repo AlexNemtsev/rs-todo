@@ -52,10 +52,37 @@
 
 .tasks__title {
   margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.tasks__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-family: inherit;
+  background-color: rgba(var(--main-color), 0.15);
+  outline: 2px solid rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s;
+
+  &:focus {
+    outline: 2px solid rgb(var(--main-color));
+    background-color: white;
+  }
+}
+
+.tasks__list {
+  padding: 15px 0;
 }
 
 .task {
   padding: 5px 0;
+  transition: 0.2s;
+
+  &:has(.task__input:checked) {
+    opacity: 0.5;
+  }
 }
 
 .task__label {

@@ -3,6 +3,7 @@ const en = {
     mainScreen: {
       lists: {
         all: 'All',
+        inputPlaceholder: 'Add task, press Enter to save',
         today: 'Today',
         tomorrow: 'Tomorrow',
         nextDays: 'Next 7 Days',
