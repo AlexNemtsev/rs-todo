@@ -9,9 +9,12 @@ class TaskColumn {
 
   taskList: HTMLElement;
 
+  dateInput: HTMLInputElement;
+
   constructor(tasksBlock: HTMLElement) {
     this.tasksBlock = tasksBlock;
     this.taskList = Builder.createBlock(['tasks__list']);
+    this.dateInput = Builder.createInput(['tasks__date-input'], 'date');
   }
 
   public draw(): void {
@@ -22,13 +25,21 @@ class TaskColumn {
       `${i18next.t('mainScreen.lists.all')}`,
     );
 
-    const input: HTMLInputElement = document.createElement('input');
-    input.placeholder = `${i18next.t('mainScreen.lists.inputPlaceholder')}`;
-    input.classList.add('tasks__input');
+    this.fillTaskList();
+    this.tasksBlock.append(title, this.createInputs(), this.taskList);
+  }
+
+  private createInputs(): HTMLElement {
+    const inputWrapper = Builder.createBlock(['tasks__inputs']);
+    const input: HTMLInputElement = Builder.createInput(
+      ['tasks__input'],
+      'text',
+      `${i18next.t('mainScreen.lists.inputPlaceholder')}`,
+    );
     this.addInputListener(input);
 
-    this.fillTaskList();
-    this.tasksBlock.append(title, input, this.taskList);
+    inputWrapper.append(input, this.dateInput);
+    return inputWrapper;
   }
 
   private fillTaskList(): void {
@@ -53,6 +64,7 @@ class TaskColumn {
           list: input.value,
           createdAt: new Date(),
           removed: false,
+          dueTo: this.dateInput.value ? new Date(this.dateInput.value) : '',
         }).catch((error) => {
           console.error('Error:', error);
         });

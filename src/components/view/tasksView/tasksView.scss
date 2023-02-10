@@ -55,8 +55,13 @@
   margin-bottom: 15px;
 }
 
+.tasks__inputs {
+  display: flex;
+  gap: 10px;
+}
+
 .tasks__input {
-  width: 100%;
+  flex-grow: 1;
   box-sizing: border-box;
   padding: 8px;
   font-family: inherit;
@@ -69,6 +74,19 @@
   &:focus {
     outline: 2px solid rgb(var(--main-color));
     background-color: white;
+  }
+}
+
+.tasks__date-input {
+  padding: 7px;
+  font-family: inherit;
+  background-color: rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  outline: 2px solid rgba(var(--main-color), 0.15);
+
+  &:focus {
+    outline: 2px solid rgb(var(--main-color));
   }
 }
 
