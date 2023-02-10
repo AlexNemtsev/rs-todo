@@ -38,13 +38,13 @@ class SettingsView {
         .catch((err) => console.log(err));
     });
 
-    settingsOptions.forEach((el, index): void => {
+    settingsOptions.forEach((el, index, elements): void => {
       const anchorElement = el.querySelector('a') as HTMLAnchorElement;
       anchorElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        settingsOptions.forEach((setting) =>
-          setting.classList.remove('active'),
-        );
+        elements.forEach((setting) => {
+          setting.classList.remove('active');
+        });
         settingsOptions[index].classList.add('active');
         const { href } = e.currentTarget as HTMLAnchorElement;
 
