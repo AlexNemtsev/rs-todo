@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import i18next from 'i18next';
-import settingstemplates from './templates';
+import templateBuilder from './templates';
 import './settings.scss';
 import Router from '../../logic/router';
 
@@ -9,7 +9,7 @@ class SettingsView {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
       main.innerHTML = '';
-      main.innerHTML = settingstemplates.main;
+      main.innerHTML = templateBuilder().main;
       SettingsView.addListeners();
       SettingsView.fillSettings(option);
     }
@@ -61,17 +61,47 @@ class SettingsView {
       settingsContent.innerHTML = '';
       switch (option) {
         case 'appearance':
-          settingsContent.innerHTML = settingstemplates.Appearance;
+          settingsContent.innerHTML = templateBuilder().Appearance;
+          this.addSettingsListeners(0);
           break;
         case 'preference':
-          settingsContent.innerHTML = settingstemplates.Preference;
+          settingsContent.innerHTML = templateBuilder().Preference;
           break;
         case 'hotkeys':
-          settingsContent.innerHTML = settingstemplates.Hotkeys;
+          settingsContent.innerHTML = templateBuilder().Hotkeys;
           break;
         default:
-          settingsContent.innerHTML = settingstemplates.Appearance;
+          settingsContent.innerHTML = templateBuilder().Appearance;
       }
+    }
+  }
+
+  private static addSettingsListeners(page: number): void {
+    switch (page) {
+      case 1:
+        // TBD
+        break;
+      case 2:
+        // TBD
+        break;
+      default:
+        ['.theme', '.sidebar-count', '.task-type'].forEach((setting) => {
+          const blocks: NodeListOf<Element> = document.querySelectorAll(
+            `${setting}`,
+          );
+          blocks.forEach((el) => {
+            el.addEventListener('click', () => {
+              blocks.forEach((block) => {
+                block.classList.remove('active');
+                block
+                  .querySelector('.item-checked')
+                  ?.classList.remove('active');
+              });
+              el.classList.add('active');
+              el.querySelector('.item-checked')?.classList.add('active');
+            });
+          });
+        });
     }
   }
 }
