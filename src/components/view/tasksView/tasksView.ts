@@ -1,7 +1,6 @@
 import Builder from '../builder/builder';
 import TaskColumn from './taskColumn';
 import ListColumn from './listColumn';
-import Task from '../../../interfaces/task';
 import './tasksView.scss';
 
 class TasksView {
