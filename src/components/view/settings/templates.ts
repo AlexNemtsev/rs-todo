@@ -32,7 +32,7 @@ function templateBuilder(): SettingTemplate {
     Appearance: `
   <h3>Pure Color</h3>
   <div class="setting-appear">
-  <div class="theme light__mode active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-light__square"><div></div></div><span>Light</span></div>
+  <div class="theme light__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-light__square"><div></div></div><span>Light</span></div>
   <div class="theme dark__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-dark__square"><div></div></div><span>Dark</span></div>
   </div>
   <h3>Sidebar Count</h3>
