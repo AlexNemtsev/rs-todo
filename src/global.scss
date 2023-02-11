@@ -101,6 +101,13 @@ img {
   gap: 20px;
 }
 
+.avatar__picture-main{
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(61, 61, 61);
+  border-radius: 50%;
+}
+
 .nav__item {
   background-color: transparent;
   border: none;

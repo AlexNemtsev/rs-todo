@@ -24,7 +24,6 @@ class SettingsView {
     );
 
     doneButton?.addEventListener('click', (): void => {
-      // TODO: сделать обработчик для списка языков и перенести в него функционал изменения языка
       Router.setRoute('/tasks');
     });
 
@@ -103,6 +102,7 @@ class SettingsView {
       });
     });
     this.darkmode();
+    this.avatarChange();
   }
 
   private static addPreferenceListeners(): void {
@@ -110,8 +110,9 @@ class SettingsView {
       'Preference-language',
     ) as HTMLSelectElement;
     const savedlang = localStorage.getItem('lang');
-    if(savedlang){
-    langList.value = savedlang}
+    if (savedlang) {
+      langList.value = savedlang;
+    }
     langList.addEventListener('change', () => {
       const lang = langList.value;
       i18next
@@ -134,6 +135,31 @@ class SettingsView {
         } else {
           rootelement?.classList.add('dark__mode');
           localStorage.setItem('mode', 'dark__mode');
+        }
+      });
+    });
+  }
+
+  private static avatarChange() {
+    const imageInput = <HTMLInputElement>document.getElementById('avatarinput');
+    const imageOutput = <HTMLDivElement>document.querySelector('.avatar');
+    const src = localStorage.getItem('avatar');
+    if (src) imageOutput.setAttribute('src', src);
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files;
+      const reader: FileReader = new FileReader();
+      if (file) {
+        reader.readAsDataURL(file[0]);
+      }
+      reader.addEventListener('load', () => {
+        let image: string | ArrayBuffer | null = '';
+        image = reader.result;
+        if (typeof image === 'string') {
+          imageOutput.setAttribute('src', image);
+          document
+            .querySelector('.avatar__picture-main')
+            ?.setAttribute('src', image);
+          localStorage.setItem('avatar', image);
         }
       });
     });

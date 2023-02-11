@@ -17,6 +17,7 @@ const en = {
       settingsList: {
         appearance: 'Appearance',
         appearList:{
+          uploadbtn:'Upload File',
           purecolor:'Pure Color',
           light:'Light',
           dark:'Dark',

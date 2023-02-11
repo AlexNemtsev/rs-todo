@@ -30,6 +30,13 @@ function templateBuilder(): SettingTemplate {
   </div>
   </div>`,
     Appearance: `
+    <div class="setting-appear">
+  <img class="setting avatar" src="../../../assets/img/noavatar.png">
+  <label for="avatarinput" class="uploadButton">${i18next.t(
+    'settings.settingsList.appearList.uploadbtn',
+  )}</label>
+  <input type="file" name="avatarinput" id="avatarinput" accept="image/png, image/jpg">
+  </div>
   <h3>${i18next.t(
     'settings.settingsList.appearList.purecolor',
   )}</h3>

@@ -25,6 +25,10 @@ class App {
       document.querySelector(':root')?.classList.add('light__mode');
     }
 
+    const avatar:string|null = localStorage.getItem('avatar');
+    if(avatar)
+    document.querySelector('.avatar__picture-main')?.setAttribute('src',avatar)
+    
     const SettingsButton = document.querySelector('.nav__item');
     SettingsButton?.addEventListener('click', () =>
       Router.setRoute('/settings/appearance'),

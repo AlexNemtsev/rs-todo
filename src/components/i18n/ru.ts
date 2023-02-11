@@ -17,6 +17,7 @@ const ru = {
       settingsList: {
         appearance: 'Внешний вид',
         appearList:{
+          uploadbtn:'Загрузить Файл',
           purecolor:'Цветовой Стиль',
           light:'Светлый',
           dark:'Темный',
