@@ -74,13 +74,18 @@ class SettingsView {
 
   private static addAppearanceListeners(): void {
     const mode: string | null = localStorage.getItem('mode');
-    if(mode){
-      document.querySelector(`.theme.${mode}`)?.classList.add('active')
-      document.querySelector(`.theme.${mode}`)?.querySelector('.item-checked')?.classList.add('active');
-    }
-    else{
-      document.querySelector(`.theme.light__mode`)?.classList.add('active')
-      document.querySelector(`.theme.light__mode`)?.querySelector('.item-checked')?.classList.add('active');
+    if (mode) {
+      document.querySelector(`.theme.${mode}`)?.classList.add('active');
+      document
+        .querySelector(`.theme.${mode}`)
+        ?.querySelector('.item-checked')
+        ?.classList.add('active');
+    } else {
+      document.querySelector(`.theme.light__mode`)?.classList.add('active');
+      document
+        .querySelector(`.theme.light__mode`)
+        ?.querySelector('.item-checked')
+        ?.classList.add('active');
     }
     ['.theme', '.sidebar-count', '.task-type'].forEach((setting) => {
       const blocks: NodeListOf<Element> = document.querySelectorAll(
@@ -104,6 +109,9 @@ class SettingsView {
     const langList = document.getElementById(
       'Preference-language',
     ) as HTMLSelectElement;
+    const savedlang = localStorage.getItem('lang');
+    if(savedlang){
+    langList.value = savedlang}
     langList.addEventListener('change', () => {
       const lang = langList.value;
       i18next
