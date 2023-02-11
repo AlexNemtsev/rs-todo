@@ -9,6 +9,18 @@ class Builder {
     if (text) block.textContent = text;
     return block;
   }
+
+  public static createInput(
+    classes: string[],
+    type: string,
+    placeholder?: string,
+  ): HTMLInputElement {
+    const input = document.createElement('input');
+    input.classList.add(...classes);
+    input.type = type;
+    if (placeholder) input.placeholder = placeholder;
+    return input;
+  }
 }
 
 export default Builder;

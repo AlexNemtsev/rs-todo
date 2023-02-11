@@ -3,6 +3,7 @@ const ru = {
     mainScreen: {
       lists: {
         all: 'Все',
+        inputPlaceholder: 'Добавьте задачу, нажмите Enter для сохранения',
         today: 'Сегодня',
         tomorrow: 'Завтра',
         nextDays: 'Следующие 7 дней',

@@ -11,7 +11,7 @@ interface Task {
   desc?: string;
   status?: TaskStatus;
   statusAt?: Date;
-  dueTo?: Date;
+  dueTo?: Date | string;
 }
 
 export default Task;

@@ -52,10 +52,60 @@
 
 .tasks__title {
   margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.tasks__inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.tasks__input {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 8px;
+  font-family: inherit;
+  background-color: rgba(var(--main-color), 0.15);
+  outline: 2px solid rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s;
+
+  &:focus {
+    outline: 2px solid rgb(var(--main-color));
+    background-color: white;
+  }
+}
+
+.tasks__date-input {
+  padding: 7px;
+  font-family: inherit;
+  background-color: rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  outline: 2px solid rgba(var(--main-color), 0.15);
+
+  &:focus {
+    outline: 2px solid rgb(var(--main-color));
+  }
+}
+
+.tasks__list {
+  padding: 15px 0;
 }
 
 .task {
-  padding: 5px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(var(--main-color), 0.15);
+  transition: 0.2s;
+
+  &:has(.task__input:checked) {
+    opacity: 0.5;
+  }
+}
+
+.task__main {
+  display: flex;
 }
 
 .task__label {
@@ -68,6 +118,7 @@
 .task__input + .task__label::before {
 	content: "";
   box-sizing: border-box;
+  flex-shrink: 0;
 	width: 20px;
 	height: 20px;
 	border: 1px solid rgb(var(--main-color));
@@ -102,4 +153,20 @@
 	background-repeat: no-repeat;
 	background-position: 0 0;
   background-size: contain;
+}
+
+.task__due-to {
+  margin-left: auto;
+  color: rgb(var(--main-color));
+}
+
+.task__description {
+  display: -webkit-box;
+  margin: 5px 0 0;
+  padding-left: 28px;
+  font-size: 12px;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  opacity: 0.7;
 }
