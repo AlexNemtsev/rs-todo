@@ -18,9 +18,16 @@ class App {
     window.addEventListener('popstate', () => Router.handleLocation());
 
     Router.handleLocation();
+
+    const mode: string | null = localStorage.getItem('mode');
+    if (mode) document.querySelector(':root')?.classList.add(mode);
+    else {
+      document.querySelector(':root')?.classList.add('light__mode');
+    }
+
     const SettingsButton = document.querySelector('.nav__item');
     SettingsButton?.addEventListener('click', () =>
-      Router.setRoute('/settings'),
+      Router.setRoute('/settings/appearance'),
     );
   }
 }

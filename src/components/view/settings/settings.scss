@@ -17,7 +17,7 @@
       border-radius: 4px;
       align-self: center;
       color: white;
-      background-color: rgba(var(--main-color));
+      background-color: rgba(71, 114, 250);
     }
   }
 
@@ -45,6 +45,15 @@
           width: 100%;
           margin-top: 10px;
           cursor: pointer;
+
+          a {
+            text-decoration: none;
+            width: 100%;
+          }
+          a:visited {
+            color: black;
+          }
+
           &:hover {
             background: rgb(156, 156, 156, 0.3);
           }
@@ -54,7 +63,7 @@
             color: rgb(156, 156, 156, 0);
             content: 'i';
             height: 100%;
-            background-color: rgba(var(--main-color));
+            background-color: rgba(71, 114, 250);
             margin-right: 20px;
             border-radius: 4px;
           }
@@ -150,6 +159,8 @@
   align-items: center;
   width: 16px;
   height: 16px;
+  margin-right: -8px;
+  margin-top: -8px;
   border: 3px solid rgba(var(--main-color));
   border-radius: 50%;
   background-color: white;

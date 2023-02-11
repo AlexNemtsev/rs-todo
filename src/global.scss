@@ -5,6 +5,30 @@
   --main-color: var(--blue);
 }
 
+:root.dark__mode {
+  --main-color: var(--gray);
+  color: white;
+  border-color: white;
+  outline-color: white;
+  button {
+    color: white;
+  }
+  input {
+    background-color: rgba(var(--main-color));
+    color: white;
+  }
+  background-color: black;
+  .settings-main__container {
+    background-color: rgb(80, 80, 80);
+  }
+  .settings__container .settings-main__container .settings__options {
+    background-color: rgba(39, 39, 39, 0.5);
+    .options__items .option__item a:visited {
+      color: rgba(226, 223, 223, 0.5);
+    }
+  }
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -12,16 +36,16 @@ img {
 
 .visually-hidden {
   position: absolute;
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	border: 0;
-	padding: 0;
-	white-space: nowrap;
-	-webkit-clip-path: inset(100%);
-	clip-path: inset(100%);
-	clip: rect(0 0 0 0);
-	overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 .body {
