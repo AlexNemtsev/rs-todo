@@ -1,9 +1,8 @@
 import i18next from 'i18next';
 import ru from '../i18n/ru';
 
-import SettingsView from '../view/settings/settings';
-import TasksView from '../view/tasksView/tasksView';
 import en from '../i18n/en';
+import Router from '../logic/router';
 
 class App {
   public static async start(): Promise<void> {
@@ -16,11 +15,13 @@ class App {
       },
     });
 
-    const main: HTMLElement | null = document.querySelector('main');
+    window.addEventListener('popstate', () => Router.handleLocation());
 
-    if (main) TasksView.draw(main);
+    Router.handleLocation();
     const SettingsButton = document.querySelector('.nav__item');
-    SettingsButton?.addEventListener('click', SettingsView.drawSettings);
+    SettingsButton?.addEventListener('click', () =>
+      Router.setRoute('/settings'),
+    );
   }
 }
 

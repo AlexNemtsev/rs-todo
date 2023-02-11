@@ -4,7 +4,8 @@ import ListColumn from './listColumn';
 import './tasksView.scss';
 
 class TasksView {
-  public static draw(main: HTMLElement): void {
+  public static draw(): void {
+    const main = document.querySelector('main') as HTMLElement;
     main.innerHTML = '';
 
     const [container, lists, tasks, details]: HTMLElement[] = [

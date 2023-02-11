@@ -1,20 +1,21 @@
+/* eslint-disable import/no-cycle */
 import i18next from 'i18next';
 import templateBuilder from './templates';
 import './settings.scss';
-import TaskView from '../tasksView/tasksView';
+import Router from '../../logic/router';
 
 class SettingsView {
-  public static drawSettings(): void {
+  public static drawSettings(option: string): void {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
       main.innerHTML = '';
       main.innerHTML = templateBuilder().main;
-      SettingsView.addListeners(main);
-      SettingsView.fillSettings(0);
+      SettingsView.addListeners();
+      SettingsView.fillSettings(option);
     }
   }
 
-  private static addListeners(main: HTMLElement): void {
+  private static addListeners(): void {
     const settingsOptions: NodeListOf<Element> = document.querySelectorAll(
       '.option__item',
     );
@@ -32,37 +33,41 @@ class SettingsView {
         .changeLanguage(lang)
         .then(() => {
           localStorage.setItem('lang', lang);
-          TaskView.draw(main);
+          Router.setRoute('/tasks');
         })
         .catch((err) => console.log(err));
     });
 
-    settingsOptions.forEach((el, index): void => {
-      el.addEventListener('click', () => {
-        settingsOptions.forEach((setting) =>
-          setting.classList.remove('active'),
-        );
+    settingsOptions.forEach((el, index, elements): void => {
+      const anchorElement = el.querySelector('a') as HTMLAnchorElement;
+      anchorElement.addEventListener('click', (e: Event) => {
+        e.preventDefault();
+        elements.forEach((setting) => {
+          setting.classList.remove('active');
+        });
         settingsOptions[index].classList.add('active');
-        this.fillSettings(index);
+        const { href } = e.currentTarget as HTMLAnchorElement;
+
+        Router.setRoute(href);
       });
     });
   }
 
-  private static fillSettings(option: number): void {
+  private static fillSettings(option: string): void {
     const settingsContent: HTMLElement | null = document.querySelector(
       '.settings-option__content',
     );
     if (settingsContent) {
       settingsContent.innerHTML = '';
       switch (option) {
-        case 0:
+        case 'appearance':
           settingsContent.innerHTML = templateBuilder().Appearance;
           this.addSettingsListeners(0);
           break;
-        case 1:
+        case 'preference':
           settingsContent.innerHTML = templateBuilder().Preference;
           break;
-        case 2:
+        case 'hotkeys':
           settingsContent.innerHTML = templateBuilder().Hotkeys;
           break;
         default:
