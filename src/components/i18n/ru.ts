@@ -9,6 +9,8 @@ const ru = {
         nextDays: 'Следующие 7 дней',
         completed: 'Выполнено',
         trash: 'Корзина',
+        duplicate: 'Дублировать',
+        delete: 'Удалить',
       },
     },
     settings: {

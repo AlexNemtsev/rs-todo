@@ -9,6 +9,8 @@ const en = {
         nextDays: 'Next 7 Days',
         completed: 'Completed',
         trash: 'Trash',
+        duplicate: 'Duplicate',
+        delete: 'Delete',
       },
     },
     settings: {
