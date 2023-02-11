@@ -14,15 +14,15 @@ function templateBuilder(): SettingTemplate {
   <div class="settings-main__container">
     <div class="settings__options">
       <ul class="options__items">
-        <li class="option__item active">${i18next.t(
-          'settings.settingsList.appearance',
-        )}</li>
-        <li class="option__item">${i18next.t(
-          'settings.settingsList.preference',
-        )}</li>
-        <li class="option__item">${i18next.t(
-          'settings.settingsList.shortcuts',
-        )}</li>
+      <li class="option__item active"><a href="/settings/appearance">${i18next.t(
+        'settings.settingsList.appearance',
+      )}</a></li>
+      <li class="option__item"><a href="/settings/preference">${i18next.t(
+        'settings.settingsList.preference',
+      )}</a></li>
+      <li class="option__item"><a href="/settings/hotkeys">${i18next.t(
+        'settings.settingsList.shortcuts',
+      )}</a></li>
       </ul>
     </div>
     <div class="settings-option__content"></div>
