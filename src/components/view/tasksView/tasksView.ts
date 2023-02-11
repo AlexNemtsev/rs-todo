@@ -1,6 +1,7 @@
 import Builder from '../builder/builder';
 import TaskColumn from './taskColumn';
 import ListColumn from './listColumn';
+import ContextMenu from './contextMenu';
 import './tasksView.scss';
 
 class TasksView {
@@ -20,6 +21,14 @@ class TasksView {
 
     container.append(lists, tasks, details);
     main.append(container);
+
+    TasksView.addListener(taskColumn.menu);
+  }
+
+  private static addListener(contextMenu: ContextMenu): void {
+    document.addEventListener('click', (e: MouseEvent) => {
+      if (e.button !== 2) contextMenu.hide();
+    });
   }
 }
 

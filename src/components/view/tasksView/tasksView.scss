@@ -73,7 +73,7 @@
 
   &:focus {
     outline: 2px solid rgb(var(--main-color));
-    background-color: white;
+    background-color: rgb(var(--white));
   }
 }
 
@@ -169,4 +169,29 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   opacity: 0.7;
+}
+
+.context-menu {
+  min-width: 120px;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  display: none;
+  list-style: none;
+  color: rgb(var(--white));
+  background-color: rgba(var(--main-color), 1);
+  border-radius: 5px;
+
+  &--active {
+    display: block;
+  }
+}
+
+.context-menu__item {
+  padding: 8px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

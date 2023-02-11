@@ -16,6 +16,7 @@ class TaskView {
       desc?: string;
     } = item;
     const taskBlock: HTMLElement = Builder.createBlock(['task']);
+    taskBlock.dataset.id = id.toString();
     taskBlock.innerHTML = `
       <div class="task__main">
         <input class="task__input visually-hidden" type="checkbox" id="${id}">

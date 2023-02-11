@@ -3,6 +3,8 @@ import Task from '../../../interfaces/task';
 import Builder from '../builder/builder';
 import TaskView from './task';
 import Loader from '../../logic/loader';
+import ContextMenu from './contextMenu';
+import Utils from '../../../utils/utils';
 
 class TaskColumn {
   tasksBlock: HTMLElement;
@@ -11,10 +13,16 @@ class TaskColumn {
 
   dateInput: HTMLInputElement;
 
+  menu: ContextMenu;
+
+  menuBlock: HTMLElement;
+
   constructor(tasksBlock: HTMLElement) {
     this.tasksBlock = tasksBlock;
     this.taskList = Builder.createBlock(['tasks__list']);
     this.dateInput = Builder.createInput(['tasks__date-input'], 'date');
+    this.menu = new ContextMenu();
+    this.menuBlock = this.menu.draw();
   }
 
   public draw(): void {
@@ -26,7 +34,13 @@ class TaskColumn {
     );
 
     this.fillTaskList();
-    this.tasksBlock.append(title, this.createInputs(), this.taskList);
+    this.tasksBlock.append(
+      title,
+      this.createInputs(),
+      this.taskList,
+      this.menuBlock,
+    );
+    this.addTaskListListener();
   }
 
   private createInputs(): HTMLElement {
@@ -71,6 +85,19 @@ class TaskColumn {
 
         input.value = '';
         this.fillTaskList();
+      }
+    });
+  }
+
+  private addTaskListListener(): void {
+    this.taskList.addEventListener('contextmenu', (e: MouseEvent) => {
+      e.preventDefault();
+      if (e.target instanceof HTMLElement) {
+        const task: HTMLElement | null = Utils.findByClass(e.target, 'task');
+        this.menuBlock.dataset.id = task?.dataset.id;
+        this.menuBlock.style.top = `${e.clientY}px`;
+        this.menuBlock.style.left = `${e.clientX}px`;
+        this.menu.show();
       }
     });
   }
