@@ -19,7 +19,7 @@
       "parserOptions": {
         "ecmaVersion": "latest",
         "project": "tsconfig.json",
-        "tsconfigRootDir": "D:/github/rs-todo",
+        "tsconfigRootDir": ".",
         "sourceType": "module"
       },
       "rules": {
