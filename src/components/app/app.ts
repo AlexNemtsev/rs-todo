@@ -3,6 +3,7 @@ import ru from '../i18n/ru';
 
 import en from '../i18n/en';
 import Router from '../logic/router';
+import addHotkeys from '../view/settings/hotkeys';
 
 class App {
   public static async start(): Promise<void> {
@@ -28,7 +29,9 @@ class App {
     const avatar:string|null = localStorage.getItem('avatar');
     if(avatar)
     document.querySelector('.avatar__picture-main')?.setAttribute('src',avatar)
-    
+
+    addHotkeys([['tab','n'],['n']]);
+
     const SettingsButton = document.querySelector('.nav__item');
     SettingsButton?.addEventListener('click', () =>
       Router.setRoute('/settings/appearance'),
