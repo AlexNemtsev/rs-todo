@@ -80,7 +80,7 @@ class TaskColumn {
           list: input.value,
           createdAt: new Date(),
           removed: false,
-          dueTo: this.dateInput.value ? new Date(this.dateInput.value) : '',
+          dueTo: this.dateInput.value ? Number(new Date(this.dateInput.value)) : 0,
         }).catch((error) => {
           console.error('Error:', error);
         });

@@ -12,7 +12,7 @@ class TaskView {
     }: {
       id: number;
       task: string;
-      dueTo?: Date | string;
+      dueTo?: Date | number;
       desc?: string;
     } = item;
     const taskBlock: HTMLElement = Builder.createBlock(['task']);

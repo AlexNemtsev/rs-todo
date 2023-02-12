@@ -1,8 +1,8 @@
 class Utils {
-  public static convertDate(date: string | Date | undefined): string {
+  public static convertDate(date: number | Date | undefined): string {
     let dueTo: string | Date = '';
     if (date) {
-      dueTo = new Date(Date.parse(String(date)));
+      dueTo = new Date(date);
       dueTo = `${Utils.formatDate(dueTo.getDate())}.${Utils.formatDate(
         dueTo.getMonth() + 1,
       )}`;
