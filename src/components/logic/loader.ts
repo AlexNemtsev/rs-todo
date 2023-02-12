@@ -14,12 +14,35 @@ class Loader {
     return Loader.getTasks(false);
   }
 
+  public static async getCompletedTask(): Promise<Task[]> {
+    return Loader.getTasks(false, true);
+  }
+
+  public static async getTask(taskId: number): Promise<Task> {
+    const response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
+      method: 'GET',
+    });
+
+    return (await response.json()) as Task;
+  }
+
+  public static async getTasksInInterval(from: number, to: number) {
+    const response = await fetch(
+      `${Loader.url}/tasks?dueTo_gte=${from}&_lte=${to}`,
+      {
+        method: 'GET',
+      },
+    );
+
+    return (await response.json()) as Task[];
+  }
+
   public static async getRemovedTasks(): Promise<Task[]> {
     return Loader.getTasks(true);
   }
 
   private static alterTask(
-    task: TaskWOid,
+    task: Partial<TaskWOid>,
     mode: Mode,
     id: number,
   ): Promise<Response> {
@@ -35,14 +58,17 @@ class Loader {
     });
   }
 
-  public static updateTask(task: Task) {
-    const omited: TaskWOid = task;
-    return Loader.alterTask(omited, Mode.update, task.id);
+  public static updateTask(taskId: number, task: Partial<TaskWOid>) {
+    return Loader.alterTask(task, Mode.update, taskId);
   }
 
-  private static async getTasks(removed: boolean): Promise<Task[]> {
+  private static async getTasks(
+    removed: boolean,
+    completed?: boolean,
+  ): Promise<Task[]> {
+    const completedQuery = completed ? '&status=done' : '';
     const response = await fetch(
-      `${Loader.url}/tasks?removed=${String(removed)}`,
+      `${Loader.url}/tasks?removed=${String(removed)}${completedQuery}`,
       {
         method: 'GET',
       },
