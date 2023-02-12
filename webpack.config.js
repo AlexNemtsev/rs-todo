@@ -50,6 +50,10 @@ const baseConfig = {
             ignore: ['**/scss/**'],
           },
         },
+        {
+          from: './src/redirects',
+          to: path.resolve(__dirname, 'dist'),
+        },
       ],
     }),
   ],
