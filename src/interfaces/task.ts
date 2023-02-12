@@ -5,12 +5,12 @@ interface Task {
   id: number;
   task: string;
   list: string;
-  createdAt: Date;
+  createdAt: number;
   removed: boolean;
   priority?: Priority;
   desc?: string;
   status?: TaskStatus;
-  statusAt?: Date;
+  statusAt?: number;
   dueTo?: Date | number;
 }
 

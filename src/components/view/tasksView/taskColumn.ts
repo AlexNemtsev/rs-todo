@@ -76,7 +76,7 @@ class TaskColumn {
         Loader.addTask({
           task: input.value,
           list: input.value,
-          createdAt: new Date(),
+          createdAt: Number(new Date()),
           removed: false,
           dueTo: this.dateInput.value ? Number(new Date(this.dateInput.value)) : 0,
         }).catch((error) => {

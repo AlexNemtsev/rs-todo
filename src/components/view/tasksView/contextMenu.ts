@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import Builder from '../builder/builder';
+import Loader from '../../logic/loader';
 
 class ContextMenu {
   menu: HTMLElement;
@@ -21,6 +22,8 @@ class ContextMenu {
       item.dataset.action = action;
       this.menu.append(item);
     });
+
+    this.addListener();
 
     return this.menu;
   }
@@ -58,6 +61,29 @@ class ContextMenu {
     dateBlock.append(dateList);
 
     return dateBlock;
+  }
+
+  public addListener(): void {
+    this.menu.addEventListener('click', (e: MouseEvent) => {
+      if (e.target instanceof HTMLElement) {
+        const taskId = Number(e.target.parentElement?.dataset.id);
+
+        switch (e.target.dataset.action) {
+          case 'duplicate':
+            Loader.duplicateTask(taskId).catch((error) => {
+              console.error('Error:', error);
+            });
+            break;
+          case 'delete':
+            Loader.updateTask(taskId, { removed: true }).catch((error) => {
+              console.error('Error:', error);
+            });
+            break;
+          default:
+            break;
+        }
+      }
+    });
   }
 }
 
