@@ -48,7 +48,7 @@ class TaskColumn {
     const input: HTMLInputElement = Builder.createInput(
       ['tasks__input'],
       'text',
-      `${i18next.t('mainScreen.lists.inputPlaceholder')}`,
+      `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
     this.addInputListener(input);
 

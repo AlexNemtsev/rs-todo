@@ -27,7 +27,7 @@ class TasksView {
 
   private static addListener(contextMenu: ContextMenu): void {
     document.addEventListener('click', (e: MouseEvent) => {
-      if (e.button === 1) contextMenu.hide();
+      if (e.button !== 2) contextMenu.hide();
     });
   }
 }

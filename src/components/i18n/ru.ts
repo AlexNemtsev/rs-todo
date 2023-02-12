@@ -3,12 +3,18 @@ const ru = {
     mainScreen: {
       lists: {
         all: 'Все',
-        inputPlaceholder: 'Добавьте задачу, нажмите Enter для сохранения',
         today: 'Сегодня',
         tomorrow: 'Завтра',
         nextDays: 'Следующие 7 дней',
         completed: 'Выполнено',
         trash: 'Корзина',
+      },
+      tasks: {
+        inputPlaceholder: 'Добавьте задачу, нажмите Enter для сохранения',
+        today: 'Сегодня',
+        tomorrow: 'Завтра',
+        week: 'Следующие 7 дней',
+        custom: 'Произвольная дата',
         duplicate: 'Дублировать',
         delete: 'Удалить',
       },

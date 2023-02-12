@@ -181,6 +181,7 @@
   color: rgb(var(--white));
   background-color: rgba(var(--main-color), 1);
   border-radius: 5px;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 25%), 0 5px 10px rgb(0 0 0 / 22%);
 
   &--active {
     display: block;
@@ -188,10 +189,38 @@
 }
 
 .context-menu__item {
-  padding: 8px;
+  padding: 8px 15px;
+
+  &:not(.context-menu__item--dates) {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &--dates {
+    border-bottom: 1px solid rgb(var(--white));
+  }
+}
+
+.dates {
+  display: flex;
+  gap: 15px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dates__item {
   cursor: pointer;
 
   &:hover {
     opacity: 0.7;
   }
+}
+
+.dates__icon {
+  width: 24px;
 }
