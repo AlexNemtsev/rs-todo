@@ -14,6 +14,14 @@ class Loader {
     return Loader.getTasks(false);
   }
 
+  public static async getTask(taskId: number): Promise<Task> {
+    const response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
+      method: 'GET',
+    });
+
+    return (await response.json()) as Task;
+  }
+
   public static async getRemovedTasks(): Promise<Task[]> {
     return Loader.getTasks(true);
   }
