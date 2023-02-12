@@ -19,7 +19,7 @@ class Loader {
   }
 
   private static alterTask(
-    task: TaskWOid,
+    task: Partial<TaskWOid>,
     mode: Mode,
     id: number,
   ): Promise<Response> {
@@ -35,9 +35,8 @@ class Loader {
     });
   }
 
-  public static updateTask(task: Task) {
-    const omited: TaskWOid = task;
-    return Loader.alterTask(omited, Mode.update, task.id);
+  public static updateTask(taskId: number, task: Partial<TaskWOid>) {
+    return Loader.alterTask(task, Mode.update, taskId);
   }
 
   private static async getTasks(removed: boolean): Promise<Task[]> {
