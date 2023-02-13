@@ -4,11 +4,12 @@ import ru from '../i18n/ru';
 import en from '../i18n/en';
 import Router from '../logic/router';
 import addHotkeys from '../view/settings/hotkeys';
+import SettingsView from '../view/settings/settings';
 
 class App {
   public static async start(): Promise<void> {
     await i18next.init({
-      lng: localStorage.getItem('lang') ?? 'en',
+      lng: SettingsView.settings.lang?SettingsView.settings.lang:'en',
       fallbackLng: 'en',
       resources: {
         ru,
@@ -20,13 +21,13 @@ class App {
 
     Router.handleLocation();
 
-    const mode: string | null = localStorage.getItem('mode');
+    const {mode} =  SettingsView.settings;
     if (mode) document.querySelector(':root')?.classList.add(mode);
     else {
       document.querySelector(':root')?.classList.add('light__mode');
     }
 
-    const avatar:string|null = localStorage.getItem('avatar');
+    const {avatar} = SettingsView.settings
     if(avatar)
     document.querySelector('.avatar__picture-main')?.setAttribute('src',avatar)
 

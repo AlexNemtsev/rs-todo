@@ -3,8 +3,12 @@ import i18next from 'i18next';
 import templateBuilder from './templates';
 import './settings.scss';
 import Router from '../../logic/router';
+import ICurrentSetting from '../../../interfaces/currentsetting';
 
 class SettingsView {
+  public static settings = JSON.parse(localStorage.getItem('settings')||'{}') as ICurrentSetting;
+
+     
   public static drawSettings(option: string): void {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
@@ -25,6 +29,7 @@ class SettingsView {
 
     doneButton?.addEventListener('click', (): void => {
       Router.setRoute('/tasks');
+      localStorage.setItem('settings',JSON.stringify(this.settings))
     });
 
     settingsOptions.forEach((el): void => {
@@ -72,20 +77,13 @@ class SettingsView {
   }
 
   private static addAppearanceListeners(): void {
-    const mode: string | null = localStorage.getItem('mode');
-    if (mode) {
-      document.querySelector(`.theme.${mode}`)?.classList.add('active');
+      if(this.settings.mode){
+      document.querySelector(`.theme.${this.settings.mode}`)?.classList.add('active');
       document
-        .querySelector(`.theme.${mode}`)
+        .querySelector(`.theme.${this.settings.mode}`)
         ?.querySelector('.item-checked')
-        ?.classList.add('active');
-    } else {
-      document.querySelector(`.theme.light__mode`)?.classList.add('active');
-      document
-        .querySelector(`.theme.light__mode`)
-        ?.querySelector('.item-checked')
-        ?.classList.add('active');
-    }
+        ?.classList.add('active');}
+        
     ['.theme', '.sidebar-count', '.task-type'].forEach((setting) => {
       const blocks: NodeListOf<Element> = document.querySelectorAll(
         `${setting}`,
@@ -109,7 +107,7 @@ class SettingsView {
     const langList = document.getElementById(
       'Preference-language',
     ) as HTMLSelectElement;
-    const savedlang = localStorage.getItem('lang');
+    const savedlang = this.settings.lang;
     if (savedlang) {
       langList.value = savedlang;
     }
@@ -118,7 +116,7 @@ class SettingsView {
       i18next
         .changeLanguage(lang)
         .then(() => {
-          localStorage.setItem('lang', lang);
+          this.settings.lang=lang;
         })
         .catch((err) => console.log(err));
     });
@@ -131,10 +129,10 @@ class SettingsView {
       el.addEventListener('click', () => {
         if (el.classList.contains('light__mode')) {
           rootelement?.classList.remove('dark__mode');
-          localStorage.setItem('mode', 'light__mode');
+         this.settings.mode = 'light__mode'
         } else {
           rootelement?.classList.add('dark__mode');
-          localStorage.setItem('mode', 'dark__mode');
+          this.settings.mode = 'dark__mode'
         }
       });
     });
@@ -143,7 +141,7 @@ class SettingsView {
   private static avatarChange() {
     const imageInput = <HTMLInputElement>document.getElementById('avatarinput');
     const imageOutput = <HTMLDivElement>document.querySelector('.avatar');
-    const src = localStorage.getItem('avatar');
+    const src = this.settings.avatar;
     if (src) imageOutput.setAttribute('src', src);
     imageInput.addEventListener('change', () => {
       const file = imageInput.files;
@@ -159,7 +157,7 @@ class SettingsView {
           document
             .querySelector('.avatar__picture-main')
             ?.setAttribute('src', image);
-          localStorage.setItem('avatar', image);
+          this.settings.avatar=image;
         }
       });
     });
