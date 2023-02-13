@@ -19,6 +19,7 @@ class App {
 
     window.addEventListener('popstate', () => Router.handleLocation());
 
+
     Router.handleLocation();
 
     const {mode} =  SettingsView.settings;

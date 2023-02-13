@@ -8,7 +8,6 @@ import ICurrentSetting from '../../../interfaces/currentsetting';
 class SettingsView {
   public static settings = JSON.parse(localStorage.getItem('settings')||'{}') as ICurrentSetting;
 
-     
   public static drawSettings(option: string): void {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
