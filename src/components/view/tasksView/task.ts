@@ -1,6 +1,7 @@
 import Builder from '../builder/builder';
 import Task from '../../../interfaces/task';
 import Utils from '../../../utils/utils';
+import onTaskClickHandler from '../../logic/handlers/on-task-click-handler';
 
 class TaskView {
   public static fillTask(item: Task): HTMLElement {
@@ -32,6 +33,8 @@ class TaskView {
       );
       taskBlock.append(descBlock);
     }
+
+    taskBlock.addEventListener('click', () => onTaskClickHandler(desc));
 
     return taskBlock;
   }
