@@ -17,13 +17,12 @@ class TasksView {
     ].map((item) => Builder.createBlock(item));
 
     ListColumn.draw(lists);
-    const taskColumn = new TaskColumn(tasks);
-    taskColumn.draw();
+    TaskColumn.draw(tasks);
 
     container.append(lists, tasks, details);
     main.append(container);
 
-    TasksView.addListener(taskColumn.menu);
+    TasksView.addListener(TaskColumn.menu);
   }
 
   private static addListener(contextMenu: ContextMenu): void {
