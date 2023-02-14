@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import clearChildren from '../../../src/components/view/clear-children';
 
 describe('When parent element has no children', () => {
@@ -17,7 +17,7 @@ describe('When parent element has children', () => {
   it("Should remove all element's children", () => {
     const div = document.createElement('div');
 
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       const el = document.createElement('div');
       div.append(el);
     }
