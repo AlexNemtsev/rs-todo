@@ -4,7 +4,7 @@ const onDetailsClick = (event: Event): void => {
   const target = (event.target as HTMLElement).closest('pre');
 
   const toEditElement = target?.querySelector('.md') as HTMLElement;
-  const text = toEditElement.textContent;
+  const text = toEditElement.dataset.md;
 
   const input = document.createElement('input');
   input.setAttribute('type', 'text');
