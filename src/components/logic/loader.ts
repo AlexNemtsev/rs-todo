@@ -26,9 +26,9 @@ class Loader {
     return res;
   }
 
-  public static async getTasksInInterval(from: number, to: number) {
+  public static async getTasksInInterval(from: number, to: number): Promise<Task[]> {
     const response = await fetch(
-      `${Loader.url}/tasks?dueTo_gte=${from}&_lte=${to}`,
+      `${Loader.url}/tasks?dueTo_gte=${from}&dueTo_lte=${to}`,
       {
         method: 'GET',
       },

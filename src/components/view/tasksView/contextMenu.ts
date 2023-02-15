@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import Builder from '../builder/builder';
 import Loader from '../../logic/loader';
 import Observable from '../../logic/observable';
+import Utils from '../../../utils/utils';
 
 class ContextMenu {
   menu: HTMLElement;
@@ -43,7 +44,7 @@ class ContextMenu {
       const dateItem: HTMLElement = Builder.createBlock(['dates__item'], 'li');
       dateItem.title = i18next.t(`mainScreen.tasks.${item}`);
       dateItem.innerHTML = `
-        <img class="dates__icon" src="./assets/img/${item}.svg" alt="${i18next.t(
+        <img class="dates__icon" src="./assets/img/${item}.svg" data-action="${item}" alt="${i18next.t(
         `mainScreen.tasks.${item}`,
       )}">
       `;
@@ -76,8 +77,7 @@ class ContextMenu {
   public addListener(): void {
     this.menu.addEventListener('click', (e: MouseEvent) => {
       if (e.target instanceof HTMLElement) {
-        const taskId = Number(e.target.parentElement?.dataset.id);
-
+        const taskId = Number(Utils.findByClass(e.target, 'context-menu')?.dataset.id);
         switch (e.target.dataset.action) {
           case 'duplicate':
             Loader.duplicateTask(taskId)
@@ -88,6 +88,27 @@ class ContextMenu {
             break;
           case 'delete':
             Loader.updateTask(taskId, { removed: true })
+              .then(() => Observable.notify())
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+            break;
+          case 'today':
+            Loader.updateTask(taskId, { dueTo: Utils.getDayEndInMs(0) })
+              .then(() => Observable.notify())
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+            break;
+          case 'tomorrow':
+            Loader.updateTask(taskId, { dueTo: Utils.getDayEndInMs(1) })
+              .then(() => Observable.notify())
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+            break;
+          case 'week':
+            Loader.updateTask(taskId, { dueTo: Utils.getDayEndInMs(7) })
               .then(() => Observable.notify())
               .catch((error) => {
                 console.error('Error:', error);
