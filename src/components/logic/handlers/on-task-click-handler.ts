@@ -1,8 +1,7 @@
-import { marked } from 'marked';
 import wrapWithPre from '../wrap-with-pre';
 import onDetailsClick from './on-details-click';
-import insertClassMd from '../insert-class-md';
 import insertDataMd from '../insert-data-md';
+import parseWithClasses from '../parce-with-classes';
 
 const onTaskClickHandler = (desc: string | undefined): void => {
   const details = document.querySelector('.details') as HTMLDivElement;
@@ -12,7 +11,7 @@ const onTaskClickHandler = (desc: string | undefined): void => {
   const mdLines = (desc ?? '').split('\n');
 
   const parsedLines = mdLines.map((line) =>
-    insertDataMd(insertClassMd(marked.parse(line)).trim(), line),
+    insertDataMd(parseWithClasses(line), line),
   );
 
   const wrappedLines = parsedLines.map((line) => wrapWithPre(line));

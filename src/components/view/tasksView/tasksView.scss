@@ -174,3 +174,22 @@
 .md {
   color: brown;
 }
+
+.md__style {
+  font-weight: 500;
+  margin: 10px;
+}
+
+pre {
+  font-family: Verdana, Arial, sans-serif;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.md__header1 {
+  font-size: 32px;
+}
+
+.md__header2 {
+  font-size: 24px;
+}
