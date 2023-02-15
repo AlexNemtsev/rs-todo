@@ -24,7 +24,19 @@ const en = {
       doneBtn: 'Done',
       settingsList: {
         appearance: 'Appearance',
+        appearList:{
+          uploadbtn:'Upload File',
+          purecolor:'Pure Color',
+          light:'Light',
+          dark:'Dark',
+        },
         preference: 'Preference',
+        prefList:{
+          language:'Language',
+          TimeFormat:'Time Format',
+          DefaultDate:'Default Date',
+          defaultPriority:'Default Priority',
+        },
         shortcuts: 'Shortcuts',
       },
     },

@@ -24,7 +24,19 @@ const ru = {
       doneBtn: 'Применить',
       settingsList: {
         appearance: 'Внешний вид',
+        appearList:{
+          uploadbtn:'Загрузить Файл',
+          purecolor:'Цветовой Стиль',
+          light:'Светлый',
+          dark:'Темный',
+        },
         preference: 'Основные',
+        prefList:{
+          language:'Язык',
+          TimeFormat:'Формат Времени',
+          DefaultDate:'Дата по умолчанию',
+          defaultPriority:'Приоритет по умолчанию',
+        },
         shortcuts: 'Горячие клавиши',
       },
     },

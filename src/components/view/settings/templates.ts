@@ -30,10 +30,23 @@ function templateBuilder(): SettingTemplate {
   </div>
   </div>`,
     Appearance: `
-  <h3>Pure Color</h3>
+    <div class="setting-appear">
+  <img class="setting avatar" src="../../../assets/img/noavatar.png">
+  <label for="avatarinput" class="uploadButton">${i18next.t(
+    'settings.settingsList.appearList.uploadbtn',
+  )}</label>
+  <input type="file" name="avatarinput" id="avatarinput" accept="image/png, image/jpg">
+  </div>
+  <h3>${i18next.t(
+    'settings.settingsList.appearList.purecolor',
+  )}</h3>
   <div class="setting-appear">
-  <div class="theme light__mode active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-light__square"><div></div></div><span>Light</span></div>
-  <div class="theme dark__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-dark__square"><div></div></div><span>Dark</span></div>
+  <div class="theme light__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-light__square"><div></div></div><span>${i18next.t(
+    'settings.settingsList.appearList.light',
+  )}</span></div>
+  <div class="theme dark__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-dark__square"><div></div></div><span>${i18next.t(
+    'settings.settingsList.appearList.dark',
+  )}</span></div>
   </div>
   <h3>Sidebar Count</h3>
   <div class="setting-appear">
@@ -46,17 +59,23 @@ function templateBuilder(): SettingTemplate {
   <div class="task-type def active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot4.png"><span>Default</span></div>
   <div class="task-type str"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot5.png"><span>Striketrough</span></div>
   </div>`,
-    Preference: `<div class="setting-pref"><label for="Preference-language">Language:</label>
+    Preference: `<div class="setting-pref"><label for="Preference-language">${i18next.t(
+      'settings.settingsList.prefList.language',
+    )}:</label>
   <select name="Preference-language" id="Preference-language">
     <option value="en">English</option>
     <option value="ru">Русский</option>
   </select></div>
-  <div class="setting-pref"><label for="Preference-time__format">Time Format:</label>
+  <div class="setting-pref"><label for="Preference-time__format">${i18next.t(
+    'settings.settingsList.prefList.TimeFormat',
+  )}:</label>
   <select name="Preference-time__format" id="Preference-time__format">
     <option value="12h">12 Hour</option>
     <option value="24h">24 Hour</option>
   </select></div>
-  <div class="setting-pref"><label for="Preference-Default__Date">Default Date:</label>
+  <div class="setting-pref"><label for="Preference-Default__Date">${i18next.t(
+    'settings.settingsList.prefList.DefaultDate',
+  )}:</label>
   <select name="Preference-Default__Date" id="Preference-Default__Date">
     <option value="none">None</option>
     <option value="Today">Today</option>
@@ -64,7 +83,9 @@ function templateBuilder(): SettingTemplate {
     <option value="Day after Tomorrow">Day after Tomorrow</option>
     <option value="Next Week">Next Week</option>
   </select></div>
-  <div class="setting-pref"><label for="Preference-Default__Priority">Default Priority:</label>
+  <div class="setting-pref"><label for="Preference-Default__Priority">${i18next.t(
+    'settings.settingsList.prefList.defaultPriority',
+  )}:</label>
   <select name="Preference-Default__Priority" id="Preference-Default__Priority">
     <option value="none">None</option>
     <option value="Low">Low</option>
