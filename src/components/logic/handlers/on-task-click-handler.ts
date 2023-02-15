@@ -3,7 +3,9 @@ import onDetailsClick from './on-details-click';
 import insertDataMd from '../insert-data-md';
 import parseWithClasses from '../parce-with-classes';
 
-const onTaskClickHandler = (desc: string | undefined): void => {
+const onTaskClickHandler = (desc: string | undefined, id: number): void => {
+  console.log(id);
+
   const details = document.querySelector('.details') as HTMLDivElement;
 
   details.addEventListener('click', onDetailsClick);

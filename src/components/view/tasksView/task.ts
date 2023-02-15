@@ -34,7 +34,7 @@ class TaskView {
       taskBlock.append(descBlock);
     }
 
-    taskBlock.addEventListener('click', () => onTaskClickHandler(desc));
+    taskBlock.addEventListener('click', () => onTaskClickHandler(desc, id));
 
     return taskBlock;
   }
