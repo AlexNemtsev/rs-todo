@@ -1,7 +1,20 @@
 import i18next from 'i18next';
 import SettingTemplate from '../../../interfaces/settings';
+import ICurrentSetting from '../../../interfaces/currentsetting';
 
 function templateBuilder(): SettingTemplate {
+  const menu = `<div class="hotkey__menu-item">
+  <ul>
+  <li class="hotkey__add">add hotkey</li>
+  <li class="hotkey__clear">clear hotkey</li>
+  </ul>
+  </div>`;
+
+   const settings = JSON.parse(
+    localStorage.getItem('settings') ||
+    '{"mode":"light__mode","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+  ) as ICurrentSetting
+    
   return {
     main: `<div class="settings__wrapper">
     <div class="settings__container">
@@ -37,9 +50,7 @@ function templateBuilder(): SettingTemplate {
   )}</label>
   <input type="file" name="avatarinput" id="avatarinput" accept="image/png, image/jpg">
   </div>
-  <h3>${i18next.t(
-    'settings.settingsList.appearList.purecolor',
-  )}</h3>
+  <h3>${i18next.t('settings.settingsList.appearList.purecolor')}</h3>
   <div class="setting-appear">
   <div class="theme light__mode"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><div class="theme-light__square"><div></div></div><span>${i18next.t(
     'settings.settingsList.appearList.light',
@@ -92,20 +103,25 @@ function templateBuilder(): SettingTemplate {
     <option value="Medium">Medium</option>
     <option value="High">High</option>
   </select></div>`,
-    Hotkeys: `<h3>General</h3>
+    Hotkeys: `
+    <div class="hotkey__bind">
+    <div class="hotkey__now">Current hotkey</div>
+    </div>
+    <h3>General</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Save</span> <span>Ctrl+S</span></div>
-  <div class="shortcut-setting"><span>Undo</span> <span>Ctrl+Z</span></div>
+  <div class="shortcut-setting"><span>Save</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[0].length>1?`${settings.hotkeys[0][0].join('+')}/${settings.hotkeys[0][1].join('+')}`:settings.hotkeys[0][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Undo</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[1].length>1?`${settings.hotkeys[1][0].join('+')}/${settings.hotkeys[1][1].join('+')}`:settings.hotkeys[1][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
   <h3>Add Task</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Add Task</span> <span>Tab+N/N</span></div>
-  <div class="shortcut-setting"><span>Add Task</span> <span>Enter</span></div>
+  <div class="shortcut-setting"><span>Add Task</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[2].length>1?`${settings.hotkeys[2][0].join('+')}/${settings.hotkeys[2][1].join('+')}`:settings.hotkeys[2][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>${menu}
+  </div></div></div>
+  <div class="shortcut-setting"><span>Add Task Below</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[3].length>1?`${settings.hotkeys[3][0].join('+')}/${settings.hotkeys[3][1].join('+')}`:settings.hotkeys[3][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
   <h3>Edit Task</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Complete Tasks</span> <span>Tab+M</span></div>
-  <div class="shortcut-setting"><span>Delete Tasks</span> <span>Ctrl+Del</span></div>
+  <div class="shortcut-setting"><span>Complete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[4].length>1?`${settings.hotkeys[4][0].join('+')}/${settings.hotkeys[4][1].join('+')}`:settings.hotkeys[4][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Delete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[5].length>1?`${settings.hotkeys[5][0].join('+')}/${settings.hotkeys[5][1].join('+')}`:settings.hotkeys[5][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>`,
   };
 }

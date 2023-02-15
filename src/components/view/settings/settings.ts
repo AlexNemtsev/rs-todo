@@ -4,9 +4,15 @@ import templateBuilder from './templates';
 import './settings.scss';
 import Router from '../../logic/router';
 import ICurrentSetting from '../../../interfaces/currentsetting';
+import HotkeysList from '../../../interfaces/hotkeys';
 
 class SettingsView {
-  public static settings = JSON.parse(localStorage.getItem('settings')||'{}') as ICurrentSetting;
+  public static settings = JSON.parse(
+    localStorage.getItem('settings') ||
+      '{"mode":"light__mode","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+  ) as ICurrentSetting;
+
+  static currentkey: number;
 
   public static drawSettings(option: string): void {
     const main: HTMLElement | null = document.querySelector('main');
@@ -28,7 +34,7 @@ class SettingsView {
 
     doneButton?.addEventListener('click', (): void => {
       Router.setRoute('/tasks');
-      localStorage.setItem('settings',JSON.stringify(this.settings))
+      localStorage.setItem('settings', JSON.stringify(this.settings));
     });
 
     settingsOptions.forEach((el): void => {
@@ -67,6 +73,7 @@ class SettingsView {
         case 'hotkeys':
           settingsContent.innerHTML = templateBuilder().Hotkeys;
           settingsOptions[2].classList.add('active');
+          this.addShortcutListeners();
           break;
         default:
           settingsContent.innerHTML = templateBuilder().Appearance;
@@ -76,13 +83,16 @@ class SettingsView {
   }
 
   private static addAppearanceListeners(): void {
-      if(this.settings.mode){
-      document.querySelector(`.theme.${this.settings.mode}`)?.classList.add('active');
+    if (this.settings.mode) {
+      document
+        .querySelector(`.theme.${this.settings.mode}`)
+        ?.classList.add('active');
       document
         .querySelector(`.theme.${this.settings.mode}`)
         ?.querySelector('.item-checked')
-        ?.classList.add('active');}
-        
+        ?.classList.add('active');
+    }
+
     ['.theme', '.sidebar-count', '.task-type'].forEach((setting) => {
       const blocks: NodeListOf<Element> = document.querySelectorAll(
         `${setting}`,
@@ -115,9 +125,69 @@ class SettingsView {
       i18next
         .changeLanguage(lang)
         .then(() => {
-          this.settings.lang=lang;
+          this.settings.lang = lang;
         })
         .catch((err) => console.log(err));
+    });
+  }
+
+  private static addShortcutListeners() {
+    const menus: NodeListOf<Element> = document.querySelectorAll(
+      '.hotkey__menu',
+    );
+    const keyvalue = document.querySelector('.hotkey__now');
+
+    document.querySelector('.hotkey__bind')?.addEventListener('click', () => {
+      document.querySelector('.hotkey__bind')?.classList.remove('active');
+    });
+    menus.forEach((el, i) => {
+      el.addEventListener('click', () => {
+        el.classList.toggle('active');
+      });
+      el.querySelector('.hotkey__add')?.addEventListener('click', () => {
+        document.querySelector('.hotkey__bind')?.classList.add('active');
+        SettingsView.currentkey = i;
+        if (keyvalue) keyvalue.textContent = 'Press Keys';
+      });
+      el.querySelector('.hotkey__clear')?.addEventListener('click', () => {
+        const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
+        if (changekey) changekey.textContent = 'None';
+        this.settings.hotkeys[i as keyof HotkeysList] = [];
+      });
+    });
+  }
+
+  public static addKeyListener() {
+    const keys: Set<string> = new Set();
+
+    keys.clear();
+    window.addEventListener('keydown', (e) => {
+      const keyvalue = document.querySelector('.hotkey__now');
+      if (window.location.pathname.split('/')[2] !== 'hotkeys') {
+        return;
+      }
+      if (
+        !document.querySelector('.hotkey__bind')?.classList.contains('active')
+      ) {
+        return;
+      }
+      keys.add(e.key.toLocaleLowerCase());
+      if (keyvalue) keyvalue.textContent = `${Array.from(keys).join('+')}`;
+    });
+    window.addEventListener('keyup', (e) => {
+      const keyvalue = document.querySelector('.hotkey__now');
+      if (window.location.pathname.split('/')[2] !== 'hotkeys') {
+        return;
+      }
+      if (
+        !document.querySelector('.hotkey__bind')?.classList.contains('active')
+      ) {
+        return;
+      }
+      keys.delete(e.key.toLocaleLowerCase());
+      if (keys.size === 0) {
+        this.editHotkey(SettingsView.currentkey, keyvalue);
+      }
     });
   }
 
@@ -128,10 +198,10 @@ class SettingsView {
       el.addEventListener('click', () => {
         if (el.classList.contains('light__mode')) {
           rootelement?.classList.remove('dark__mode');
-         this.settings.mode = 'light__mode'
+          this.settings.mode = 'light__mode';
         } else {
           rootelement?.classList.add('dark__mode');
-          this.settings.mode = 'dark__mode'
+          this.settings.mode = 'dark__mode';
         }
       });
     });
@@ -156,10 +226,37 @@ class SettingsView {
           document
             .querySelector('.avatar__picture-main')
             ?.setAttribute('src', image);
-          this.settings.avatar=image;
+          this.settings.avatar = image;
         }
       });
     });
+  }
+
+  private static editHotkey(i: number, keyvalue: Element | null) {
+    document.querySelector('.hotkey__bind')?.classList.remove('active');
+    const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
+    if (keyvalue?.textContent && changekey) {
+      this.settings.hotkeys[i as keyof HotkeysList] =
+        this.settings.hotkeys[i as keyof HotkeysList].length > 1
+          ? this.settings.hotkeys[i as keyof HotkeysList].splice(1)
+          : this.settings.hotkeys[i as keyof HotkeysList];
+      this.settings.hotkeys[i as keyof HotkeysList].push(
+        keyvalue.textContent.split('+'),
+      );
+      this.settings.hotkeys[i as keyof HotkeysList] =
+        JSON.stringify(this.settings.hotkeys[i as keyof HotkeysList][0]) ===
+        JSON.stringify(this.settings.hotkeys[i as keyof HotkeysList][1])
+          ? this.settings.hotkeys[i as keyof HotkeysList].splice(1)
+          : this.settings.hotkeys[i as keyof HotkeysList];
+
+      changekey.textContent = `${
+        this.settings.hotkeys[i as keyof HotkeysList].length > 1
+          ? `${this.settings.hotkeys[i as keyof HotkeysList][0].join(
+              '+',
+            )}/${this.settings.hotkeys[i as keyof HotkeysList][1].join('+')}`
+          : this.settings.hotkeys[i as keyof HotkeysList][0].join('+')
+      }`;
+    }
   }
 }
 export default SettingsView;
