@@ -7,15 +7,15 @@ import Utils from '../../../utils/utils';
 class ContextMenu {
   menu: HTMLElement;
 
+  customDateInput: HTMLElement;
+
   constructor() {
     this.menu = Builder.createBlock(['context-menu'], 'ul');
+    this.customDateInput = Builder.createBlock(['dates__item'], 'li');
   }
 
   public draw(): HTMLElement {
-    this.menu.append(
-      ContextMenu.createDatesMenu(),
-      ...ContextMenu.createTextItems(),
-    );
+    this.menu.append(this.createDatesMenu(), ...ContextMenu.createTextItems());
     this.addListener();
 
     return this.menu;
@@ -29,29 +29,36 @@ class ContextMenu {
     this.menu.classList.remove('context-menu--active');
   }
 
-  private static createDatesMenu(): HTMLElement {
+  private createDatesMenu(): HTMLElement {
     const dateBlock: HTMLElement = Builder.createBlock(
       ['context-menu__item', 'context-menu__item--dates'],
       'li',
     );
     const dateList: HTMLElement = Builder.createBlock(['dates'], 'ul');
-    const dateItems: HTMLElement[] = [
-      'today',
-      'tomorrow',
-      'week',
-      'custom',
-    ].map((item: string) => {
-      const dateItem: HTMLElement = Builder.createBlock(['dates__item'], 'li');
-      dateItem.title = i18next.t(`mainScreen.tasks.${item}`);
-      dateItem.innerHTML = `
+    const dateItems: HTMLElement[] = ['today', 'tomorrow', 'week'].map(
+      (item: string) => {
+        const dateItem: HTMLElement = Builder.createBlock(
+          ['dates__item'],
+          'li',
+        );
+        dateItem.title = i18next.t(`mainScreen.tasks.${item}`);
+        dateItem.innerHTML = `
         <img class="dates__icon" src="./assets/img/${item}.svg" data-action="${item}" alt="${i18next.t(
-        `mainScreen.tasks.${item}`,
-      )}">
+          `mainScreen.tasks.${item}`,
+        )}">
       `;
-      return dateItem;
-    });
-    dateList.append(...dateItems);
+        return dateItem;
+      },
+    );
+
+    this.customDateInput.innerHTML = `
+      <input class="dates__input" type="date" id="custom-data" data-action="custom">
+    `;
+
+    dateList.append(...dateItems, this.customDateInput);
     dateBlock.append(dateList);
+
+    this.addCustomDateListener();
 
     return dateBlock;
   }
@@ -74,10 +81,13 @@ class ContextMenu {
     return items;
   }
 
-  public addListener(): void {
+  private addListener(): void {
     this.menu.addEventListener('click', (e: MouseEvent) => {
       if (e.target instanceof HTMLElement) {
-        const taskId = Number(Utils.findByClass(e.target, 'context-menu')?.dataset.id);
+        const taskId = Number(
+          Utils.findByClass(e.target, 'context-menu')?.dataset.id,
+        );
+
         switch (e.target.dataset.action) {
           case 'duplicate':
             Loader.duplicateTask(taskId)
@@ -117,6 +127,26 @@ class ContextMenu {
           default:
             break;
         }
+      }
+    });
+  }
+
+  private addCustomDateListener(): void {
+    this.customDateInput.addEventListener('change', (e: Event) => {
+      if (e.target instanceof HTMLInputElement) {
+        const endDate = new Date(e.target.value).setHours(23, 59, 59, 999);
+        const taskId = Number(
+          Utils.findByClass(e.target, 'context-menu')?.dataset.id,
+        );
+
+        Loader.updateTask(taskId, { dueTo: +endDate })
+          .then(() => {
+            Observable.notify();
+            this.hide();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
       }
     });
   }

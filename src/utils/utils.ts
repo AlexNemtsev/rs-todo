@@ -25,8 +25,7 @@ class Utils {
   }
 
   public static getDayEndInMs(days: number): number {
-    const date = new Date();
-    date.setHours(23, 59, 59, 999);
+    const date = new Date().setHours(23, 59, 59, 999);
     const endMs = +date + ((24 * 60 * 60 * 1000) * days);
 
     return endMs;
