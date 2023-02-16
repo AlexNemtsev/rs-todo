@@ -6,6 +6,7 @@ import Loader from '../../logic/loader';
 import ContextMenu from './contextMenu';
 import Utils from '../../../utils/utils';
 import Observable from '../../logic/observable';
+import templateBuilder from '../settings/templates';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -52,9 +53,11 @@ class TaskColumn {
       'text',
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
+    const modalWrapper = Builder.createBlock(['modal__window']);
+    modalWrapper.innerHTML = templateBuilder().Modal
     TaskColumn.addInputListener(input);
 
-    inputWrapper.append(input, TaskColumn.dateInput);
+    inputWrapper.append(input, TaskColumn.dateInput,modalWrapper);
     return inputWrapper;
   }
 

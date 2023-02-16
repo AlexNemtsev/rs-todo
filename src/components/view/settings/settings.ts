@@ -171,6 +171,7 @@ class SettingsView {
       ) {
         return;
       }
+      e.preventDefault();
       keys.add(e.key.toLocaleLowerCase());
       if (keyvalue) keyvalue.textContent = `${Array.from(keys).join('+')}`;
     });

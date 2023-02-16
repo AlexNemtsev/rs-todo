@@ -12,24 +12,13 @@ class Hotkeys {
       ) {
         return;
       }
+      e.preventDefault();
       const { hotkeys } = SettingsView.settings;
       keys.add(e.key.toLocaleLowerCase());
-      Object.values(hotkeys).forEach((el: Array<string[]>) => {
+      Object.values(hotkeys).forEach((el: Array<string[]>,i) => {
         el.forEach((arr) => {
           if (JSON.stringify(Array.from(keys)) === JSON.stringify(arr)) {
-            Loader.addTask({
-              task:
-                el.length > 1
-                  ? `${el[0].join('+')}/${el[1].join('+')}`
-                  : `${el[0].join('+')}`,
-              list: '',
-              createdAt: new Date(),
-              removed: false,
-              dueTo: 'today',
-            }).catch((error) => {
-              console.error('Error:', error);
-            });
-            TasksView.draw();
+            this.applyHotkey(el,i);
           }
         });
       });
@@ -37,6 +26,38 @@ class Hotkeys {
     window.addEventListener('keyup', (e) => {
       keys.delete(e.key.toLocaleLowerCase());
     });
+  }
+
+  private static applyHotkey(el:Array<string[]>,i:number){
+    switch(i){
+      case 0:
+        break
+        case 1:
+          break
+          case 2:
+            Loader.addTask({
+              task:
+                el.length > 1
+                  ? `${el[0].join('+')}/${el[1].join('+')}`
+                  : `${el[0].join('+')}`,
+              list: '',
+              createdAt: 1,
+              removed: false,
+              dueTo: 1,
+            }).catch((error) => {
+              console.error('Error:', error);
+            });
+            TasksView.draw();
+          break
+          case 3:
+          break
+          case 4:
+          break
+          case 5:
+          break
+          default:
+          break
+    }
   }
 }
 
