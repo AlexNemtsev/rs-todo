@@ -19,16 +19,16 @@ class Loader {
   }
 
   public static async getTask(taskId: number): Promise<Task> {
-    const response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
+    const response: Response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
       method: 'GET',
     });
-
-    return (await response.json()) as Task;
+    const [res] = await response.json() as [Task];
+    return res;
   }
 
-  public static async getTasksInInterval(from: number, to: number) {
+  public static async getTasksInInterval(from: number, to: number): Promise<Task[]> {
     const response = await fetch(
-      `${Loader.url}/tasks?dueTo_gte=${from}&_lte=${to}`,
+      `${Loader.url}/tasks?dueTo_gte=${from}&dueTo_lte=${to}`,
       {
         method: 'GET',
       },
@@ -79,6 +79,14 @@ class Loader {
 
   public static addTask(task: TaskWOid): Promise<Response> {
     return Loader.alterTask(task, Mode.create, 0);
+  }
+
+  public static async duplicateTask(taskId: number): Promise<Response> {
+    const task: Task = await Loader.getTask(taskId);
+    const copiedTask: TaskWOid = (({ id, ...obj }) => obj)(task);
+    copiedTask.createdAt = Number(new Date());
+
+    return Loader.alterTask(copiedTask, Mode.create, 0);
   }
 }
 

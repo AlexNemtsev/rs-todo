@@ -3,12 +3,20 @@ const en = {
     mainScreen: {
       lists: {
         all: 'All',
-        inputPlaceholder: 'Add task, press Enter to save',
         today: 'Today',
         tomorrow: 'Tomorrow',
         nextDays: 'Next 7 Days',
         completed: 'Completed',
-        trash: 'Trash',
+        trash: 'Trash', 
+      },
+      tasks: {
+        inputPlaceholder: 'Add task, press Enter to save',
+        today: 'Today',
+        tomorrow: 'Tomorrow',
+        week: 'Next 7 Days',
+        custom: 'Custom',
+        duplicate: 'Duplicate',
+        delete: 'Delete',
       },
     },
     settings: {
