@@ -56,6 +56,7 @@
 }
 
 .tasks__inputs {
+  position: relative;
   display: flex;
   gap: 10px;
 }
@@ -243,4 +244,44 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
+}
+
+.modal__window{
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgba(var(--main-color), 1);
+  border-radius: 10px;
+  width: 97%;
+  height: 150px;
+  gap: 20px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.modal__window.active{
+  display: flex;
+}
+
+.modal__input{
+  width: 90%;
+  height: 30px;
+  border: 1px solid rgba(var(--main-color), 1);
+  background-color: rgba(var(--main-color), 0.15);
+  border-radius: 10px;
+}
+
+.modal__buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.modal__button{
+  width: 100px;
+  height: 30px;
+  background-color: rgba(var(--main-color),1);
+  color:white;
 }

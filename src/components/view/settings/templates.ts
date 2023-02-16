@@ -123,9 +123,9 @@ function templateBuilder(): SettingTemplate {
   <div class="shortcut-setting"><span>Complete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[4].length>1?`${settings.hotkeys[4][0].join('+')}/${settings.hotkeys[4][1].join('+')}`:settings.hotkeys[4][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   <div class="shortcut-setting"><span>Delete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[5].length>1?`${settings.hotkeys[5][0].join('+')}/${settings.hotkeys[5][1].join('+')}`:settings.hotkeys[5][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>`,
-  Modal:`<input type="text">
+  Modal:`<input class="modal__input" type="text">
   <div class="modal__buttons">
-  <div class="modal__icons"><input type="date"></div> <button>Add</button></div>`,
+  <div class="modal__icons"><input type="date" class="modal-date__input"></div> <button class="modal__button">Add</button></div>`,
   };
 }
 

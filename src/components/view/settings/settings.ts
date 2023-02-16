@@ -161,7 +161,7 @@ class SettingsView {
     const keys: Set<string> = new Set();
 
     keys.clear();
-    window.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', (e) => {
       const keyvalue = document.querySelector('.hotkey__now');
       if (window.location.pathname.split('/')[2] !== 'hotkeys') {
         return;
@@ -171,11 +171,12 @@ class SettingsView {
       ) {
         return;
       }
-      e.preventDefault();
+      if (document.querySelector('.hotkey__bind')?.classList.contains('active'))
+        e.preventDefault();
       keys.add(e.key.toLocaleLowerCase());
       if (keyvalue) keyvalue.textContent = `${Array.from(keys).join('+')}`;
     });
-    window.addEventListener('keyup', (e) => {
+    document.addEventListener('keyup', (e) => {
       const keyvalue = document.querySelector('.hotkey__now');
       if (window.location.pathname.split('/')[2] !== 'hotkeys') {
         return;
