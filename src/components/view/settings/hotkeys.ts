@@ -1,6 +1,8 @@
+import TaskColumn from '../tasksView/taskColumn';
 import SettingsView from './settings';
 
 class Hotkeys {
+
   public static addHotkeys() {
     const keys: Set<string> = new Set();
     document.addEventListener('keydown', (e) => {
@@ -36,6 +38,12 @@ class Hotkeys {
         document.querySelector('.modal__window')?.classList.toggle('active');
         break;
       case 3:
+        if (
+          document.querySelector('.modal__window')?.classList.contains('active')
+        ) {
+          document.querySelector('.modal__input')?.dispatchEvent(TaskColumn.addtask);
+        } else document.querySelector('.tasks__input')?.dispatchEvent(TaskColumn.addtask);
+        document.querySelector('.modal__window')?.classList.remove('active');
         break;
       case 4:
         break;

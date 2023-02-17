@@ -10,11 +10,11 @@ function templateBuilder(): SettingTemplate {
   </ul>
   </div>`;
 
-   const settings = JSON.parse(
+  const settings = JSON.parse(
     localStorage.getItem('settings') ||
-    '{"mode":"light__mode","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
-  ) as ICurrentSetting
-    
+      '{"mode":"light__mode","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+  ) as ICurrentSetting;
+
   return {
     main: `<div class="settings__wrapper">
     <div class="settings__container">
@@ -109,23 +109,59 @@ function templateBuilder(): SettingTemplate {
     </div>
     <h3>General</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Save</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[0].length>1?`${settings.hotkeys[0][0].join('+')}/${settings.hotkeys[0][1].join('+')}`:settings.hotkeys[0][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
-  <div class="shortcut-setting"><span>Undo</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[1].length>1?`${settings.hotkeys[1][0].join('+')}/${settings.hotkeys[1][1].join('+')}`:settings.hotkeys[1][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Save</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[0].length > 1
+      ? `${settings.hotkeys[0][0].join('+')}/${settings.hotkeys[0][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[0][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Undo</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[1].length > 1
+      ? `${settings.hotkeys[1][0].join('+')}/${settings.hotkeys[1][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[1][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
   <h3>Add Task</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Add Task</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[2].length>1?`${settings.hotkeys[2][0].join('+')}/${settings.hotkeys[2][1].join('+')}`:settings.hotkeys[2][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>${menu}
+  <div class="shortcut-setting"><span>Add Task</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[2].length > 1
+      ? `${settings.hotkeys[2][0].join('+')}/${settings.hotkeys[2][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[2][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>${menu}
   </div></div></div>
-  <div class="shortcut-setting"><span>Add Task Below</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[3].length>1?`${settings.hotkeys[3][0].join('+')}/${settings.hotkeys[3][1].join('+')}`:settings.hotkeys[3][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Add Task Below</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[3].length > 1
+      ? `${settings.hotkeys[3][0].join('+')}/${settings.hotkeys[3][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[3][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
   <h3>Edit Task</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Complete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[4].length>1?`${settings.hotkeys[4][0].join('+')}/${settings.hotkeys[4][1].join('+')}`:settings.hotkeys[4][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
-  <div class="shortcut-setting"><span>Delete Tasks</span> <div class="hotkey"><span class="hotkey__key">${settings.hotkeys[5].length>1?`${settings.hotkeys[5][0].join('+')}/${settings.hotkeys[5][1].join('+')}`:settings.hotkeys[5][0].join('+')}</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Complete Tasks</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[4].length > 1
+      ? `${settings.hotkeys[4][0].join('+')}/${settings.hotkeys[4][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[4][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
+  <div class="shortcut-setting"><span>Delete Tasks</span> <div class="hotkey"><span class="hotkey__key">${
+    settings.hotkeys[5].length > 1
+      ? `${settings.hotkeys[5][0].join('+')}/${settings.hotkeys[5][1].join(
+          '+',
+        )}`
+      : settings.hotkeys[5][0].join('+')
+  }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>`,
-  Modal:`<input class="modal__input" type="text">
+    Modal: `
   <div class="modal__buttons">
-  <div class="modal__icons"><input type="date" class="modal-date__input"></div> <button class="modal__button">Add</button></div>`,
+  <div class="modal__icons"></div>`,
   };
 }
 

@@ -13,8 +13,15 @@ class TaskColumn {
 
   private static taskList: HTMLElement = Builder.createBlock(['tasks__list']);
 
+  public static addtask = new CustomEvent('addtask');
+
   private static dateInput: HTMLInputElement = Builder.createInput(
     ['tasks__date-input'],
+    'date',
+  );
+
+  private static dateInputModal: HTMLInputElement = Builder.createInput(
+    ['modal__date-input'],
     'date',
   );
 
@@ -47,17 +54,31 @@ class TaskColumn {
   }
 
   private static createInputs(): HTMLElement {
-    const inputWrapper = Builder.createBlock(['tasks__inputs']);
+    const inputWrapper: HTMLElement = Builder.createBlock(['tasks__inputs']);
     const input: HTMLInputElement = Builder.createInput(
       ['tasks__input'],
       'text',
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
-    const modalWrapper = Builder.createBlock(['modal__window']);
-    modalWrapper.innerHTML = templateBuilder().Modal
-    TaskColumn.addInputListener(input);
-
-    inputWrapper.append(input, TaskColumn.dateInput,modalWrapper);
+    const inputModal: HTMLInputElement = Builder.createInput(
+      ['modal__input'],
+      'text',
+      `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
+    );
+    const buttonModal: HTMLInputElement = Builder.createInput(
+      ['modal__button'],
+      'button',
+    );
+    buttonModal.value = 'Add';
+    const modalWrapper: HTMLElement = Builder.createBlock(['modal__window']);
+    modalWrapper.innerHTML = templateBuilder().Modal;
+    modalWrapper.prepend(inputModal);
+    modalWrapper
+      .querySelector('.modal__icons')
+      ?.prepend(TaskColumn.dateInputModal);
+    modalWrapper.querySelector('.modal__buttons')?.append(buttonModal);
+    TaskColumn.addInputListener(input, inputModal, buttonModal);
+    inputWrapper.append(input, TaskColumn.dateInput, modalWrapper);
     return inputWrapper;
   }
 
@@ -75,27 +96,37 @@ class TaskColumn {
       });
   }
 
-  private static addInputListener(input: HTMLInputElement): void {
-    input.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+  private static addInputListener(
+    input: HTMLInputElement,
+    inputModal: HTMLInputElement,
+    buttonModal: HTMLInputElement,
+  ): void {
+    buttonModal.addEventListener('click', () => {
+      inputModal.dispatchEvent(this.addtask);
+      document.querySelector('.modal__window')?.classList.remove('active');
+    });
+    [input, inputModal].forEach((el) => {
+      el.addEventListener('addtask', () => {
         Loader.addTask({
-          task: input.value,
-          list: input.value,
+          task: el.value,
+          list: el.value,
           createdAt: Number(new Date()),
           removed: false,
-          dueTo: TaskColumn.dateInput.value
-            ? Number(new Date(TaskColumn.dateInput.value))
-            : 0,
+          dueTo:
+            TaskColumn.dateInput.value || TaskColumn.dateInputModal.value
+              ? Number(new Date(TaskColumn.dateInputModal.value))
+              : Number(new Date(TaskColumn.dateInput.value)) || 0,
         })
           .then(() => {
-            input.value = '';
+            el.value = '';
             TaskColumn.dateInput.value = '';
+            TaskColumn.dateInputModal.value = '';
             TaskColumn.fillTaskList();
           })
           .catch((error) => {
             console.error('Error:', error);
           });
-      }
+      });
     });
   }
 

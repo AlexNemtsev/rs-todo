@@ -255,7 +255,7 @@
   border: 1px solid rgba(var(--main-color), 1);
   border-radius: 10px;
   width: 97%;
-  height: 150px;
+  height: 100px;
   gap: 20px;
   padding: 10px;
   z-index: 1;
@@ -283,5 +283,6 @@
   width: 100px;
   height: 30px;
   background-color: rgba(var(--main-color),1);
+  border-radius: 5px;
   color:white;
 }
