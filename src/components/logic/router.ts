@@ -10,6 +10,7 @@ class Router {
 
   static handleLocation(): void {
     const path: string = window.location.pathname;
+    console.log(path);
 
     if (path === '/') {
       TasksView.draw();
