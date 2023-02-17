@@ -5,9 +5,9 @@ describe('When wrapper gets a string with one line', () => {
   it('Should return the string, wrapped with <pre> tag', () => {
     const str = '<p>A string to be wrapped</p>';
 
-    const actual = wrapWithPre(str);
+    const actual = wrapWithPre(str, 1);
 
-    const expected = `<pre line-number="0">${str}</pre>`;
+    const expected = `<pre data-id=1>${str}</pre>`;
 
     expect(actual).toBe(expected);
   });
@@ -20,9 +20,9 @@ describe('When wrapper gets a string with multiple lines', () => {
 
     const str = `${line1}\n${line2}`;
 
-    const actual = wrapWithPre(str);
+    const actual = wrapWithPre(str, 1);
 
-    const expected = `<pre line-number="0">${line1}</pre>\n<pre line-number="1">${line2}</pre>`;
+    const expected = `<pre data-id=1>${line1}</pre>\n<pre data-id=1>${line2}</pre>`;
 
     expect(actual).toBe(expected);
   });
@@ -30,9 +30,9 @@ describe('When wrapper gets a string with multiple lines', () => {
 
 describe('When wrapper gets an empty line', () => {
   it('Should return <pre></pre>', () => {
-    const actual = wrapWithPre('');
+    const actual = wrapWithPre('', 1);
 
-    const expected = '<pre line-number="0"></pre>';
+    const expected = '<pre data-id=1></pre>';
 
     expect(actual).toBe(expected);
   });

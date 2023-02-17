@@ -4,8 +4,6 @@ import insertDataMd from '../insert-data-md';
 import parseWithClasses from '../parce-with-classes';
 
 const onTaskClickHandler = (desc: string | undefined, id: number): void => {
-  console.log(id);
-
   const details = document.querySelector('.details') as HTMLDivElement;
 
   details.addEventListener('click', onDetailsClick);
@@ -16,7 +14,7 @@ const onTaskClickHandler = (desc: string | undefined, id: number): void => {
     insertDataMd(parseWithClasses(line), line),
   );
 
-  const wrappedLines = parsedLines.map((line) => wrapWithPre(line));
+  const wrappedLines = parsedLines.map((line) => wrapWithPre(line, id));
 
   details.innerHTML = wrappedLines.join('\n');
 };
