@@ -45,14 +45,14 @@ const baseConfig = {
       patterns: [
         {
           from: './src/assets',
-          to: path.resolve(__dirname, 'dist', 'assets'),
+          to: path.resolve('.', 'dist', 'assets'),
           globOptions: {
             ignore: ['**/scss/**'],
           },
         },
         {
           from: './src/redirects',
-          to: path.resolve(__dirname, 'dist'),
+          to: path.resolve('.', 'dist'),
         },
       ],
     }),
