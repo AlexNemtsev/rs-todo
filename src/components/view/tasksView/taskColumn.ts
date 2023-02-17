@@ -55,6 +55,7 @@ class TaskColumn {
 
   private static createInputs(): HTMLElement {
     const inputWrapper: HTMLElement = Builder.createBlock(['tasks__inputs']);
+    const modalWrapper: HTMLElement = Builder.createBlock(['modal__wrapper']);
     const input: HTMLInputElement = Builder.createInput(
       ['tasks__input'],
       'text',
@@ -70,15 +71,16 @@ class TaskColumn {
       'button',
     );
     buttonModal.value = 'Add';
-    const modalWrapper: HTMLElement = Builder.createBlock(['modal__window']);
-    modalWrapper.innerHTML = templateBuilder().Modal;
-    modalWrapper.prepend(inputModal);
-    modalWrapper
+    const modalWindow: HTMLElement = Builder.createBlock(['modal__window']);
+    modalWindow.innerHTML = templateBuilder().Modal;
+    modalWindow.prepend(inputModal);
+    modalWindow
       .querySelector('.modal__icons')
       ?.prepend(TaskColumn.dateInputModal);
-    modalWrapper.querySelector('.modal__buttons')?.append(buttonModal);
-    TaskColumn.addInputListener(input, inputModal, buttonModal);
-    inputWrapper.append(input, TaskColumn.dateInput, modalWrapper);
+    modalWindow.querySelector('.modal__buttons')?.append(buttonModal);
+    document.querySelector('body')?.append(modalWrapper);
+    TaskColumn.addInputListener(input, inputModal, buttonModal, modalWrapper);
+    inputWrapper.append(input, TaskColumn.dateInput, modalWindow);
     return inputWrapper;
   }
 
@@ -100,10 +102,17 @@ class TaskColumn {
     input: HTMLInputElement,
     inputModal: HTMLInputElement,
     buttonModal: HTMLInputElement,
+    modalWrapper: HTMLElement,
   ): void {
-    buttonModal.addEventListener('click', () => {
-      inputModal.dispatchEvent(this.addtask);
-      document.querySelector('.modal__window')?.classList.remove('active');
+    [modalWrapper, buttonModal].forEach((el, i) => {
+      el.addEventListener('click', () => {
+         if(i === 1)inputModal.dispatchEvent(this.addtask)
+         else{inputModal.value='';
+         this.dateInputModal.value='';
+        }
+        document.querySelector('.modal__wrapper')?.classList.remove('active');
+        document.querySelector('.modal__window')?.classList.remove('active');
+      });
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {

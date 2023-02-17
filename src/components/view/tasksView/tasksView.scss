@@ -246,6 +246,14 @@
   cursor: pointer;
 }
 
+.modal__wrapper{
+  position: absolute;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(58, 58, 58, 0.22);
+}
+
 .modal__window{
   position: absolute;
   display: none;
@@ -261,6 +269,7 @@
   z-index: 1;
 }
 
+.modal__wrapper.active,
 .modal__window.active{
   display: flex;
 }

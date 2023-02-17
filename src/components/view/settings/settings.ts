@@ -14,6 +14,8 @@ class SettingsView {
 
   static currentkey: number;
 
+  static keys: Set<string> = new Set();
+
   public static drawSettings(option: string): void {
     const main: HTMLElement | null = document.querySelector('main');
     if (main) {
@@ -136,21 +138,28 @@ class SettingsView {
       '.hotkey__menu',
     );
     const keyvalue = document.querySelector('.hotkey__now');
-
     document.querySelector('.hotkey__bind')?.addEventListener('click', () => {
       document.querySelector('.hotkey__bind')?.classList.remove('active');
+      this.keys.clear();
     });
     menus.forEach((el, i) => {
-      el.addEventListener('click', () => {
-        el.classList.toggle('active');
+       el.addEventListener('click', () => {
+        menus.forEach((menu)=>{menu.classList.remove('active')});
+       if(!el.classList.contains('active'))
+       {el.classList.add('active')}
+       else {el.classList.remove('active')};
       });
-      el.querySelector('.hotkey__add')?.addEventListener('click', () => {
+      el.querySelector('.hotkey__add')?.addEventListener('click', (e) => {
         document.querySelector('.hotkey__bind')?.classList.add('active');
+        e.stopPropagation();
+        el.classList.remove('active')
         SettingsView.currentkey = i;
         if (keyvalue) keyvalue.textContent = 'Press Keys';
       });
-      el.querySelector('.hotkey__clear')?.addEventListener('click', () => {
+      el.querySelector('.hotkey__clear')?.addEventListener('click', (e) => {
         const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
+        e.stopPropagation();
+        el.classList.remove('active')
         if (changekey) changekey.textContent = 'None';
         this.settings.hotkeys[i as keyof HotkeysList] = [];
       });
@@ -158,9 +167,7 @@ class SettingsView {
   }
 
   public static addKeyListener() {
-    const keys: Set<string> = new Set();
-
-    keys.clear();
+    this.keys.clear();
     document.addEventListener('keydown', (e) => {
       const keyvalue = document.querySelector('.hotkey__now');
       if (window.location.pathname.split('/')[2] !== 'hotkeys') {
@@ -173,8 +180,8 @@ class SettingsView {
       }
       if (document.querySelector('.hotkey__bind')?.classList.contains('active'))
         e.preventDefault();
-      keys.add(e.key.toLocaleLowerCase());
-      if (keyvalue) keyvalue.textContent = `${Array.from(keys).join('+')}`;
+      this.keys.add(e.key.toLowerCase());
+      if (keyvalue) keyvalue.textContent = `${Array.from(this.keys).join('+')}`;
     });
     document.addEventListener('keyup', (e) => {
       const keyvalue = document.querySelector('.hotkey__now');
@@ -186,8 +193,10 @@ class SettingsView {
       ) {
         return;
       }
-      keys.delete(e.key.toLocaleLowerCase());
-      if (keys.size === 0) {
+      if (document.querySelector('.hotkey__bind')?.classList.contains('active'))
+        e.preventDefault();
+      this.keys.delete(e.key.toLowerCase());
+      if (this.keys.size === 0) {
         this.editHotkey(SettingsView.currentkey, keyvalue);
       }
     });
