@@ -7,7 +7,7 @@ const insertClasses = (tagLine: string): string => {
 
   return `${tagLine.substring(0, indOfrt)} class="md md__style ${
     stylesMap[tag]
-  }"${tagLine.substring(indOfrt)}`;
+  }${tagLine.includes('><') ? ' empty' : ''}"${tagLine.substring(indOfrt)}`;
 };
 
 export default insertClasses;
