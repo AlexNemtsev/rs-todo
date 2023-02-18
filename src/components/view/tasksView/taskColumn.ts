@@ -122,7 +122,7 @@ class TaskColumn {
           createdAt: Number(new Date()),
           removed: false,
           dueTo:
-            TaskColumn.dateInput.value || TaskColumn.dateInputModal.value
+            TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
               : Number(new Date(TaskColumn.dateInput.value)) || 0,
         })
