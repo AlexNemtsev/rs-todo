@@ -1,4 +1,5 @@
 import Task from '../../interfaces/task';
+import Utils from '../../utils/utils';
 
 type TaskWOid = Omit<Task, 'id'>;
 
@@ -22,11 +23,14 @@ class Loader {
     const response: Response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
       method: 'GET',
     });
-    const [res] = await response.json() as [Task];
+    const [res] = (await response.json()) as [Task];
     return res;
   }
 
-  public static async getTasksInInterval(from: number, to: number): Promise<Task[]> {
+  public static async getTasksInInterval(
+    from: number,
+    to: number,
+  ): Promise<Task[]> {
     const response = await fetch(
       `${Loader.url}/tasks?dueTo_gte=${from}&dueTo_lte=${to}`,
       {
@@ -87,6 +91,36 @@ class Loader {
     copiedTask.createdAt = Number(new Date());
 
     return Loader.alterTask(copiedTask, Mode.create, 0);
+  }
+
+  public static async getListTasks(listName: string): Promise<Task[]> {
+    let tasks: Task[] = [];
+
+    switch (listName) {
+      case 'all':
+        tasks = await Loader.getAllTasks();
+        break;
+      case 'today':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 0));
+        break;
+      case 'tomorrow':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(1, 1));
+        break;
+      case 'nextDays':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 7));
+        break;
+      case 'completed':
+        tasks = await Loader.getCompletedTask();
+        break;
+      case 'trash':
+        tasks = await Loader.getRemovedTasks();
+        break;
+      default:
+        tasks = await Loader.getAllTasks();
+        break;
+    }
+
+    return tasks;
   }
 }
 

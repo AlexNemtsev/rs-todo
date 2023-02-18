@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-import Task from '../../../interfaces/task';
 import Builder from '../builder/builder';
 import TaskView from './task';
 import Loader from '../../logic/loader';
@@ -7,6 +6,7 @@ import ContextMenu from './contextMenu';
 import Utils from '../../../utils/utils';
 import Observable from '../../logic/observable';
 import templateBuilder from '../settings/templates';
+import TaskStatus from '../../../interfaces/status';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -29,15 +29,16 @@ class TaskColumn {
 
   private static menuBlock: HTMLElement;
 
-  private static tasks: Task[];
+  private static nameList = 'all';
 
-  public static draw(block: HTMLElement): void {
+  public static draw(block: HTMLElement, nameList?: string): void {
+    if (nameList) TaskColumn.nameList = nameList;
     TaskColumn.tasksBlock = block;
     TaskColumn.tasksBlock.innerHTML = '';
     const title: HTMLElement = Builder.createBlock(
       ['tasks__title'],
       'h2',
-      `${i18next.t('mainScreen.lists.all')}`,
+      `${i18next.t(`mainScreen.lists.${TaskColumn.nameList}`)}`,
     );
 
     TaskColumn.menu = new ContextMenu();
@@ -86,43 +87,15 @@ class TaskColumn {
     return inputWrapper;
   }
 
-  public static async getTasks(nameList?: string): Promise<void> {
-    switch (nameList) {
-      case 'today':
-        TaskColumn.tasks = await Loader.getTasksInInterval(
-          ...Utils.getIntevalInMs(0, 0),
-        );
-        break;
-      case 'tomorrow':
-        TaskColumn.tasks = await Loader.getTasksInInterval(
-          ...Utils.getIntevalInMs(1, 1),
-        );
-        break;
-      case 'nextDays':
-        TaskColumn.tasks = await Loader.getTasksInInterval(
-          ...Utils.getIntevalInMs(0, 7),
-        );
-        break;
-      case 'completed':
-        TaskColumn.tasks = await Loader.getCompletedTask();
-        break;
-      case 'trash':
-        TaskColumn.tasks = await Loader.getRemovedTasks();
-        break;
-      default:
-        TaskColumn.tasks = await Loader.getAllTasks();
-        break;
-    }
-  }
-
-  public static fillTaskList(nameList?: string): void {
-    TaskColumn.getTasks(nameList)
-      .then(() => {
-        const tasks: HTMLElement[] = TaskColumn.tasks.map((item) =>
+  public static fillTaskList(): void {
+    Loader.getListTasks(TaskColumn.nameList)
+      .then((taskData) => {
+        const tasks: HTMLElement[] = taskData.map((item) =>
           TaskView.fillTask(item),
         );
         TaskColumn.taskList.innerHTML = '';
         TaskColumn.taskList.append(...tasks);
+        TaskColumn.addCheckListener(tasks);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -181,6 +154,24 @@ class TaskColumn {
         TaskColumn.menuBlock.style.left = `${e.clientX}px`;
         TaskColumn.menu.show();
       }
+    });
+  }
+
+  private static addCheckListener(tasks: HTMLElement[]): void {
+    tasks.forEach((task) => {
+      task.addEventListener('change', (e: Event) => {
+        if (e.target instanceof HTMLInputElement) {
+          const newStatus: TaskStatus = e.target.checked ? 'done' : 'undone';
+          const taskId = Number(e.target.id);
+          Loader.updateTask(taskId, { status: newStatus })
+            .then(() => {
+              TaskColumn.fillTaskList();
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
+      });
     });
   }
 }

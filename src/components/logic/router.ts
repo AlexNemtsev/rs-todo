@@ -22,7 +22,7 @@ class Router {
         SettingsView.drawSettings(segments[2]);
         break;
       case 'tasks':
-        TasksView.draw();
+        TasksView.draw(segments[2]);
         break;
       default:
         TasksView.draw();

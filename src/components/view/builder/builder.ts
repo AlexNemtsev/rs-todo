@@ -21,6 +21,13 @@ class Builder {
     if (placeholder) input.placeholder = placeholder;
     return input;
   }
+
+  public static createLink(classes: string[], href: string): HTMLElement {
+    const block: HTMLAnchorElement = document.createElement('a');
+    block.classList.add(...classes);
+    block.href = href;
+    return block;
+  }
 }
 
 export default Builder;
