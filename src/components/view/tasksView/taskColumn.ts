@@ -116,6 +116,7 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
+        if(el.value)
         Loader.addTask({
           task: el.value,
           list: el.value,
@@ -134,7 +135,7 @@ class TaskColumn {
           })
           .catch((error) => {
             console.error('Error:', error);
-          });
+          })
       });
     });
   }
