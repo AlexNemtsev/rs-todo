@@ -3,13 +3,13 @@ import ru from '../i18n/ru';
 
 import en from '../i18n/en';
 import Router from '../logic/router';
-import addHotkeys from '../view/settings/hotkeys';
 import SettingsView from '../view/settings/settings';
+import Hotkeys from '../view/settings/hotkeys';
 
 class App {
   public static async start(): Promise<void> {
     await i18next.init({
-      lng: SettingsView.settings.lang?SettingsView.settings.lang:'en',
+      lng: SettingsView.settings.lang ? SettingsView.settings.lang : 'en',
       fallbackLng: 'en',
       resources: {
         ru,
@@ -19,20 +19,22 @@ class App {
 
     window.addEventListener('popstate', () => Router.handleLocation());
 
-
     Router.handleLocation();
 
-    const {mode} =  SettingsView.settings;
+    const { mode } = SettingsView.settings;
     if (mode) document.querySelector(':root')?.classList.add(mode);
     else {
       document.querySelector(':root')?.classList.add('light__mode');
     }
 
-    const {avatar} = SettingsView.settings
-    if(avatar)
-    document.querySelector('.avatar__picture-main')?.setAttribute('src',avatar)
+    const { avatar } = SettingsView.settings;
+    if (avatar)
+      document
+        .querySelector('.avatar__picture-main')
+        ?.setAttribute('src', avatar);
 
-    addHotkeys([['tab','n'],['n']]);
+    Hotkeys.addHotkeys();
+    SettingsView.addKeyListener();
 
     const SettingsButton = document.querySelector('.nav__item');
     SettingsButton?.addEventListener('click', () =>
