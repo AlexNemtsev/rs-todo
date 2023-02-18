@@ -2,6 +2,7 @@
   --gray: 49, 54, 67;
   --blue: 71, 114, 250;
   --violet: 112, 86, 179;
+  --white: 255, 255, 255;
   --main-color: var(--blue);
 }
 
@@ -79,7 +80,7 @@ img {
   align-items: center;
   gap: 10px;
   margin-top: auto;
-  color: white;
+  color: rgb(var(--white));
 }
 
 .sidebar__link {
