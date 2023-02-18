@@ -6,14 +6,22 @@ import Loader from '../../logic/loader';
 import ContextMenu from './contextMenu';
 import Utils from '../../../utils/utils';
 import Observable from '../../logic/observable';
+import templateBuilder from '../settings/templates';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
 
   private static taskList: HTMLElement = Builder.createBlock(['tasks__list']);
 
+  public static addtask = new CustomEvent('addtask');
+
   private static dateInput: HTMLInputElement = Builder.createInput(
     ['tasks__date-input'],
+    'date',
+  );
+
+  private static dateInputModal: HTMLInputElement = Builder.createInput(
+    ['modal__date-input'],
     'date',
   );
 
@@ -46,15 +54,33 @@ class TaskColumn {
   }
 
   private static createInputs(): HTMLElement {
-    const inputWrapper = Builder.createBlock(['tasks__inputs']);
+    const inputWrapper: HTMLElement = Builder.createBlock(['tasks__inputs']);
+    const modalWrapper: HTMLElement = Builder.createBlock(['modal__wrapper']);
     const input: HTMLInputElement = Builder.createInput(
       ['tasks__input'],
       'text',
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
-    TaskColumn.addInputListener(input);
-
-    inputWrapper.append(input, TaskColumn.dateInput);
+    const inputModal: HTMLInputElement = Builder.createInput(
+      ['modal__input'],
+      'text',
+      `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
+    );
+    const buttonModal: HTMLInputElement = Builder.createInput(
+      ['modal__button'],
+      'button',
+    );
+    buttonModal.value = 'Add';
+    const modalWindow: HTMLElement = Builder.createBlock(['modal__window']);
+    modalWindow.innerHTML = templateBuilder().Modal;
+    modalWindow.prepend(inputModal);
+    modalWindow
+      .querySelector('.modal__icons')
+      ?.prepend(TaskColumn.dateInputModal);
+    modalWindow.querySelector('.modal__buttons')?.append(buttonModal);
+    document.querySelector('body')?.append(modalWrapper);
+    TaskColumn.addInputListener(input, inputModal, buttonModal, modalWrapper);
+    inputWrapper.append(input, TaskColumn.dateInput, modalWindow);
     return inputWrapper;
   }
 
@@ -72,27 +98,44 @@ class TaskColumn {
       });
   }
 
-  private static addInputListener(input: HTMLInputElement): void {
-    input.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+  private static addInputListener(
+    input: HTMLInputElement,
+    inputModal: HTMLInputElement,
+    buttonModal: HTMLInputElement,
+    modalWrapper: HTMLElement,
+  ): void {
+    [modalWrapper, buttonModal].forEach((el, i) => {
+      el.addEventListener('click', () => {
+         if(i === 1)inputModal.dispatchEvent(this.addtask)
+         else{inputModal.value='';
+         this.dateInputModal.value='';
+        }
+        document.querySelector('.modal__wrapper')?.classList.remove('active');
+        document.querySelector('.modal__window')?.classList.remove('active');
+      });
+    });
+    [input, inputModal].forEach((el) => {
+      el.addEventListener('addtask', () => {
         Loader.addTask({
-          task: input.value,
-          list: input.value,
+          task: el.value,
+          list: el.value,
           createdAt: Number(new Date()),
           removed: false,
-          dueTo: TaskColumn.dateInput.value
-            ? Number(new Date(TaskColumn.dateInput.value))
-            : 0,
+          dueTo:
+            TaskColumn.dateInputModal.value
+              ? Number(new Date(TaskColumn.dateInputModal.value))
+              : Number(new Date(TaskColumn.dateInput.value)) || 0,
         })
           .then(() => {
-            input.value = '';
+            el.value = '';
             TaskColumn.dateInput.value = '';
+            TaskColumn.dateInputModal.value = '';
             TaskColumn.fillTaskList();
           })
           .catch((error) => {
             console.error('Error:', error);
           });
-      }
+      });
     });
   }
 
