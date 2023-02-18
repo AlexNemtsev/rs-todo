@@ -11,12 +11,13 @@ class Hotkeys {
       ) {
         return;
       }
-      if (!(e.target instanceof HTMLInputElement)) e.preventDefault();
+
       const { hotkeys } = SettingsView.settings;
       keys.add(e.key.toLowerCase());
       Object.values(hotkeys).forEach((el: Array<string[]>, i) => {
         el.forEach((arr) => {
           if (JSON.stringify(Array.from(keys)) === JSON.stringify(arr)) {
+            if (!(e.target instanceof HTMLInputElement)) e.preventDefault();
             this.applyHotkey(el, i);
           }
         });
@@ -24,6 +25,9 @@ class Hotkeys {
     });
     document.addEventListener('keyup', (e) => {
       keys.delete(e.key.toLowerCase());
+      if (keys.size === 1 && Array.from(keys)[0] === 'alt') {
+        keys.clear();
+      }
     });
   }
 
