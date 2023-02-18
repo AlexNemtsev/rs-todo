@@ -11,10 +11,6 @@ class Router {
   static handleLocation(): void {
     const path: string = window.location.pathname;
 
-    if (path === '/') {
-      TasksView.draw();
-    }
-
     const segments: string[] = path.split('/');
 
     switch (segments[1]) {

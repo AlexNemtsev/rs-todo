@@ -121,13 +121,14 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
+        if(el.value)
         Loader.addTask({
           task: el.value,
           list: el.value,
           createdAt: Number(new Date()),
           removed: false,
           dueTo:
-            TaskColumn.dateInput.value || TaskColumn.dateInputModal.value
+            TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
               : Number(new Date(TaskColumn.dateInput.value)) || 0,
         })
@@ -139,7 +140,7 @@ class TaskColumn {
           })
           .catch((error) => {
             console.error('Error:', error);
-          });
+          })
       });
     });
   }
