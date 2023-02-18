@@ -200,5 +200,5 @@ pre {
 }
 
 .empty::before{
-  content: 'add desc';
+  content: attr(data-before);
 }
