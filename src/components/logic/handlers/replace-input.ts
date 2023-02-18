@@ -1,4 +1,6 @@
+import extractMarkdown from '../extract-markdown';
 import insertDataMd from '../insert-data-md';
+import Loader from '../loader';
 import parseWithClasses from '../parce-with-classes';
 
 const replaceInput = (event: Event) => {
@@ -7,7 +9,14 @@ const replaceInput = (event: Event) => {
   const newElement = insertDataMd(parseWithClasses(target.value), target.value);
 
   closestPre.innerHTML = newElement;
-  console.log(document.querySelector('.details'));
+
+  const mdText = extractMarkdown(
+    document.querySelector('.details') as HTMLDivElement,
+  );
+
+  const taskId = Number(closestPre.dataset.id as string);
+
+  Loader.updateTask(taskId, { desc: mdText }).catch((err) => console.log(err));
 };
 
 export default replaceInput;

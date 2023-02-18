@@ -8,11 +8,14 @@ describe('When extractor gets details element', () => {
     const firstLine = document.createElement('pre');
     const header1 = document.createElement('h1');
     header1.dataset.md = '# The first line to be extracted';
+    header1.classList.add('md');
     firstLine.append(header1);
     const secondLine = document.createElement('pre');
     const header2 = document.createElement('h1');
     header2.dataset.md = '## The second line to be extracted';
-    secondLine.append(header1);
+    header2.classList.add('md');
+    secondLine.append(header2);
+    div.append(firstLine, secondLine);
 
     const actual = extractMarkdown(div);
 
