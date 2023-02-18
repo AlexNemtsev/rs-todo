@@ -1,6 +1,5 @@
 import wrapWithPre from '../wrap-with-pre';
 import onDetailsClick from './on-details-click';
-import insertDataMd from '../insert-data-md';
 import MdParser from '../md-parser';
 
 const onTaskClickHandler = (desc: string | undefined, id: number): void => {
@@ -10,10 +9,7 @@ const onTaskClickHandler = (desc: string | undefined, id: number): void => {
 
   const mdLines = (desc ?? '').split('\n');
 
-  const parsedLines = mdLines.map((line) =>
-    // повторяется в файле replace-input
-    insertDataMd(MdParser.parseWithClasses(line), line),
-  );
+  const parsedLines = mdLines.map((line) => MdParser.insertDataMd(line));
 
   const wrappedLines = parsedLines.map((line) => wrapWithPre(line, id));
 

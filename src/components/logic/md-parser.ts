@@ -9,6 +9,15 @@ class MdParser {
     ).trim();
   }
 
+  public static insertDataMd(md: string): string {
+    const tagLine = MdParser.parseWithClasses(md);
+    const indOfrg = tagLine.indexOf('>');
+
+    return `${tagLine.substring(0, indOfrg)} data-md="${md}"${tagLine.substring(
+      indOfrg,
+    )}`;
+  }
+
   private static insertAttributes(tagLine: string): string {
     const indOfrt = tagLine.indexOf('>');
     const indOfSpc = tagLine.indexOf(' ');
