@@ -21,20 +21,13 @@
   }
 }
 
-.list__icon {
-  width: 26px;
-}
-
-.list__button {
+.list__item {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
   padding: 10px;
-  font-family: inherit;
   font-size: 18px;
   background-color: transparent;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
@@ -42,6 +35,10 @@
   &--active {
     background-color: rgba(var(--main-color), 0.3);
   }
+}
+
+.list__icon {
+  width: 26px;
 }
 
 .tasks {

@@ -26,9 +26,20 @@ class Utils {
 
   public static getDayEndInMs(days: number): number {
     const date = new Date().setHours(23, 59, 59, 999);
-    const endMs = +date + ((24 * 60 * 60 * 1000) * days);
+    const endMs = +date + 24 * 60 * 60 * 1000 * days;
 
     return endMs;
+  }
+
+  public static getIntevalInMs(
+    startDay: number,
+    endDay: number,
+  ): [number, number] {
+    const date = new Date().setHours(0, 0, 0, 0);
+    const startMs = +date + 24 * 60 * 60 * 1000 * startDay;
+    const endMs = +date + 24 * 60 * 60 * 1000 * (endDay + 1) - 1;
+
+    return [startMs, endMs];
   }
 }
 

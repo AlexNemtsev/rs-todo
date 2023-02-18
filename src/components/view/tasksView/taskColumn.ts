@@ -29,6 +29,8 @@ class TaskColumn {
 
   private static menuBlock: HTMLElement;
 
+  private static tasks: Task[];
+
   public static draw(block: HTMLElement): void {
     TaskColumn.tasksBlock = block;
     TaskColumn.tasksBlock.innerHTML = '';
@@ -84,10 +86,39 @@ class TaskColumn {
     return inputWrapper;
   }
 
-  private static fillTaskList(): void {
-    Loader.getAllTasks()
-      .then((taskData: Task[]) => {
-        const tasks: HTMLElement[] = taskData.map((item) =>
+  public static async getTasks(nameList?: string): Promise<void> {
+    switch (nameList) {
+      case 'today':
+        TaskColumn.tasks = await Loader.getTasksInInterval(
+          ...Utils.getIntevalInMs(0, 0),
+        );
+        break;
+      case 'tomorrow':
+        TaskColumn.tasks = await Loader.getTasksInInterval(
+          ...Utils.getIntevalInMs(1, 1),
+        );
+        break;
+      case 'nextDays':
+        TaskColumn.tasks = await Loader.getTasksInInterval(
+          ...Utils.getIntevalInMs(0, 7),
+        );
+        break;
+      case 'completed':
+        TaskColumn.tasks = await Loader.getCompletedTask();
+        break;
+      case 'trash':
+        TaskColumn.tasks = await Loader.getRemovedTasks();
+        break;
+      default:
+        TaskColumn.tasks = await Loader.getAllTasks();
+        break;
+    }
+  }
+
+  public static fillTaskList(nameList?: string): void {
+    TaskColumn.getTasks(nameList)
+      .then(() => {
+        const tasks: HTMLElement[] = TaskColumn.tasks.map((item) =>
           TaskView.fillTask(item),
         );
         TaskColumn.taskList.innerHTML = '';
@@ -106,9 +137,10 @@ class TaskColumn {
   ): void {
     [modalWrapper, buttonModal].forEach((el, i) => {
       el.addEventListener('click', () => {
-         if(i === 1)inputModal.dispatchEvent(this.addtask)
-         else{inputModal.value='';
-         this.dateInputModal.value='';
+        if (i === 1) inputModal.dispatchEvent(this.addtask);
+        else {
+          inputModal.value = '';
+          this.dateInputModal.value = '';
         }
         document.querySelector('.modal__wrapper')?.classList.remove('active');
         document.querySelector('.modal__window')?.classList.remove('active');
