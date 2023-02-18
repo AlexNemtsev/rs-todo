@@ -1,7 +1,7 @@
 import wrapWithPre from '../wrap-with-pre';
 import onDetailsClick from './on-details-click';
 import insertDataMd from '../insert-data-md';
-import parseWithClasses from '../parce-with-classes';
+import MdParser from '../md-parser';
 
 const onTaskClickHandler = (desc: string | undefined, id: number): void => {
   const details = document.querySelector('.details') as HTMLDivElement;
@@ -11,7 +11,8 @@ const onTaskClickHandler = (desc: string | undefined, id: number): void => {
   const mdLines = (desc ?? '').split('\n');
 
   const parsedLines = mdLines.map((line) =>
-    insertDataMd(parseWithClasses(line), line),
+    // повторяется в файле replace-input
+    insertDataMd(MdParser.parseWithClasses(line), line),
   );
 
   const wrappedLines = parsedLines.map((line) => wrapWithPre(line, id));

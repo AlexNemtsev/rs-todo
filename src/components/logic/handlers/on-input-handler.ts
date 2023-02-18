@@ -1,9 +1,9 @@
 import extractClasses from '../extract-classes';
-import parseWithClasses from '../parce-with-classes';
+import MdParser from '../md-parser';
 
 const onInputHandler = (event: Event): void => {
   const input = event.target as HTMLInputElement;
-  const tag = parseWithClasses(input.value);
+  const tag = MdParser.parseWithClasses(input.value);
   const classes = extractClasses(tag);
   input.dataset.tag = tag;
   input.className = classes;
