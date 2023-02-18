@@ -1,7 +1,7 @@
 import { marked } from 'marked';
-import insertClasses from './insert-classes';
+import insertAttributes from './insert-attributes';
 
 const parseWithClasses = (md: string): string =>
-  insertClasses(marked.parse(md) || '<p id=""></p>').trim();
+  insertAttributes(marked.parse(md) || '<p id=""></p>').trim();
 
 export default parseWithClasses;

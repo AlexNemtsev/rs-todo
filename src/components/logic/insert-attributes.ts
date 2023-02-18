@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import stylesMap from './styles-map';
 
-const insertClasses = (tagLine: string): string => {
+const insertAttributes = (tagLine: string): string => {
   const indOfrt = tagLine.indexOf('>');
   const indOfSpc = tagLine.indexOf(' ');
   const tag = tagLine.substring(1, indOfSpc > indOfrt ? indOfrt : indOfSpc);
@@ -15,4 +15,4 @@ const insertClasses = (tagLine: string): string => {
   }${emptyTag ? ' empty' : ''}"${dataBefore}${tagLine.substring(indOfrt)}`;
 };
 
-export default insertClasses;
+export default insertAttributes;
