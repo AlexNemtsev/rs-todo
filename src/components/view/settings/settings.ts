@@ -143,23 +143,27 @@ class SettingsView {
       this.keys.clear();
     });
     menus.forEach((el, i) => {
-       el.addEventListener('click', () => {
-        menus.forEach((menu)=>{menu.classList.remove('active')});
-       if(!el.classList.contains('active'))
-       {el.classList.add('active')}
-       else {el.classList.remove('active')};
+      el.addEventListener('click', () => {
+        menus.forEach((menu) => {
+          menu.classList.remove('active');
+        });
+        if (!el.classList.contains('active')) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
       });
       el.querySelector('.hotkey__add')?.addEventListener('click', (e) => {
         document.querySelector('.hotkey__bind')?.classList.add('active');
         e.stopPropagation();
-        el.classList.remove('active')
+        el.classList.remove('active');
         SettingsView.currentkey = i;
         if (keyvalue) keyvalue.textContent = 'Press Keys';
       });
       el.querySelector('.hotkey__clear')?.addEventListener('click', (e) => {
         const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
         e.stopPropagation();
-        el.classList.remove('active')
+        el.classList.remove('active');
         if (changekey) changekey.textContent = 'None';
         this.settings.hotkeys[i as keyof HotkeysList] = [];
       });
