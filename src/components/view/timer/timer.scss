@@ -1,8 +1,10 @@
 .timer__wrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  gap: 30px;
 }
 
 .timer {
@@ -10,6 +12,7 @@
   width: 400px;
   height: 400px;
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -64,4 +67,45 @@
       background: white;
     }
   }
+}
+
+.start-stop__button,
+.reset__button {
+  font-size: 28px;
+  background-color: rgb(var(--main-color));
+  color: white;
+  width: 180px;
+  height: 40px;
+}
+
+.timer-add_window {
+  width: 200px;
+  height: fit-content;
+  bottom: 80px;
+  padding: 5px;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+
+  background-color: white;
+  border: 1px solid black;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    input {
+      width: 50%;
+      height: 30px;
+    }
+    button {
+      width: 100px;
+      height: 30px;
+    }
+  }
+}
+.timer-add_window.active {
+  display: flex;
 }
