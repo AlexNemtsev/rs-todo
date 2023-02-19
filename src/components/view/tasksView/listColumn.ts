@@ -10,6 +10,8 @@ class ListColumn {
 
   static listName: string;
 
+  static addListModal: HTMLDialogElement;
+
   public static draw(listsBlock: HTMLElement, listName?: string): void {
     ListColumn.listItems = [];
     if (listName) ListColumn.listName = listName;
@@ -23,7 +25,15 @@ class ListColumn {
       ['completed', 'trash'],
     );
 
-    listsBlock.append(periodList, bottomList);
+    const customListBlock = ListColumn.createCustomListBlock();
+    ListColumn.addListModal = ListColumn.createAddListModal();
+
+    listsBlock.append(
+      periodList,
+      customListBlock,
+      bottomList,
+      ListColumn.addListModal,
+    );
     ListColumn.addChangeListHandler(listsBlock);
   }
 
@@ -62,6 +72,26 @@ class ListColumn {
     return list;
   }
 
+  private static createCustomListBlock(): HTMLElement {
+    const customListBlock: HTMLElement = Builder.createBlock(['lists__custom']);
+    const customListTitle: HTMLElement = Builder.createBlock(
+      ['lists__title'],
+      'h3',
+      `${i18next.t('mainScreen.lists.listsTitle')}`,
+    );
+
+    const customListButton: HTMLElement = Builder.createBlock(
+      ['lists__button'],
+      'button',
+      '+',
+    );
+    ListColumn.addListButtonHandler(customListButton);
+
+    customListBlock.append(customListTitle, customListButton);
+
+    return customListBlock;
+  }
+
   private static addChangeListHandler(listsBlock: HTMLElement): void {
     listsBlock.addEventListener('click', (e) => {
       if (e.target instanceof HTMLElement) {
@@ -77,6 +107,48 @@ class ListColumn {
           Router.setRoute(listItem.href);
           TaskColumn.fillTaskList();
         }
+      }
+    });
+  }
+
+  private static addListButtonHandler(button: HTMLElement): void {
+    button.addEventListener('click', () => {
+      ListColumn.addListModal.showModal();
+    });
+  }
+
+  private static createAddListModal(): HTMLDialogElement {
+    const modal: HTMLDialogElement = document.createElement('dialog');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+      <button class="modal__button modal__button--close">✕</button>
+      <div class="modal__inner">
+        <h3 class="modal__title">${i18next.t('mainScreen.lists.addList')}</h3>
+        <input class="modal__input" type="text" placeholder="${i18next.t(
+          'mainScreen.lists.addListPlaceholder',
+        )}">
+        <button class="modal__button modal__button--save">${i18next.t(
+          'mainScreen.lists.save',
+        )}</button>
+      </div>
+    `;
+
+    ListColumn.addModalListener(modal);
+
+    return modal;
+  }
+
+  private static addModalListener(modal: HTMLDialogElement) {
+    modal.addEventListener('click', (e: MouseEvent) => {
+      if (e.target instanceof HTMLButtonElement) {
+        if (e.target.classList.contains('modal__button--save')) {
+          const modalInput = ListColumn.addListModal.querySelector(
+            '.modal__input',
+          ) as HTMLInputElement;
+          if (modalInput.value !== '') console.log(modalInput.value);
+        }
+
+        ListColumn.addListModal.close();
       }
     });
   }

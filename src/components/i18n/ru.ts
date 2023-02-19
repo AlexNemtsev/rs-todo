@@ -10,6 +10,10 @@ const ru = {
         nextDays: 'Следующие 7 дней',
         completed: 'Выполнено',
         trash: 'Корзина',
+        listsTitle: 'Списки',
+        addList: 'Добавить список',
+        addListPlaceholder: 'Название списка',
+        save: 'Сохранить',
       },
       tasks: {
         inputPlaceholder: `Добавьте задачу, нажмите ${

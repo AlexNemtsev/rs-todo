@@ -16,12 +16,12 @@ class TaskColumn {
   public static addtask = new CustomEvent('addtask');
 
   private static dateInput: HTMLInputElement = Builder.createInput(
-    ['tasks__date-input'],
+    ['date-input'],
     'date',
   );
 
   private static dateInputModal: HTMLInputElement = Builder.createInput(
-    ['modal__date-input'],
+    ['date-input'],
     'date',
   );
 

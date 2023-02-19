@@ -10,6 +10,10 @@ const en = {
         nextDays: 'Next 7 Days',
         completed: 'Completed',
         trash: 'Trash',
+        listsTitle: 'Lists',
+        addList: 'Add List',
+        addListPlaceholder: 'List title',
+        save: 'Save',
       },
       tasks: {
         inputPlaceholder: `Add task, press ${
