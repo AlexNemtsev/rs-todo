@@ -4,11 +4,14 @@ import Utils from '../../../utils/utils';
 import Builder from '../builder/builder';
 import TaskColumn from './taskColumn';
 import Router from '../../logic/router';
+import Loader from '../../logic/loader';
 
 class ListColumn {
   static listItems: HTMLElement[] = [];
 
   static listName: string;
+
+  static customListBlock: HTMLElement;
 
   static addListModal: HTMLDialogElement;
 
@@ -25,12 +28,12 @@ class ListColumn {
       ['completed', 'trash'],
     );
 
-    const customListBlock = ListColumn.createCustomListBlock();
+    ListColumn.createCustomListBlock();
     ListColumn.addListModal = ListColumn.createAddListModal();
 
     listsBlock.append(
       periodList,
-      customListBlock,
+      ListColumn.customListBlock,
       bottomList,
       ListColumn.addListModal,
     );
@@ -40,6 +43,7 @@ class ListColumn {
   private static createList(
     listClasses: string[],
     itemNames: string[],
+    isCustom = false,
   ): HTMLElement {
     const list: HTMLElement = Builder.createBlock(listClasses, 'ul');
 
@@ -56,12 +60,15 @@ class ListColumn {
           el.classList.add('list__item--active');
         }
 
+        const pathName: string = isCustom ? 'custom' : item;
+        const elName: string = isCustom
+          ? item
+          : i18next.t(`mainScreen.lists.${item}`);
+
         el.innerHTML = `
-          <img class="list__icon" src="./assets/img/list-${item}.svg" alt="${i18next.t(
-          `mainScreen.lists.${item}`,
-        )}">
-          ${i18next.t(`mainScreen.lists.${item}`)}
-        `;
+            <img class="list__icon" src="./assets/img/list-${pathName}.svg" alt="${elName}">
+            ${elName}
+          `;
 
         ListColumn.listItems.push(el);
         return el;
@@ -72,7 +79,7 @@ class ListColumn {
     return list;
   }
 
-  private static createCustomListBlock(): HTMLElement {
+  private static createCustomListBlock(): void {
     const customListBlock: HTMLElement = Builder.createBlock(['lists__custom']);
     const customListTitle: HTMLElement = Builder.createBlock(
       ['lists__title'],
@@ -89,7 +96,31 @@ class ListColumn {
 
     customListBlock.append(customListTitle, customListButton);
 
-    return customListBlock;
+    ListColumn.customListBlock = customListBlock;
+    ListColumn.renderCustomLists();
+  }
+
+  private static renderCustomLists(): void {
+    Loader.getLists()
+      .then((data) => {
+        const customListNames: string[] = data.map((item) => item.name);
+        const customLists: HTMLElement = ListColumn.createList(
+          ['list'],
+          customListNames,
+          true,
+        );
+        if (ListColumn.customListBlock.children.length > 2) {
+          ListColumn.customListBlock.replaceChild(
+            customLists,
+            ListColumn.customListBlock.childNodes[2],
+          );
+        } else {
+          ListColumn.customListBlock.append(customLists);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   private static addChangeListHandler(listsBlock: HTMLElement): void {
@@ -138,14 +169,23 @@ class ListColumn {
     return modal;
   }
 
-  private static addModalListener(modal: HTMLDialogElement) {
+  private static addModalListener(modal: HTMLDialogElement): void {
     modal.addEventListener('click', (e: MouseEvent) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.classList.contains('modal__button--save')) {
           const modalInput = ListColumn.addListModal.querySelector(
             '.modal__input',
           ) as HTMLInputElement;
-          if (modalInput.value !== '') console.log(modalInput.value);
+          if (modalInput.value !== '') {
+            console.log(modalInput.value);
+            Loader.createTaskList({ name: modalInput.value })
+              .then(() => {
+                ListColumn.renderCustomLists();
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          }
         }
 
         ListColumn.addListModal.close();

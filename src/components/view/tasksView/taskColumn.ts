@@ -35,10 +35,13 @@ class TaskColumn {
     if (nameList) TaskColumn.nameList = nameList;
     TaskColumn.tasksBlock = block;
     TaskColumn.tasksBlock.innerHTML = '';
+    let listTitle = i18next.t(`mainScreen.lists.${TaskColumn.nameList}`);
+    if (listTitle.includes('mainScreen')) listTitle = decodeURIComponent(TaskColumn.nameList);
+
     const title: HTMLElement = Builder.createBlock(
       ['tasks__title'],
       'h2',
-      `${i18next.t(`mainScreen.lists.${TaskColumn.nameList}`)}`,
+      listTitle,
     );
 
     TaskColumn.menu = new ContextMenu();
@@ -121,26 +124,25 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
-        if(el.value)
-        Loader.addTask({
-          task: el.value,
-          list: el.value,
-          createdAt: Number(new Date()),
-          removed: false,
-          dueTo:
-            TaskColumn.dateInputModal.value
+        if (el.value)
+          Loader.addTask({
+            task: el.value,
+            list: el.value,
+            createdAt: Number(new Date()),
+            removed: false,
+            dueTo: TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
               : Number(new Date(TaskColumn.dateInput.value)) || 0,
-        })
-          .then(() => {
-            el.value = '';
-            TaskColumn.dateInput.value = '';
-            TaskColumn.dateInputModal.value = '';
-            TaskColumn.fillTaskList();
           })
-          .catch((error) => {
-            console.error('Error:', error);
-          })
+            .then(() => {
+              el.value = '';
+              TaskColumn.dateInput.value = '';
+              TaskColumn.dateInputModal.value = '';
+              TaskColumn.fillTaskList();
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
       });
     });
   }
