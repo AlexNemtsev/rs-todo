@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import SettingsView from '../view/settings/settings';
 import TasksView from '../view/tasksView/tasksView';
+import TimerView from '../view/timer/timerView';
 
 class Router {
   static setRoute(path: string): void {
@@ -19,6 +20,9 @@ class Router {
         break;
       case 'tasks':
         TasksView.draw(segments[2]);
+        break;
+      case 'timer':
+        TimerView.drawTimer();
         break;
       default:
         TasksView.draw();

@@ -1,0 +1,111 @@
+.timer__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 30px;
+}
+
+.timer {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  &__progress {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background-color: rgb(11, 11, 11, 0.1);
+    top: 10px;
+    right: 0;
+    bottom: 0;
+    left: 10px;
+  }
+
+  &__time {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: white;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+}
+
+.timer__circle {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  &-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: rgb(var(--main-color));
+    border-radius: 50%;
+    div {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+    }
+  }
+}
+
+.start-stop__button,
+.reset__button {
+  font-size: 28px;
+  background-color: rgb(var(--main-color));
+  color: white;
+  width: 180px;
+  height: 40px;
+}
+
+.timer-add_window {
+  width: 200px;
+  height: fit-content;
+  bottom: 80px;
+  padding: 5px;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+
+  background-color: white;
+  border: 1px solid black;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    input {
+      width: 50%;
+      height: 30px;
+    }
+    button {
+      width: 100px;
+      height: 30px;
+    }
+  }
+}
+.timer-add_window.active {
+  display: flex;
+}
