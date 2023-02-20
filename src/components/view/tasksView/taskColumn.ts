@@ -81,7 +81,7 @@ class TaskColumn {
       .querySelector('.modal__icons')
       ?.prepend(TaskColumn.dateInputModal);
     modalWindow.querySelector('.modal__buttons')?.append(buttonModal);
-    document.querySelector('body')?.append(modalWrapper);
+    document.querySelector('main')?.append(modalWrapper); 
     TaskColumn.addInputListener(input, inputModal, buttonModal, modalWrapper);
     inputWrapper.append(input, TaskColumn.dateInput, modalWindow);
     return inputWrapper;

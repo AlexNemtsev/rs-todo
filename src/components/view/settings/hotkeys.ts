@@ -11,13 +11,19 @@ class Hotkeys {
       ) {
         return;
       }
-
+      if (e.key.toLowerCase() === 'escape') {
+        document.querySelector('.modal__wrapper')?.classList.remove('active');
+        document.querySelector('.modal__window')?.classList.remove('active');
+      }
+      if (e.target instanceof HTMLInputElement) {
+        return;
+      }
       const { hotkeys } = SettingsView.settings;
       keys.add(e.key.toLowerCase());
       Object.values(hotkeys).forEach((el: Array<string[]>, i) => {
         el.forEach((arr) => {
           if (JSON.stringify(Array.from(keys)) === JSON.stringify(arr)) {
-            if (!(e.target instanceof HTMLInputElement)) e.preventDefault();
+            e.preventDefault();
             this.applyHotkey(el, i);
           }
         });
