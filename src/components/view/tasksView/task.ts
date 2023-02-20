@@ -23,7 +23,7 @@ class TaskView {
     const taskBlock: HTMLElement = Builder.createBlock(['task']);
     const list: string = window.location.pathname.split('/')[2];
     taskBlock.dataset.id = id.toString();
-    taskBlock.dataset.href = `tasks/${list}/${id}`;
+    taskBlock.dataset.href = `tasks/${list ?? 'all'}/${id}`;
     taskBlock.innerHTML = `
       <div class="task__main">
         <input class="task__input visually-hidden" type="checkbox" id="${id}" ${

@@ -21,7 +21,9 @@ class Router {
         break;
       case 'tasks':
         TasksView.draw(segments[2]);
-        if (segments[3]) showDescription(Number(segments[3]));
+        if (segments[3]) {
+          showDescription(Number(segments[3])).catch((err) => console.log(err));
+        }
         break;
       case 'timer':
         TimerView.drawTimer();
