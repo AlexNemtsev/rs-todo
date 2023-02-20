@@ -1,3 +1,3 @@
-type TaskStatus = 'done' | "won't do";
+type TaskStatus = 'done' | "won't do" | 'undone';
 
 export default TaskStatus;

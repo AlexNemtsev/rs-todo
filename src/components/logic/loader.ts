@@ -1,5 +1,6 @@
 import Task from '../../interfaces/task';
 import TaskList from '../../interfaces/task-List';
+import Utils from '../../utils/utils';
 
 type TaskWOid = Omit<Task, 'id'>;
 type TaskListWOid = Omit<TaskList, 'id'>;
@@ -151,6 +152,36 @@ class Loader {
     list: 'tasks' | 'lists',
   ): Promise<Response> {
     return fetch(`${Loader.url}/${list}/${id}`, { method: 'DELETE' });
+  }
+
+  public static async getListTasks(listName: string): Promise<Task[]> {
+    let tasks: Task[] = [];
+
+    switch (listName) {
+      case 'all':
+        tasks = await Loader.getAllTasks();
+        break;
+      case 'today':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 0));
+        break;
+      case 'tomorrow':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(1, 1));
+        break;
+      case 'nextDays':
+        tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 7));
+        break;
+      case 'completed':
+        tasks = await Loader.getCompletedTask();
+        break;
+      case 'trash':
+        tasks = await Loader.getRemovedTasks();
+        break;
+      default:
+        tasks = await Loader.getAllTasks();
+        break;
+    }
+
+    return tasks;
   }
 }
 
