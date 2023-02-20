@@ -1,6 +1,8 @@
+/* eslint-disable import/no-cycle */
 import extractMarkdown from '../extract-markdown';
 import Loader from '../loader';
 import MdParser from '../md-parser';
+import Router from '../router';
 
 const replaceInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -15,7 +17,9 @@ const replaceInput = (event: Event) => {
 
   const taskId = Number(closestPre.dataset.id as string);
 
-  Loader.updateTask(taskId, { desc: mdText }).catch((err) => console.log(err));
+  Loader.updateTask(taskId, { desc: mdText })
+    .then(() => Router.handleLocation())
+    .catch((err) => console.log(err));
 };
 
 export default replaceInput;
