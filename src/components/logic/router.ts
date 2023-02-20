@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import SettingsView from '../view/settings/settings';
+import showDescription from '../view/tasksView/show-description';
 import TasksView from '../view/tasksView/tasksView';
 
 class Router {
@@ -19,6 +20,7 @@ class Router {
         break;
       case 'tasks':
         TasksView.draw(segments[2]);
+        if (segments[3]) showDescription(Number(segments[3]));
         break;
       default:
         TasksView.draw();

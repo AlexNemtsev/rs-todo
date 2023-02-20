@@ -1,19 +1,15 @@
-import wrapWithPre from '../wrap-with-pre';
-import onDetailsClick from './on-details-click';
-import MdParser from '../md-parser';
+/* eslint-disable import/no-cycle */
+import Router from '../router';
+import showDescription from '../../view/tasksView/show-description';
 
-const onTaskClickHandler = (desc: string | undefined, id: number): void => {
-  const details = document.querySelector('.details') as HTMLDivElement;
+const onTaskClickHandler = (event: Event, id: number): void => {
+  const target = (event.target as HTMLElement).closest(
+    '.task',
+  ) as HTMLDivElement;
 
-  details.addEventListener('click', onDetailsClick);
+  Router.setRoute(target.dataset.href ?? '');
 
-  const mdLines = (desc ?? '').split('\n');
-
-  const parsedLines = mdLines.map((line) => MdParser.insertDataMd(line));
-
-  const wrappedLines = parsedLines.map((line) => wrapWithPre(line, id));
-
-  details.innerHTML = wrappedLines.join('\n');
+  showDescription(id).catch((err) => console.log(err));
 };
 
 export default onTaskClickHandler;

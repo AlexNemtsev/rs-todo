@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import Builder from '../builder/builder';
 import Task from '../../../interfaces/task';
 import TaskStatus from '../../../interfaces/status';
@@ -20,11 +21,13 @@ class TaskView {
       status?: TaskStatus;
     } = item;
     const taskBlock: HTMLElement = Builder.createBlock(['task']);
+    const list: string = window.location.pathname.split('/')[2];
     taskBlock.dataset.id = id.toString();
+    taskBlock.dataset.href = `tasks/${list}/${id}`;
     taskBlock.innerHTML = `
       <div class="task__main">
         <input class="task__input visually-hidden" type="checkbox" id="${id}" ${
-      status === "done" ? "checked" : ""
+      status === 'done' ? 'checked' : ''
     }>
         <label class="task__label" for="${id}">${task}</label>
         <span class="task__due-to">${Utils.convertDate(dueTo)}</span>
@@ -40,7 +43,9 @@ class TaskView {
       taskBlock.append(descBlock);
     }
 
-    taskBlock.addEventListener('click', () => onTaskClickHandler(desc, id));
+    taskBlock.addEventListener('click', (event) =>
+      onTaskClickHandler(event, id),
+    );
 
     return taskBlock;
   }
