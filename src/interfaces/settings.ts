@@ -3,6 +3,7 @@ type SettingTemplate = {
   Appearance: string;
   Preference: string;
   Hotkeys: string;
+  Modal:string;
 };
 
 export default SettingTemplate;

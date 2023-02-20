@@ -11,10 +11,6 @@ class Router {
   static handleLocation(): void {
     const path: string = window.location.pathname;
 
-    if (path === '/') {
-      TasksView.draw();
-    }
-
     const segments: string[] = path.split('/');
 
     switch (segments[1]) {
@@ -22,7 +18,7 @@ class Router {
         SettingsView.drawSettings(segments[2]);
         break;
       case 'tasks':
-        TasksView.draw();
+        TasksView.draw(segments[2]);
         break;
       default:
         TasksView.draw();
