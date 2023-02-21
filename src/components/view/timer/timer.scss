@@ -5,27 +5,23 @@
   justify-content: center;
   height: 100vh;
   gap: 30px;
+  
 }
-
+ 
 .timer {
   position: relative;
   width: 400px;
   height: 400px;
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   &__progress {
-    position: absolute;
+    position: relative;
     width: 380px;
     height: 380px;
     border-radius: 50%;
     background-color: rgb(11, 11, 11, 0.1);
-    top: 10px;
-    right: 0;
-    bottom: 0;
-    left: 10px;
+    
   }
 
   &__time {
@@ -34,6 +30,7 @@
     align-items: center;
     justify-content: center;
     margin: 0;
+    gap:10px;
     width: 360px;
     height: 360px;
     border-radius: 50%;
@@ -46,13 +43,21 @@
 
 .timer__circle {
   display: flex;
+  position: relative;
   width: 32px;
   height: 32px;
   background: white;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
+  
+
+ canvas{
+  visibility: visible;
+ }
+
   &-inner {
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,6 +76,7 @@
 
 .start-stop__button,
 .reset__button {
+  display: none;
   font-size: 28px;
   background-color: rgb(var(--main-color));
   color: white;
@@ -108,4 +114,19 @@
 }
 .timer-add_window.active {
   display: flex;
+}
+
+.time__button{
+  display: none;
+  border: none;
+  background: white;
+  color: rgb(var(--main-color));
+  font-size: 24px;
+}
+.time__button.active{
+  display: block;
+}
+
+.start-stop__button.active,.reset__button.active{
+  display: block;
 }
