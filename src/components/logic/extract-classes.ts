@@ -1,8 +1,8 @@
 const extractClasses = (tag: string): string => {
-  const indOfmd = tag.indexOf('md__');
+  const indOfclass = tag.indexOf('class') + 7;
   const indOfgt = tag.indexOf('>');
 
-  return tag.substring(indOfmd, indOfgt - 1);
+  return tag.substring(indOfclass, indOfgt - 1);
 };
 
 export default extractClasses;

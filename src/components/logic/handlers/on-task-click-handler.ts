@@ -1,4 +1,4 @@
-/* eslint-disable import/no-cycle */
+// eslint-disable-next-line import/no-cycle
 import Router from '../router';
 import showDescription from '../../view/tasksView/show-description';
 

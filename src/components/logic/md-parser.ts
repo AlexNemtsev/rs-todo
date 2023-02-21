@@ -6,18 +6,31 @@ class MdParser {
   private static emptyP = '<p id=""></p>';
 
   public static parseWithClasses(md: string): string {
-    return MdParser.insertAttributes(
-      marked.parse(md) || MdParser.emptyP,
-    ).trim();
+    return MdParser.insertAttributesIntoHTML(
+      marked.parse(md).trim() || MdParser.emptyP,
+    );
   }
 
   public static insertDataMd(md: string): string {
-    const tagLine = MdParser.parseWithClasses(md);
-    const indOfrg = tagLine.indexOf('>');
+    const mdLines = md.split('\n');
 
-    return `${tagLine.substring(0, indOfrg)} data-md="${md}"${tagLine.substring(
-      indOfrg,
-    )}`;
+    const tagLines = MdParser.parseWithClasses(md);
+
+    const linesWithData = tagLines.split('\n').map((tagLine, idx) => {
+      const indOfrg = tagLine.indexOf('>');
+
+      return `${tagLine.substring(0, indOfrg)} data-md="${
+        mdLines[idx]
+      }"${tagLine.substring(indOfrg)}`;
+    });
+
+    return linesWithData.join('\n');
+  }
+
+  private static insertAttributesIntoHTML(html: string): string {
+    const tagLines = html.split('\n');
+
+    return tagLines.map((line) => MdParser.insertAttributes(line)).join('\n');
   }
 
   private static insertAttributes(tagLine: string): string {
@@ -29,9 +42,12 @@ class MdParser {
       ? `data-before="${i18next.t('css.emptyBefore')}"`
       : '';
 
-    return `${tagLine.substring(0, indOfrt)} class="md md__style ${
-      stylesMap[tag]
-    }${emptyTag ? ' empty' : ''}"${dataBefore}${tagLine.substring(indOfrt)}`;
+    return `${tagLine.substring(
+      0,
+      indOfrt,
+    )} contenteditable class="md md__style ${stylesMap[tag]}${
+      emptyTag ? ' empty' : ''
+    }"${dataBefore}${tagLine.substring(indOfrt)}`;
   }
 }
 

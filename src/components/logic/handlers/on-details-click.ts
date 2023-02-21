@@ -1,25 +1,36 @@
-import replaceInput from './replace-input';
+// eslint-disable-next-line import/no-cycle
+import Router from '../router';
 import onInputHandler from './on-input-handler';
 import MdParser from '../md-parser';
+import Loader from '../loader';
+import extractMarkdown from '../extract-markdown';
 
 const onDetailsClick = (event: Event): void => {
+  const details = document.querySelector('.details') as HTMLDivElement;
+
   const target = (event.target as HTMLElement).closest('pre');
 
   const toEditElement = target?.querySelector('.md') as HTMLElement;
   const text = toEditElement?.dataset.md;
 
-  const input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.value = text ?? '';
-  input.autofocus = true;
-  input.className = toEditElement?.className;
-  input.classList.remove('md');
-  input.dataset.tag = MdParser.parseWithClasses(text ?? '');
+  if (toEditElement) {
+    details.removeEventListener('click', onDetailsClick);
+    toEditElement.textContent = text ?? '';
 
-  input.addEventListener('blur', replaceInput);
-  input.addEventListener('input', onInputHandler);
+    toEditElement.addEventListener('input', onInputHandler);
+    toEditElement.addEventListener('blur', () => {
+      const taskId = Number(target?.dataset.id as string);
+      const newContent = MdParser.insertDataMd(toEditElement.textContent ?? '');
 
-  if (toEditElement) target?.replaceChildren(input);
+      const mdText = extractMarkdown(details);
+
+      if (target) target.innerHTML = newContent;
+
+      Loader.updateTask(taskId, { desc: mdText })
+        .then(() => Router.handleLocation())
+        .catch((err) => console.log(err));
+    });
+  }
 };
 
 export default onDetailsClick;
