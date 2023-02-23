@@ -16,6 +16,8 @@ class ListColumn {
 
   static addListModal: HTMLDialogElement;
 
+  static modalInput: HTMLInputElement;
+
   public static draw(listsBlock: HTMLElement, listName?: string): void {
     ListColumn.listItems = [];
     if (listName) ListColumn.listName = listName;
@@ -151,6 +153,7 @@ class ListColumn {
   private static addListButtonHandler(button: HTMLElement): void {
     button.addEventListener('click', () => {
       ListColumn.addListModal.showModal();
+      ListColumn.modalInput.focus();
     });
   }
 
@@ -170,6 +173,10 @@ class ListColumn {
       </div>
     `;
 
+    ListColumn.modalInput = modal.querySelector(
+      '.modal__input',
+    ) as HTMLInputElement;
+
     ListColumn.addModalListener(modal);
 
     return modal;
@@ -179,12 +186,8 @@ class ListColumn {
     modal.addEventListener('click', (e: MouseEvent) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.classList.contains('modal__button--save')) {
-          const modalInput = ListColumn.addListModal.querySelector(
-            '.modal__input',
-          ) as HTMLInputElement;
-          if (modalInput.value !== '') {
-            console.log(modalInput.value);
-            Loader.createTaskList({ name: modalInput.value })
+          if (ListColumn.modalInput.value !== '') {
+            Loader.createTaskList({ name: ListColumn.modalInput.value })
               .then(() => {
                 ListColumn.renderCustomLists();
                 TaskColumn.menu.draw();

@@ -8,6 +8,7 @@ import Observable from '../../logic/observable';
 import templateBuilder from '../settings/templates';
 import TaskStatus from '../../../interfaces/status';
 import TaskList from '../../../interfaces/task-List';
+import Task from '../../../interfaces/task';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -90,9 +91,8 @@ class TaskColumn {
   }
 
   public static fillTaskList(): void {
-    Loader.getListTasks(TaskColumn.listName)
+    TaskColumn.getListTasks(TaskColumn.listName)
       .then((taskData) => {
-        console.log(taskData)
         const tasks: HTMLElement[] = taskData.map((item) =>
           TaskView.fillTask(item),
         );
@@ -191,6 +191,42 @@ class TaskColumn {
         }
       });
     });
+  }
+
+  private static async getListTasks(listName: string): Promise<Task[]> {
+    let tasks: Task[] = [];
+    
+    if (listName.includes('custom')) {
+      const id = Number(listName.split('-')[1]);
+      const taskList: TaskList = await Loader.getList(id);
+      tasks = await Loader.getTasksFromList(taskList.name);
+    } else {
+      switch (listName) {
+        case 'all':
+          tasks = await Loader.getAllTasks();
+          break;
+        case 'today':
+          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 0));
+          break;
+        case 'tomorrow':
+          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(1, 1));
+          break;
+        case 'nextDays':
+          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 7));
+          break;
+        case 'completed':
+          tasks = await Loader.getCompletedTask();
+          break;
+        case 'trash':
+          tasks = await Loader.getRemovedTasks();
+          break;
+        default:
+          tasks = await Loader.getAllTasks();
+          break;
+      }
+    }
+
+    return tasks;
   }
 }
 
