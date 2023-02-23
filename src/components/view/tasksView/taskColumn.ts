@@ -7,6 +7,7 @@ import Utils from '../../../utils/utils';
 import Observable from '../../logic/observable';
 import templateBuilder from '../settings/templates';
 import TaskStatus from '../../../interfaces/status';
+import TaskList from '../../../interfaces/task-List';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -29,27 +30,25 @@ class TaskColumn {
 
   private static menuBlock: HTMLElement;
 
-  private static nameList = 'all';
+  private static title: HTMLElement = Builder.createBlock(
+    ['tasks__title'],
+    'h2',
+  );
 
-  public static draw(block: HTMLElement, nameList?: string): void {
-    if (nameList) TaskColumn.nameList = nameList;
+  private static listName = 'all';
+
+  public static draw(block: HTMLElement, listName?: string): void {
     TaskColumn.tasksBlock = block;
     TaskColumn.tasksBlock.innerHTML = '';
-    let listTitle = i18next.t(`mainScreen.lists.${TaskColumn.nameList}`);
-    if (listTitle.includes('mainScreen')) listTitle = decodeURIComponent(TaskColumn.nameList);
-
-    const title: HTMLElement = Builder.createBlock(
-      ['tasks__title'],
-      'h2',
-      listTitle,
-    );
+    if (listName) TaskColumn.listName = listName;
+    TaskColumn.fillTitle(TaskColumn.listName);
 
     TaskColumn.menu = new ContextMenu();
     TaskColumn.menuBlock = this.menu.draw();
 
     TaskColumn.fillTaskList();
     TaskColumn.tasksBlock.append(
-      title,
+      TaskColumn.title,
       TaskColumn.createInputs(),
       TaskColumn.taskList,
       TaskColumn.menuBlock,
@@ -91,7 +90,7 @@ class TaskColumn {
   }
 
   public static fillTaskList(): void {
-    Loader.getListTasks(TaskColumn.nameList)
+    Loader.getListTasks(TaskColumn.listName)
       .then((taskData) => {
         const tasks: HTMLElement[] = taskData.map((item) =>
           TaskView.fillTask(item),
@@ -103,6 +102,21 @@ class TaskColumn {
       .catch((error) => {
         console.error('Error:', error);
       });
+  }
+
+  private static fillTitle(listName: string) {
+    if (listName.includes('custom')) {
+      const id = Number(listName.split('-')[1]);
+      Loader.getList(id)
+        .then((data: TaskList) => {
+          TaskColumn.title.textContent = data.name;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    } else {
+      TaskColumn.title.textContent = i18next.t(`mainScreen.lists.${listName}`);
+    }
   }
 
   private static addInputListener(

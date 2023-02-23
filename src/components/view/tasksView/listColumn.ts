@@ -5,6 +5,7 @@ import Builder from '../builder/builder';
 import TaskColumn from './taskColumn';
 import Router from '../../logic/router';
 import Loader from '../../logic/loader';
+import TaskList from '../../../interfaces/task-List';
 
 class ListColumn {
   static listItems: HTMLElement[] = [];
@@ -44,17 +45,19 @@ class ListColumn {
     listClasses: string[],
     itemNames: string[],
     isCustom = false,
+    itemIDs?: number[],
   ): HTMLElement {
     const list: HTMLElement = Builder.createBlock(listClasses, 'ul');
 
     const items: HTMLElement[] = itemNames.map(
-      (item: string): HTMLElement => {
+      (item: string, index: number): HTMLElement => {
+        const href = isCustom && itemIDs ? `custom-${itemIDs[index]}` : item;
         const el: HTMLElement = Builder.createLink(
           ['list__item'],
-          `/tasks/${item}`,
+          `/tasks/${href}`,
         );
         if (ListColumn.listName) {
-          if (item === ListColumn.listName)
+          if (href === ListColumn.listName)
             el.classList.add('list__item--active');
         } else if (item === 'all') {
           el.classList.add('list__item--active');
@@ -102,12 +105,15 @@ class ListColumn {
 
   private static renderCustomLists(): void {
     Loader.getLists()
-      .then((data) => {
-        const customListNames: string[] = data.map((item) => item.name);
+      .then((data: TaskList[]) => {
+        const customListNames = data.map((item) => item.name);
+        const customListIDs = data.map((item) => item.id);
+
         const customLists: HTMLElement = ListColumn.createList(
           ['list'],
           customListNames,
           true,
+          customListIDs,
         );
         if (ListColumn.customListBlock.children.length > 2) {
           ListColumn.customListBlock.replaceChild(

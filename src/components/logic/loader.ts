@@ -118,7 +118,8 @@ class Loader {
       method: 'GET',
     });
 
-    return (await response.json()) as TaskList;
+    const [res] = (await response.json()) as [TaskList];
+    return res;
   }
 
   public static createTaskList(taskList: TaskListWOid): Promise<Response> {
