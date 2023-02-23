@@ -92,6 +92,7 @@ class TaskColumn {
   public static fillTaskList(): void {
     Loader.getListTasks(TaskColumn.listName)
       .then((taskData) => {
+        console.log(taskData)
         const tasks: HTMLElement[] = taskData.map((item) =>
           TaskView.fillTask(item),
         );

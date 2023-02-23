@@ -3,19 +3,24 @@ import Builder from '../builder/builder';
 import Loader from '../../logic/loader';
 import Observable from '../../logic/observable';
 import Utils from '../../../utils/utils';
+import TaskList from '../../../interfaces/task-List';
 
 class ContextMenu {
   menu: HTMLElement;
 
   customDateInput: HTMLElement;
 
+  submenu: HTMLElement;
+
   constructor() {
     this.menu = Builder.createBlock(['context-menu'], 'ul');
     this.customDateInput = Builder.createBlock(['dates__item'], 'li');
+    this.submenu = Builder.createBlock(['context-menu__submenu'], 'ul');
   }
 
   public draw(): HTMLElement {
-    this.menu.append(this.createDatesMenu(), ...ContextMenu.createTextItems());
+    this.menu.innerHTML = '';
+    this.menu.append(this.createDatesMenu(), ...this.createTextItems());
     this.addListener();
 
     return this.menu;
@@ -63,8 +68,8 @@ class ContextMenu {
     return dateBlock;
   }
 
-  private static createTextItems(): HTMLElement[] {
-    const actions: string[] = ['duplicate', 'delete'];
+  private createTextItems(): HTMLElement[] {
+    const actions: string[] = ['duplicate', 'delete', 'move'];
     const items: HTMLElement[] = actions.map(
       (action: string): HTMLElement => {
         const item: HTMLElement = Builder.createBlock(
@@ -73,6 +78,12 @@ class ContextMenu {
           `${i18next.t(`mainScreen.tasks.${action}`)}`,
         );
         item.dataset.action = action;
+
+        if (action === 'move') {
+          this.createListSubmenu();
+          item.classList.add('context-menu__item--select');
+          item.append(this.submenu);
+        }
 
         return item;
       },
@@ -140,6 +151,45 @@ class ContextMenu {
         );
 
         Loader.updateTask(taskId, { dueTo: +endDate })
+          .then(() => {
+            Observable.notify();
+            this.hide();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    });
+  }
+
+  private createListSubmenu() {
+    this.submenu.innerHTML = '';
+    Loader.getLists()
+      .then((data: TaskList[]) => {
+        data.forEach((item) => {
+          const listItem = Builder.createBlock(
+            ['context-menu__item'],
+            'li',
+            item.name,
+          );
+          this.submenu.append(listItem);
+        });
+        this.addListSubmenuListener();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  private addListSubmenuListener() {
+    this.submenu.addEventListener('click', (e) => {
+      if (e.target instanceof HTMLLIElement) {
+        const listName = e.target.textContent as string;
+        const taskId = Number(
+          Utils.findByClass(e.target, 'context-menu')?.dataset.id,
+        );
+
+        Loader.updateTask(taskId, { list: listName })
           .then(() => {
             Observable.notify();
             this.hide();

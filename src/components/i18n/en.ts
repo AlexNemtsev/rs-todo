@@ -29,6 +29,7 @@ const en = {
         custom: 'Custom',
         duplicate: 'Duplicate',
         delete: 'Delete',
+        move: 'Move to',
       },
     },
     settings: {

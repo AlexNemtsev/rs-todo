@@ -187,6 +187,7 @@ class ListColumn {
             Loader.createTaskList({ name: modalInput.value })
               .then(() => {
                 ListColumn.renderCustomLists();
+                TaskColumn.menu.draw();
               })
               .catch((error) => {
                 console.error('Error:', error);

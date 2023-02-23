@@ -29,6 +29,7 @@ const ru = {
         custom: 'Произвольная дата',
         duplicate: 'Дублировать',
         delete: 'Удалить',
+        move: 'Переместить в',
       },
     },
     settings: {
