@@ -9,11 +9,14 @@ const showDescription = async (id: number): Promise<void> => {
 
   const { desc } = await Loader.getTask(id);
 
-  const parsed = MdParser.insertDataMd(desc ?? '');
-  const wrappedLines = wrapWithPre(parsed, id);
+  // const parsed = MdParser.insertDataMd(desc ?? '');
+  // const wrappedLines = wrapWithPre(parsed, id);
 
-  details.innerHTML = wrappedLines;
-  details.addEventListener('click', onDetailsClick);
+  // details.innerHTML = wrappedLines;
+  // details.addEventListener('click', onDetailsClick);
+  const parsed = MdParser.parseMd(desc ?? '');
+  details.innerHTML = parsed;
+  MdParser.setAttributes(details);
 };
 
 export default showDescription;

@@ -5,6 +5,29 @@ import stylesMap from './styles-map';
 class MdParser {
   private static emptyP = '<p id=""></p>';
 
+  public static parseMd(md: string): string {
+    return md ? marked.parse(md).trim() : MdParser.emptyP;
+  }
+
+  public static setAttributes(details: HTMLDivElement): void {
+    const { children } = details;
+
+    for (let i = 0; i < children.length; i += 1) {
+      const child = children[i] as HTMLElement;
+      if (!child.textContent) {
+        child.dataset.before = `${i18next.t('css.emptyBefore')}`;
+        child.classList.add('empty');
+      }
+
+      child.contentEditable = 'true';
+      child.classList.add(
+        'md',
+        'md__style',
+        `${stylesMap[child.tagName.toLowerCase()]}`,
+      );
+    }
+  }
+
   public static parseWithClasses(md: string): string {
     return MdParser.insertAttributesIntoHTML(
       marked.parse(md).trim() || MdParser.emptyP,

@@ -4,6 +4,7 @@ import onInputHandler from './on-input-handler';
 import MdParser from '../md-parser';
 import Loader from '../loader';
 import extractMarkdown from '../extract-markdown';
+import showDescription from '../../view/tasksView/show-description';
 
 const onDetailsClick = (event: Event): void => {
   const details = document.querySelector('.details') as HTMLDivElement;
@@ -27,7 +28,8 @@ const onDetailsClick = (event: Event): void => {
       if (target) target.innerHTML = newContent;
 
       Loader.updateTask(taskId, { desc: mdText })
-        .then(() => Router.handleLocation())
+        // .then(() => Router.handleLocation())
+        .then(() => details.addEventListener('click', onDetailsClick))
         .catch((err) => console.log(err));
     });
   }

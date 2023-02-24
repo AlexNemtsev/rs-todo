@@ -174,14 +174,6 @@
   color: brown;
 }
 
-.md-input {
-  outline: none;
-  border: none;
-  width: 100%;
-  height: 100%;
-  font-family: Verdana, Arial, sans-serif;
-}
-
 .md__style {
   font-weight: 500;
   margin: 10px;
@@ -196,6 +188,10 @@ pre {
 
 .md__header1 {
   font-size: 32px;
+
+  &::before {
+    content: 'h1';
+  }
 }
 
 .md__header2 {
