@@ -1,28 +1,29 @@
+import ITimerArguments from '../../../interfaces/timer';
 import './timer.scss';
- 
 
 class TimerView {
   private static main: HTMLElement | null = document.querySelector('main');
 
-  private static canvas2: HTMLCanvasElement
+  private static timer: HTMLElement | null;
 
-  private static context2: CanvasRenderingContext2D | null
+  private static canvas: HTMLCanvasElement;
 
-  private static duration = 300000;
+  private static canvas2: HTMLCanvasElement;
 
-  private static halfPI = Math.PI / 2;
+  private static context: CanvasRenderingContext2D | null;
 
-  private static startTime = 0;
+  private static context2: CanvasRenderingContext2D | null;
 
-  private static radius = 0;
-
-  private static radius2 = 16;
-
-  private static status = false;
-
-  private static animnumber = 0;
-
-  private static now = () => performance.now();
+  private static timerProps: ITimerArguments = {
+    radius: 0,
+    radius2: 16,
+    duration: 300000,
+    halfPI: Math.PI / 2,
+    startTime: 0,
+    status: false,
+    animnumber: 0,
+    now: () => performance.now(),
+  };
 
   public static drawTimer() {
     if (this.main)
@@ -44,37 +45,39 @@ class TimerView {
        <button class="reset__button">Reset</button> 
     </div>`;
 
-    const timer: Element | null = document.querySelector('.timer');
+    this.timer = document.querySelector('.timer');
 
-    const canvas: HTMLCanvasElement = document.createElement('canvas');
+    this.canvas = document.createElement('canvas');
 
-    const context: CanvasRenderingContext2D | null = canvas.getContext('2d');
+    this.context = this.canvas.getContext('2d');
 
-    this.init(timer, canvas, context);
-    
+    this.init(this.timer, this.canvas, this.context);
   }
 
-  public static drawIcontimer(){
-     const timerSmall= document.querySelector(".timer__circle")
-     this.canvas2 = document.createElement('canvas');
-    this.context2  = this.canvas2.getContext('2d');
+  public static drawIcontimer() {
+    const timerSmall = document.querySelector('.timer__circle');
+    this.canvas2 = document.createElement('canvas');
+    this.context2 = this.canvas2.getContext('2d');
 
-    if(timerSmall){
+    if (timerSmall) {
       const progressBox = timerSmall.getBoundingClientRect();
-      [this.canvas2.width, this.canvas2.height] = [progressBox.width, progressBox.height];
+      [this.canvas2.width, this.canvas2.height] = [
+        progressBox.width,
+        progressBox.height,
+      ];
 
-    this.draw(0, this.context2, this.canvas2,this.radius2);
+      this.draw(0, this.context2, this.canvas2, this.timerProps.radius2);
 
-    timerSmall.append(this.canvas2);}
+      timerSmall.append(this.canvas2);
+    }
   }
 
   private static draw(
     progress: number,
     context: CanvasRenderingContext2D | null,
     canvas: HTMLCanvasElement,
-    radius:number,
+    radius: number,
   ) {
-    
     if (context) {
       const x = canvas.width / 2;
       const y = canvas.height / 2;
@@ -85,8 +88,8 @@ class TimerView {
         x,
         y,
         radius,
-        -this.halfPI,
-        -this.halfPI + 2 * Math.PI * progress,
+        -this.timerProps.halfPI,
+        -this.timerProps.halfPI + 2 * Math.PI * progress,
       );
       context.closePath();
       context.fillStyle = 'rgb(71, 114, 250)';
@@ -99,25 +102,29 @@ class TimerView {
     context: CanvasRenderingContext2D | null,
     time?: Element | null,
   ) {
-    
-    const delta = this.now() - this.startTime;
-    if(delta>=this.duration){
-      const bing = new Audio('../../../assets/sound/timer-end.mp3').play().catch(error=>console.log(error))
-      cancelAnimationFrame(this.animnumber)
+    const delta = this.timerProps.now() - this.timerProps.startTime;
+    if (delta >= this.timerProps.duration) {
+      document
+        .querySelector('.start-stop__button')
+        ?.dispatchEvent(new Event('click'));
+      cancelAnimationFrame(this.timerProps.animnumber);
     }
-    
-    const percent = Math.max(0, Math.min(1, delta / this.duration));
+
+    const percent = Math.max(0, Math.min(1, delta / this.timerProps.duration));
 
     const seconds = Math.round(
-      (this.duration - (delta / this.duration) * this.duration) / 1000,
+      (this.timerProps.duration -
+        (delta / this.timerProps.duration) * this.timerProps.duration) /
+        1000,
     );
-    
-   if(window.location.pathname.split('/')[1]!=='timer'&&this.canvas2)
-   this.canvas2.style.visibility ='visible'
-   else
-   {this.canvas2.style.visibility ='hidden'}
 
-    if (time&&percent!==1)
+    if (window.location.pathname.split('/')[1] !== 'timer' && this.canvas2)
+      this.canvas2.style.visibility = 'visible';
+    else if (this.canvas2) {
+      this.canvas2.style.visibility = 'hidden';
+    }
+
+    if (time && percent !== 1)
       time.innerHTML = `${
         Math.floor(seconds / 60).toString().length === 1
           ? `0${Math.floor(seconds / 60)}`
@@ -126,19 +133,23 @@ class TimerView {
         (seconds % 60).toString().length === 1
           ? `0${seconds % 60}`
           : seconds % 60
-      }`
-      else if(time) {
-        time.innerHTML= '00:00'
-      }
-    TimerView.draw(percent, context, canvas,this.radius);
-    TimerView.draw(percent, this.context2, this.canvas2,this.radius2);
-    if (delta < this.duration) {
-      
-      this.animnumber = requestAnimationFrame(() => {
+      }`;
+    else {
+      if (time) time.innerHTML = '00:00';
+      this.timerProps.status = false;
+    }
+    TimerView.draw(percent, context, canvas, this.timerProps.radius);
+    TimerView.draw(
+      percent,
+      this.context2,
+      this.canvas2,
+      this.timerProps.radius2,
+    );
+    if (delta < this.timerProps.duration) {
+      this.timerProps.animnumber = requestAnimationFrame(() => {
         TimerView.update(canvas, context, time);
       });
     }
-  
   }
 
   private static start(
@@ -146,13 +157,21 @@ class TimerView {
     context: CanvasRenderingContext2D | null,
     time: Element | null,
   ) {
-    this.startTime = this.now() - this.startTime;
-    if (this.status === false) {
-      this.animnumber = requestAnimationFrame(() => {
+    this.timerProps.startTime =
+      this.timerProps.now() - this.timerProps.startTime;
+
+    if (this.timerProps.status === false) {
+      this.timerProps.bing = setTimeout(() => {
+        new Audio('../../../assets/sound/timer-end.mp3')
+          .play()
+          .catch((error) => console.log(error));
+      }, this.timerProps.duration - (this.timerProps.now() - this.timerProps.startTime));
+      this.timerProps.animnumber = requestAnimationFrame(() => {
         TimerView.update(canvas, context, time);
       });
     } else {
-      cancelAnimationFrame(this.animnumber);
+      cancelAnimationFrame(this.timerProps.animnumber);
+      clearTimeout(this.timerProps.bing);
     }
   }
 
@@ -164,18 +183,17 @@ class TimerView {
     if (!timer) {
       return;
     }
-      const progress = timer.querySelector('.timer__progress');
-      if (progress) {
-        const progressBox = progress.getBoundingClientRect();
+    const progress = timer.querySelector('.timer__progress');
+    if (progress) {
+      const progressBox = progress.getBoundingClientRect();
 
-        [canvas.width, canvas.height] = [progressBox.width, progressBox.height];
-        this.radius = Math.min(canvas.width, canvas.height) / 2;
+      [canvas.width, canvas.height] = [progressBox.width, progressBox.height];
+      this.timerProps.radius = Math.min(canvas.width, canvas.height) / 2;
 
-        this.draw(0, context, canvas,this.radius);
+      this.draw(0, context, canvas, this.timerProps.radius);
 
-        progress.append(canvas);
-      }
-    
+      progress.append(canvas);
+    }
 
     const time: Element | null = document.querySelector('.timer__time-count');
     const startButton: HTMLElement | null = document.querySelector(
@@ -189,18 +207,40 @@ class TimerView {
     );
     const timerOk: HTMLElement | null = document.querySelector('.timer__ok');
 
-    const addtime: HTMLElement | null = document.querySelector('.time__button.add');
-    const deducttime: HTMLElement | null = document.querySelector('.time__button.deduct');
+    const addtime: HTMLElement | null = document.querySelector(
+      '.time__button.add',
+    );
+    const deducttime: HTMLElement | null = document.querySelector(
+      '.time__button.deduct',
+    );
 
-     addtime?.addEventListener('click',()=>{
-      if(this.duration<10800000)this.duration +=300000
-     })
-     deducttime?.addEventListener('click',()=>{
-      if(this.duration>300000)this.duration -=300000
-     })
+    addtime?.addEventListener('click', () => {
+      if (this.timerProps.duration < 10800000)
+        this.timerProps.duration += 300000;
+      clearTimeout(this.timerProps.bing);
+      this.timerProps.bing = setTimeout(() => {
+        new Audio('../../../assets/sound/timer-end.mp3')
+          .play()
+          .catch((error) => console.log(error));
+      }, this.timerProps.duration - (this.timerProps.now() - this.timerProps.startTime));
+      cancelAnimationFrame(this.timerProps.animnumber);
+      this.update(canvas, context, time);
+    });
+    deducttime?.addEventListener('click', () => {
+      if (this.timerProps.duration > 300000) this.timerProps.duration -= 300000;
+      clearTimeout(this.timerProps.bing);
+      this.timerProps.bing = setTimeout(() => {
+        new Audio('../../../assets/sound/timer-end.mp3')
+          .play()
+          .catch((error) => console.log(error));
+      }, this.timerProps.duration - (this.timerProps.now() - this.timerProps.startTime));
+      cancelAnimationFrame(this.timerProps.animnumber);
+      this.update(canvas, context, time);
+    });
     time?.addEventListener('click', () => {
-      if (timerInput) timerInput.value = (this.duration / 60000).toString();
-      if (this.status === false)
+      if (timerInput)
+        timerInput.value = (this.timerProps.duration / 60000).toString();
+      if (this.timerProps.status === false)
         document.querySelector('.timer-add_window')?.classList.toggle('active');
     });
 
@@ -215,7 +255,7 @@ class TimerView {
             ? `0${Math.floor(Number(timerInput.value))}`
             : Math.floor(Number(timerInput.value))
         }:${time.innerHTML.split(':')[1]}`;
-        this.duration = 60 * 1000 * Number(timerInput.value);
+        this.timerProps.duration = 60 * 1000 * Number(timerInput.value);
         timerInput.value = '';
       }
 
@@ -225,45 +265,68 @@ class TimerView {
     startButton?.addEventListener('click', () => {
       this.start(canvas, context, time);
       if (startButton)
-        startButton.innerHTML = this.status === true ? 'Start' : 'Pause';
-        
-        addtime?.classList.toggle('active')
-        deducttime?.classList.toggle('active')
-      this.status = this.status === false;
-      if(this.status===true)
-      document.querySelector('.reset__button')?.classList.remove('active')
-      else
-      document.querySelector('.reset__button')?.classList.add('active')
+        startButton.innerHTML =
+          this.timerProps.status === true ? 'Start' : 'Pause';
+
+      addtime?.classList.toggle('active');
+      deducttime?.classList.toggle('active');
+      this.timerProps.status = this.timerProps.status === false;
+      if (this.timerProps.status === true)
+        document.querySelector('.reset__button')?.classList.remove('active');
+      else document.querySelector('.reset__button')?.classList.add('active');
     });
 
     document.querySelector('.reset__button')?.addEventListener('click', () => {
-      if(this.status===true)
-      startButton?.classList.toggle('active')
-      
-      this.status = true;
-      this.startTime = this.now();
-      cancelAnimationFrame(this.animnumber);
-      this.draw(0, context, canvas,this.radius);
+      if (this.timerProps.status === true) {
+        startButton?.classList.toggle('active');
+      } else {
+        addtime?.classList.toggle('active');
+        deducttime?.classList.toggle('active');
+      }
+
+      this.timerProps.status = true;
+      this.timerProps.startTime = this.timerProps.now();
+      cancelAnimationFrame(this.timerProps.animnumber);
+      this.draw(0, context, canvas, this.timerProps.radius);
       if (time) {
         time.innerHTML = `${
-          (this.duration / 60000).toString().length === 1
-            ? `0${this.duration / 60000}`
-            : Math.floor(this.duration / 60000)
+          (this.timerProps.duration / 60000).toString().length === 1
+            ? `0${this.timerProps.duration / 60000}`
+            : Math.floor(this.timerProps.duration / 60000)
         }:00`;
       }
-       
+
       document
         .querySelector('.start-stop__button')
         ?.dispatchEvent(new Event('click'));
+      document.querySelector('.reset__button')?.classList.remove('active');
     });
-    document.querySelector('.reset__button')?.classList.remove('active')
-    if(this.status===true){
-      this.update(canvas,context,time)}
-     
-       
+
+    if (this.timerProps.status === true) {
+      cancelAnimationFrame(this.timerProps.animnumber);
+      this.update(canvas, context, time);
+      addtime?.classList.add('active');
+      deducttime?.classList.add('active');
+      if (startButton) startButton.innerHTML = 'Pause';
+    } else {
+      this.draw(
+        Math.max(
+          0,
+          Math.min(1, this.timerProps.startTime / this.timerProps.duration),
+        ),
+        context,
+        canvas,
+        this.timerProps.radius,
+      );
+      if (
+        time &&
+        this.timerProps.duration -
+          (this.timerProps.now() - this.timerProps.startTime) <=
+          0
+      )
+        time.innerHTML = '00:00';
+    }
   }
-
-
 }
 
 export default TimerView;

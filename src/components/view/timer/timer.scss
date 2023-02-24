@@ -76,7 +76,7 @@
 
 .start-stop__button,
 .reset__button {
-  display: none;
+  visibility: hidden;
   font-size: 28px;
   background-color: rgb(var(--main-color));
   color: white;
@@ -117,16 +117,17 @@
 }
 
 .time__button{
-  display: none;
+  visibility: hidden;
   border: none;
   background: white;
   color: rgb(var(--main-color));
   font-size: 24px;
 }
 .time__button.active{
-  display: block;
+  visibility: visible;
 }
 
-.start-stop__button.active,.reset__button.active{
-  display: block;
+.start-stop__button.active,
+.reset__button.active{
+  visibility: visible;
 }
