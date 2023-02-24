@@ -7,6 +7,7 @@ import Router from '../../logic/router';
 import Loader from '../../logic/loader';
 import TaskList from '../../../interfaces/task-List';
 import ContextMenu from './contextMenu';
+import ListModal from './listModal';
 
 class ListColumn {
   static listItems: HTMLElement[] = [];
@@ -14,10 +15,6 @@ class ListColumn {
   static listName: string;
 
   static customListBlock: HTMLElement;
-
-  static addListModal: HTMLDialogElement;
-
-  static modalInput: HTMLInputElement;
 
   public static menu: ContextMenu;
 
@@ -37,7 +34,6 @@ class ListColumn {
     );
 
     ListColumn.createCustomListBlock();
-    ListColumn.addListModal = ListColumn.createAddListModal();
 
     ListColumn.menu = new ContextMenu('list');
     ListColumn.menuBlock = ListColumn.menu.draw();
@@ -46,7 +42,7 @@ class ListColumn {
       periodList,
       ListColumn.customListBlock,
       bottomList,
-      ListColumn.addListModal,
+      ListModal.createListModal(),
       ListColumn.menuBlock,
     );
     ListColumn.addChangeListHandler(listsBlock);
@@ -114,7 +110,7 @@ class ListColumn {
     ListColumn.renderCustomLists();
   }
 
-  private static renderCustomLists(): void {
+  public static renderCustomLists(): void {
     Loader.getLists()
       .then((data: TaskList[]) => {
         const customListNames = data.map((item) => item.name);
@@ -160,78 +156,7 @@ class ListColumn {
   }
 
   private static addListButtonHandler(button: HTMLElement): void {
-    button.addEventListener('click', ListColumn.showCustomListModal);
-  }
-
-  public static showCustomListModal() {
-    ListColumn.addListModal.showModal();
-    ListColumn.modalInput.focus();
-  }
-
-  private static createAddListModal(): HTMLDialogElement {
-    const modal: HTMLDialogElement = document.createElement('dialog');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-      <button class="modal__button modal__button--close">✕</button>
-      <div class="modal__inner">
-        <h3 class="modal__title">${i18next.t('mainScreen.lists.addList')}</h3>
-        <input class="modal__input" type="text" placeholder="${i18next.t(
-          'mainScreen.lists.addListPlaceholder',
-        )}">
-        <button class="modal__button modal__button--save">${i18next.t(
-          'mainScreen.lists.save',
-        )}</button>
-      </div>
-    `;
-
-    ListColumn.modalInput = modal.querySelector(
-      '.modal__input',
-    ) as HTMLInputElement;
-
-    ListColumn.addModalListener(modal);
-
-    return modal;
-  }
-
-  private static addModalListener(modal: HTMLDialogElement): void {
-    modal.addEventListener('click', (e: MouseEvent) => {
-      if (e.target instanceof HTMLButtonElement) {
-        if (e.target.classList.contains('modal__button--save')) {
-          ListColumn.createOrEditCustomList()
-            .then(() => {})
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-        }
-        ListColumn.addListModal.close();
-      }
-    });
-  }
-
-  private static async createOrEditCustomList() {
-    if (ListColumn.modalInput.value !== '') {
-      if (ListColumn.modalInput.dataset.type === 'edit') {
-        await Loader.updateTaskList(Number(ListColumn.modalInput.dataset.id), {
-          name: ListColumn.modalInput.value,
-        });
-      } else {
-        await Loader.createTaskList({ name: ListColumn.modalInput.value });
-      }
-      ListColumn.renderCustomLists();
-      TaskColumn.menu.draw();
-    }
-  }
-
-  public static showEditCustomListModal(list: TaskList) {
-    const title: HTMLElement | null = ListColumn.addListModal.querySelector(
-      '.modal__title',
-    );
-    if (title) title.textContent = i18next.t('mainScreen.lists.editList');
-    ListColumn.modalInput.value = list.name;
-    ListColumn.modalInput.dataset.type = 'edit';
-    ListColumn.modalInput.dataset.id = list.id.toString();
-
-    ListColumn.showCustomListModal();
+    button.addEventListener('click', ListModal.showAddModal);
   }
 }
 

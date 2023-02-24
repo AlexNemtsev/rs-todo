@@ -6,7 +6,7 @@ import Observable from '../../logic/observable';
 import Utils from '../../../utils/utils';
 import TaskList from '../../../interfaces/task-List';
 import Router from '../../logic/router';
-import ListColumn from './listColumn';
+import ListModal from './listModal';
 
 class ContextMenu {
   type: 'task' | 'list';
@@ -115,73 +115,65 @@ class ContextMenu {
         const itemId = Number(
           Utils.findByClass(e.target, 'context-menu')?.dataset.id,
         );
+        const action = String(e.target.dataset.action);
 
         if (type === 'task') {
-          switch (e.target.dataset.action) {
-            case 'duplicate':
-              Loader.duplicateTask(itemId)
-                .then(() => Observable.notify())
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            case 'delete':
-              Loader.updateTask(itemId, { removed: true })
-                .then(() => Observable.notify())
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            case 'today':
-              Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(0) })
-                .then(() => Observable.notify())
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            case 'tomorrow':
-              Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(1) })
-                .then(() => Observable.notify())
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            case 'week':
-              Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(7) })
-                .then(() => Observable.notify())
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            default:
-              break;
-          }
+          ContextMenu.handleTaskActions(action, itemId)
+            .then(() => Observable.notify())
+            .catch((error) => {
+              console.error('Error:', error);
+            });
         } else {
-          switch (e.target.dataset.action) {
-            case 'edit':
-              Loader.getList(itemId)
-                .then((list: TaskList) => {
-                  ListColumn.showEditCustomListModal(list);
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            case 'delete':
-              Loader.deleteTaskList(itemId)
-                .then(() => {
-                  Router.setRoute('/tasks/all');
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-              break;
-            default:
-              break;
-          }
+          ContextMenu.handleListActions(action, itemId)
+            .then(() => Observable.notify())
+            .catch((error) => {
+              console.error('Error:', error);
+            });
         }
       }
     });
+  }
+
+  private static async handleTaskActions(action: string, itemId: number) {
+    switch (action) {
+      case 'duplicate':
+        await Loader.duplicateTask(itemId);
+        break;
+      case 'delete':
+        await Loader.updateTask(itemId, { removed: true });
+        break;
+      case 'today':
+        await Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(0) });
+        break;
+      case 'tomorrow':
+        await Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(1) });
+        break;
+      case 'week':
+        await Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(7) });
+        break;
+      default:
+        break;
+    }
+  }
+
+  private static async handleListActions(action: string, itemId: number) {
+    switch (action) {
+      case 'edit':
+        Loader.getList(itemId)
+          .then((list: TaskList) => {
+            ListModal.showEditModal(list);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        break;
+      case 'delete':
+        await Loader.deleteTaskList(itemId);
+        Router.setRoute('/tasks/all');
+        break;
+      default:
+        break;
+    }
   }
 
   private addCustomDateListener(): void {
