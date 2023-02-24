@@ -30,6 +30,7 @@ const en = {
         duplicate: 'Duplicate',
         delete: 'Delete',
         move: 'Move to',
+        edit: 'Edit',
       },
     },
     settings: {

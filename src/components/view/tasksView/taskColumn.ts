@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import i18next from 'i18next';
 import Builder from '../builder/builder';
 import TaskView from './task';
@@ -44,7 +45,7 @@ class TaskColumn {
     if (listName) TaskColumn.listName = listName;
     TaskColumn.fillTitle(TaskColumn.listName);
 
-    TaskColumn.menu = new ContextMenu();
+    TaskColumn.menu = new ContextMenu('task');
     TaskColumn.menuBlock = this.menu.draw();
 
     TaskColumn.fillTaskList();
@@ -55,7 +56,6 @@ class TaskColumn {
       TaskColumn.menuBlock,
     );
 
-    TaskColumn.addTaskListListener();
     Observable.subscribe(TaskColumn.fillTaskList);
   }
 
@@ -159,19 +159,6 @@ class TaskColumn {
               console.error('Error:', error);
             });
       });
-    });
-  }
-
-  private static addTaskListListener(): void {
-    TaskColumn.taskList.addEventListener('contextmenu', (e: MouseEvent) => {
-      e.preventDefault();
-      if (e.target instanceof HTMLElement) {
-        const task: HTMLElement | null = Utils.findByClass(e.target, 'task');
-        TaskColumn.menuBlock.dataset.id = task?.dataset.id;
-        TaskColumn.menuBlock.style.top = `${e.clientY}px`;
-        TaskColumn.menuBlock.style.left = `${e.clientX}px`;
-        TaskColumn.menu.show();
-      }
     });
   }
 

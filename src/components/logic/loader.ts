@@ -133,7 +133,8 @@ class Loader {
     return Loader.alterObject(taskList, 'lists', Mode.update, listId);
   }
 
-  public static async deleteTaskList(taskList: TaskList): Promise<Response> {
+  public static async deleteTaskList(id: number): Promise<Response> {
+    const taskList: TaskList = await Loader.getList(id);
     const tasksToBeRemoved: Task[] = await Loader.getTasksFromList(
       taskList.name,
     );

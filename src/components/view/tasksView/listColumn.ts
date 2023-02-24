@@ -6,6 +6,7 @@ import TaskColumn from './taskColumn';
 import Router from '../../logic/router';
 import Loader from '../../logic/loader';
 import TaskList from '../../../interfaces/task-List';
+import ContextMenu from './contextMenu';
 
 class ListColumn {
   static listItems: HTMLElement[] = [];
@@ -17,6 +18,10 @@ class ListColumn {
   static addListModal: HTMLDialogElement;
 
   static modalInput: HTMLInputElement;
+
+  public static menu: ContextMenu;
+
+  private static menuBlock: HTMLElement;
 
   public static draw(listsBlock: HTMLElement, listName?: string): void {
     ListColumn.listItems = [];
@@ -34,11 +39,15 @@ class ListColumn {
     ListColumn.createCustomListBlock();
     ListColumn.addListModal = ListColumn.createAddListModal();
 
+    ListColumn.menu = new ContextMenu('list');
+    ListColumn.menuBlock = ListColumn.menu.draw();
+
     listsBlock.append(
       periodList,
       ListColumn.customListBlock,
       bottomList,
       ListColumn.addListModal,
+      ListColumn.menuBlock,
     );
     ListColumn.addChangeListHandler(listsBlock);
   }
@@ -54,8 +63,9 @@ class ListColumn {
     const items: HTMLElement[] = itemNames.map(
       (item: string, index: number): HTMLElement => {
         const href = isCustom && itemIDs ? `custom-${itemIDs[index]}` : item;
+        const classes = isCustom ? ['list__item', 'list__item--custom'] : ['list__item']
         const el: HTMLElement = Builder.createLink(
-          ['list__item'],
+          classes,
           `/tasks/${href}`,
         );
         if (ListColumn.listName) {

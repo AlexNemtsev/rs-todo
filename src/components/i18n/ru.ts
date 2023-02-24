@@ -30,6 +30,7 @@ const ru = {
         duplicate: 'Дублировать',
         delete: 'Удалить',
         move: 'Переместить в',
+        edit: 'Редактировать',
       },
     },
     settings: {
