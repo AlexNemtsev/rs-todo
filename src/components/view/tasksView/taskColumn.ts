@@ -182,7 +182,7 @@ class TaskColumn {
 
   private static async getListTasks(listName: string): Promise<Task[]> {
     let tasks: Task[] = [];
-    
+
     if (listName.includes('custom')) {
       const id = Number(listName.split('-')[1]);
       tasks = await Loader.getTasksFromList(id);
@@ -192,13 +192,19 @@ class TaskColumn {
           tasks = await Loader.getAllTasks();
           break;
         case 'today':
-          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 0));
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(0, 0),
+          );
           break;
         case 'tomorrow':
-          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(1, 1));
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(1, 1),
+          );
           break;
         case 'nextDays':
-          tasks = await Loader.getTasksInInterval(...Utils.getIntevalInMs(0, 7));
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(0, 7),
+          );
           break;
         case 'completed':
           tasks = await Loader.getCompletedTask();

@@ -63,11 +63,10 @@ class ListColumn {
     const items: HTMLElement[] = itemNames.map(
       (item: string, index: number): HTMLElement => {
         const href = isCustom && itemIDs ? `custom-${itemIDs[index]}` : item;
-        const classes = isCustom ? ['list__item', 'list__item--custom'] : ['list__item']
-        const el: HTMLElement = Builder.createLink(
-          classes,
-          `/tasks/${href}`,
-        );
+        const classes = isCustom
+          ? ['list__item', 'list__item--custom']
+          : ['list__item'];
+        const el: HTMLElement = Builder.createLink(classes, `/tasks/${href}`);
         if (ListColumn.listName) {
           if (href === ListColumn.listName)
             el.classList.add('list__item--active');
@@ -161,10 +160,12 @@ class ListColumn {
   }
 
   private static addListButtonHandler(button: HTMLElement): void {
-    button.addEventListener('click', () => {
-      ListColumn.addListModal.showModal();
-      ListColumn.modalInput.focus();
-    });
+    button.addEventListener('click', ListColumn.showCustomListModal);
+  }
+
+  public static showCustomListModal() {
+    ListColumn.addListModal.showModal();
+    ListColumn.modalInput.focus();
   }
 
   private static createAddListModal(): HTMLDialogElement {
@@ -196,21 +197,41 @@ class ListColumn {
     modal.addEventListener('click', (e: MouseEvent) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.classList.contains('modal__button--save')) {
-          if (ListColumn.modalInput.value !== '') {
-            Loader.createTaskList({ name: ListColumn.modalInput.value })
-              .then(() => {
-                ListColumn.renderCustomLists();
-                TaskColumn.menu.draw();
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-              });
-          }
+          ListColumn.createOrEditCustomList()
+            .then(() => {})
+            .catch((error) => {
+              console.error('Error:', error);
+            });
         }
-
         ListColumn.addListModal.close();
       }
     });
+  }
+
+  private static async createOrEditCustomList() {
+    if (ListColumn.modalInput.value !== '') {
+      if (ListColumn.modalInput.dataset.type === 'edit') {
+        await Loader.updateTaskList(Number(ListColumn.modalInput.dataset.id), {
+          name: ListColumn.modalInput.value,
+        });
+      } else {
+        await Loader.createTaskList({ name: ListColumn.modalInput.value });
+      }
+      ListColumn.renderCustomLists();
+      TaskColumn.menu.draw();
+    }
+  }
+
+  public static showEditCustomListModal(list: TaskList) {
+    const title: HTMLElement | null = ListColumn.addListModal.querySelector(
+      '.modal__title',
+    );
+    if (title) title.textContent = i18next.t('mainScreen.lists.editList');
+    ListColumn.modalInput.value = list.name;
+    ListColumn.modalInput.dataset.type = 'edit';
+    ListColumn.modalInput.dataset.id = list.id.toString();
+
+    ListColumn.showCustomListModal();
   }
 }
 

@@ -12,6 +12,7 @@ const en = {
         trash: 'Trash',
         listsTitle: 'Lists',
         addList: 'Add List',
+        editList: 'Edit List',
         addListPlaceholder: 'List title',
         save: 'Save',
       },

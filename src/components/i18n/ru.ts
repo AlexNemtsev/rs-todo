@@ -12,6 +12,7 @@ const ru = {
         trash: 'Корзина',
         listsTitle: 'Списки',
         addList: 'Добавить список',
+        editList: 'Редактировать список',
         addListPlaceholder: 'Название списка',
         save: 'Сохранить',
       },

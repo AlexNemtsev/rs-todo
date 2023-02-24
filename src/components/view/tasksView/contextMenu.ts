@@ -6,6 +6,7 @@ import Observable from '../../logic/observable';
 import Utils from '../../../utils/utils';
 import TaskList from '../../../interfaces/task-List';
 import Router from '../../logic/router';
+import ListColumn from './listColumn';
 
 class ContextMenu {
   type: 'task' | 'list';
@@ -158,7 +159,13 @@ class ContextMenu {
         } else {
           switch (e.target.dataset.action) {
             case 'edit':
-              console.log('edit');
+              Loader.getList(itemId)
+                .then((list: TaskList) => {
+                  ListColumn.showEditCustomListModal(list);
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
               break;
             case 'delete':
               Loader.deleteTaskList(itemId)
@@ -207,6 +214,7 @@ class ContextMenu {
             'li',
             item.name,
           );
+          listItem.dataset.id = item.id.toString();
           this.submenu.append(listItem);
         });
         this.addListSubmenuListener();
@@ -219,12 +227,12 @@ class ContextMenu {
   private addListSubmenuListener() {
     this.submenu.addEventListener('click', (e) => {
       if (e.target instanceof HTMLLIElement) {
-        const listName = e.target.textContent as string;
+        const listID = Number(e.target.dataset.id);
         const taskId = Number(
           Utils.findByClass(e.target, 'context-menu')?.dataset.id,
         );
 
-        Loader.updateTask(taskId, { list: listName })
+        Loader.updateTask(taskId, { listId: listID })
           .then(() => {
             Observable.notify();
             this.hide();
