@@ -32,7 +32,7 @@ class Loader {
   }
 
   public static async getTask(taskId: number): Promise<Task> {
-    const response: Response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
+    const response: Response = await fetch(`${Loader.url}/tasks/${taskId}`, {
       method: 'GET',
     });
     const res = (await response.json()) as Task;
