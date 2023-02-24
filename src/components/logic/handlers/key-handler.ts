@@ -38,6 +38,23 @@ class KeyHandler {
     }
   }
 
+  private static onArrowKey(event: Event, key: 'ArrowDown' | 'ArrowUp'): void {
+    event.preventDefault();
+    const target = event.target as HTMLElement;
+    const sibling: Element | null =
+      key === 'ArrowDown'
+        ? target.nextElementSibling
+        : target.previousElementSibling;
+
+    if (sibling) {
+      const caretPos: number = Caret.getCaretPosition(target);
+      const siblingText: string = sibling.textContent ?? '';
+      if (caretPos <= siblingText.length)
+        Caret.setCaretPosition(sibling, caretPos);
+      else Caret.setCaretPosition(sibling, siblingText.length);
+    }
+  }
+
   public static onKeyDownHandler(event: KeyboardEvent): void {
     const keyCode: string = event.code;
 
@@ -48,6 +65,14 @@ class KeyHandler {
 
       case 'Backspace':
         KeyHandler.onBackSpace(event);
+        break;
+
+      case 'ArrowDown':
+        KeyHandler.onArrowKey(event, keyCode);
+        break;
+
+      case 'ArrowUp':
+        KeyHandler.onArrowKey(event, keyCode);
         break;
 
       default:
