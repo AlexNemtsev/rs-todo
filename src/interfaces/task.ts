@@ -4,7 +4,7 @@ import TaskStatus from './status';
 interface Task {
   id: number;
   task: string;
-  list: string;
+  listId: number;
   createdAt: number;
   removed: boolean;
   priority?: Priority;

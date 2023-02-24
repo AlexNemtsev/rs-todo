@@ -121,26 +121,25 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
-        if(el.value)
-        Loader.addTask({
-          task: el.value,
-          list: el.value,
-          createdAt: Number(new Date()),
-          removed: false,
-          dueTo:
-            TaskColumn.dateInputModal.value
+        if (el.value)
+          Loader.addTask({
+            task: el.value,
+            listId: 2,
+            createdAt: Number(new Date()),
+            removed: false,
+            dueTo: TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
               : Number(new Date(TaskColumn.dateInput.value)) || 0,
-        })
-          .then(() => {
-            el.value = '';
-            TaskColumn.dateInput.value = '';
-            TaskColumn.dateInputModal.value = '';
-            TaskColumn.fillTaskList();
           })
-          .catch((error) => {
-            console.error('Error:', error);
-          })
+            .then(() => {
+              el.value = '';
+              TaskColumn.dateInput.value = '';
+              TaskColumn.dateInputModal.value = '';
+              TaskColumn.fillTaskList();
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
       });
     });
   }
