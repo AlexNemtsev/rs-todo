@@ -1,5 +1,5 @@
 import createEmptyP from '../create-empty-p';
-import getCaretPosition from '../get-caret-position';
+import Caret from '../caret';
 import onBlurHandler from './on-blur-handler';
 
 class KeyHandler {
@@ -10,7 +10,7 @@ class KeyHandler {
 
     const text = target.textContent ?? '';
 
-    const caretPos = getCaretPosition(target);
+    const caretPos = Caret.getCaretPosition(target);
     const targetText = text.substring(0, caretPos);
     const pText = text.substring(caretPos);
 
@@ -23,12 +23,31 @@ class KeyHandler {
     p.addEventListener('blur', onBlurHandler);
   }
 
-  static onKeyDownHandler(event: KeyboardEvent): void {
+  private static onBackSpace(event: Event): void {
+    const target = event.target as HTMLElement;
+    const caretPos: number = Caret.getCaretPosition(target);
+    const prevSibling: Element | null = target.previousElementSibling;
+
+    if (!caretPos && prevSibling) {
+      event.preventDefault();
+      const textToMove: string = target.textContent ?? '';
+      const siblingText: string = prevSibling.textContent ?? '';
+      prevSibling.textContent = `${siblingText}${textToMove}`;
+      Caret.setCaretPosition(prevSibling, siblingText.length);
+      target.remove();
+    }
+  }
+
+  public static onKeyDownHandler(event: KeyboardEvent): void {
     const keyCode: string = event.code;
 
     switch (keyCode) {
       case 'Enter':
         KeyHandler.onEnter(event);
+        break;
+
+      case 'Backspace':
+        KeyHandler.onBackSpace(event);
         break;
 
       default:
