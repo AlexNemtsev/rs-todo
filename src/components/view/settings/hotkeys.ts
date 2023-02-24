@@ -5,6 +5,7 @@ class Hotkeys {
   public static addHotkeys() {
     const keys: Set<string> = new Set();
     document.addEventListener('keydown', (e) => {
+      const target = <HTMLElement>e.target;
       if (
         window.location.pathname.split('/')[1] !== 'tasks' &&
         window.location.pathname.split('/')[1] !== ''
@@ -15,16 +16,18 @@ class Hotkeys {
         document.querySelector('.modal__wrapper')?.classList.remove('active');
         document.querySelector('.modal__window')?.classList.remove('active');
       }
-      if (e.target instanceof HTMLInputElement) {
-        return;
-      }
+
       const { hotkeys } = SettingsView.settings;
       keys.add(e.key.toLowerCase());
       Object.values(hotkeys).forEach((el: Array<string[]>, i) => {
         el.forEach((arr) => {
-          if (JSON.stringify(Array.from(keys)) === JSON.stringify(arr)) {
+          if (
+            JSON.stringify(Array.from(keys)) === JSON.stringify(arr) &&
+            !(e.target instanceof HTMLInputElement && i !== 3) &&
+            !target.isContentEditable
+          ) {
             e.preventDefault();
-            this.applyHotkey(el, i);
+            this.applyHotkey(i);
           }
         });
       });
@@ -37,7 +40,7 @@ class Hotkeys {
     });
   }
 
-  private static applyHotkey(el: Array<string[]>, i: number) {
+  private static applyHotkey(i: number) {
     const input: HTMLElement | null = document.querySelector('.modal__input');
     switch (i) {
       case 0:
