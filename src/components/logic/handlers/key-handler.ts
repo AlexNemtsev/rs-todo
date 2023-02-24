@@ -2,8 +2,8 @@ import createEmptyP from '../create-empty-p';
 import getCaretPosition from '../get-caret-position';
 import onBlurHandler from './on-blur-handler';
 
-const onKeyDownHandler = (event: KeyboardEvent): void => {
-  if (event.code === 'Enter') {
+class KeyHandler {
+  private static onEnter(event: Event): void {
     event.preventDefault();
     const p = createEmptyP();
     const target = event.target as HTMLElement;
@@ -19,9 +19,22 @@ const onKeyDownHandler = (event: KeyboardEvent): void => {
 
     target.parentNode?.insertBefore(p, target.nextSibling);
     p.focus();
-    p.addEventListener('keydown', onKeyDownHandler);
+    p.addEventListener('keydown', KeyHandler.onKeyDownHandler);
     p.addEventListener('blur', onBlurHandler);
   }
-};
 
-export default onKeyDownHandler;
+  static onKeyDownHandler(event: KeyboardEvent): void {
+    const keyCode: string = event.code;
+
+    switch (keyCode) {
+      case 'Enter':
+        KeyHandler.onEnter(event);
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
+export default KeyHandler;

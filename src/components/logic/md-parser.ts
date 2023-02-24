@@ -1,8 +1,8 @@
 import { marked } from 'marked';
 import i18next from 'i18next';
 import stylesMap from './styles-map';
-import onKeyDownHandler from './handlers/on-enter-handler';
 import onBlurHandler from './handlers/on-blur-handler';
+import KeyHandler from './handlers/key-handler';
 
 class MdParser {
   private static emptyP = '<p id=""></p>';
@@ -23,7 +23,7 @@ class MdParser {
 
       child.contentEditable = 'true';
       child.classList.add('md', 'md__style', `${stylesMap[child.tagName]}`);
-      child.addEventListener('keydown', onKeyDownHandler);
+      child.addEventListener('keydown', KeyHandler.onKeyDownHandler);
       child.addEventListener('blur', onBlurHandler);
     }
   }
