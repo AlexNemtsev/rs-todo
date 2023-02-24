@@ -142,7 +142,7 @@ class TaskColumn {
         if (el.value)
           Loader.addTask({
             task: el.value,
-            list: el.value,
+            listId: 2,
             createdAt: Number(new Date()),
             removed: false,
             dueTo: TaskColumn.dateInputModal.value
@@ -185,8 +185,7 @@ class TaskColumn {
     
     if (listName.includes('custom')) {
       const id = Number(listName.split('-')[1]);
-      const taskList: TaskList = await Loader.getList(id);
-      tasks = await Loader.getTasksFromList(taskList.name);
+      tasks = await Loader.getTasksFromList(id);
     } else {
       switch (listName) {
         case 'all':
