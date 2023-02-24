@@ -58,8 +58,11 @@ class TasksView {
         }
         if (list instanceof HTMLAnchorElement) {
           e.preventDefault();
-          const id = Number(list.href.split('-')[1]);
-          ListColumn.menu.show(id, e);
+          const path: RegExpMatchArray | null = list.href.match(/custom-\d+/);
+          if (path) {
+            const id = Number(path[0].split('-')[1]);
+            ListColumn.menu.show(id, e);
+          }
         }
       }
     });
