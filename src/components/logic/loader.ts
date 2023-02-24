@@ -5,6 +5,12 @@ import Utils from '../../utils/utils';
 type TaskWOid = Omit<Task, 'id'>;
 type TaskListWOid = Omit<TaskList, 'id'>;
 
+interface ParamsForGetTasks {
+  removed: boolean;
+  completed?: boolean;
+  listId?: number;
+}
+
 const enum Mode {
   create,
   update,
@@ -14,22 +20,22 @@ class Loader {
   private static url = 'http://127.0.0.1:3000';
 
   public static getAllTasks(): Promise<Task[]> {
-    return Loader.getTasks(false);
+    return Loader.getTasks({ removed: false });
   }
 
   public static getCompletedTask(): Promise<Task[]> {
-    return Loader.getTasks(false, true);
+    return Loader.getTasks({ removed: false, completed: true });
   }
 
-  public static getTasksFromList(taskList: string): Promise<Task[]> {
-    return Loader.getTasks(false, false, taskList);
+  public static getTasksFromList(listId: number): Promise<Task[]> {
+    return Loader.getTasks({ removed: false, completed: false, listId });
   }
 
   public static async getTask(taskId: number): Promise<Task> {
     const response: Response = await fetch(`${Loader.url}/tasks?id=${taskId}`, {
       method: 'GET',
     });
-    const [res] = (await response.json()) as [Task];
+    const res = (await response.json()) as Task;
     return res;
   }
 
@@ -48,7 +54,7 @@ class Loader {
   }
 
   public static async getRemovedTasks(): Promise<Task[]> {
-    return Loader.getTasks(true);
+    return Loader.getTasks({ removed: true });
   }
 
   private static alterObject(
@@ -76,13 +82,13 @@ class Loader {
     return Loader.alterObject(task, 'tasks', Mode.update, taskId);
   }
 
-  private static async getTasks(
-    removed: boolean,
-    completed?: boolean,
-    taskList?: string,
-  ): Promise<Task[]> {
+  private static async getTasks({
+    removed,
+    completed,
+    listId,
+  }: ParamsForGetTasks): Promise<Task[]> {
     const completedQuery = completed ? '&status=done' : '';
-    const listQuery = taskList ? `&list=${taskList}` : '';
+    const listQuery = listId ? `&listId=${listId}` : '';
     const response = await fetch(
       `${Loader.url}/tasks?removed=${String(
         removed,
@@ -132,22 +138,20 @@ class Loader {
     return Loader.alterObject(taskList, 'lists', Mode.update, listId);
   }
 
-  public static async deleteTaskList(taskList: TaskList): Promise<Response> {
-    const tasksToBeRemoved: Task[] = await Loader.getTasksFromList(
-      taskList.name,
-    );
+  public static async deleteTaskList(taskId: number): Promise<Response> {
+    const tasksToBeRemoved: Task[] = await Loader.getTasksFromList(taskId);
     await Promise.all(
       tasksToBeRemoved.map((task) => Loader.deleteTask(task.id)),
     );
 
-    return Loader.deleteObject(taskList.id, 'lists');
+    return Loader.deleteObject(taskId, 'lists');
   }
 
   public static deleteTask(id: number): Promise<Response> {
     return Loader.deleteObject(id, 'tasks');
   }
 
-  public static deleteObject(
+  private static deleteObject(
     id: number,
     list: 'tasks' | 'lists',
   ): Promise<Response> {
