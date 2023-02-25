@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import i18next from 'i18next';
 import Builder from '../builder/builder';
 import TaskView from './task';
@@ -7,6 +8,8 @@ import Utils from '../../../utils/utils';
 import Observable from '../../logic/observable';
 import templateBuilder from '../settings/templates';
 import TaskStatus from '../../../interfaces/status';
+import TaskList from '../../../interfaces/task-List';
+import Task from '../../../interfaces/task';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -16,12 +19,12 @@ class TaskColumn {
   public static addtask = new CustomEvent('addtask');
 
   private static dateInput: HTMLInputElement = Builder.createInput(
-    ['tasks__date-input'],
+    ['date-input'],
     'date',
   );
 
   private static dateInputModal: HTMLInputElement = Builder.createInput(
-    ['modal__date-input'],
+    ['date-input'],
     'date',
   );
 
@@ -29,30 +32,30 @@ class TaskColumn {
 
   private static menuBlock: HTMLElement;
 
-  private static nameList = 'all';
+  private static title: HTMLElement = Builder.createBlock(
+    ['tasks__title'],
+    'h2',
+  );
 
-  public static draw(block: HTMLElement, nameList?: string): void {
-    if (nameList) TaskColumn.nameList = nameList;
+  private static listName = 'all';
+
+  public static draw(block: HTMLElement, listName?: string): void {
     TaskColumn.tasksBlock = block;
     TaskColumn.tasksBlock.innerHTML = '';
-    const title: HTMLElement = Builder.createBlock(
-      ['tasks__title'],
-      'h2',
-      `${i18next.t(`mainScreen.lists.${TaskColumn.nameList}`)}`,
-    );
+    if (listName) TaskColumn.listName = listName;
+    TaskColumn.fillTitle(TaskColumn.listName);
 
-    TaskColumn.menu = new ContextMenu();
+    TaskColumn.menu = new ContextMenu('task');
     TaskColumn.menuBlock = this.menu.draw();
 
     TaskColumn.fillTaskList();
     TaskColumn.tasksBlock.append(
-      title,
+      TaskColumn.title,
       TaskColumn.createInputs(),
       TaskColumn.taskList,
       TaskColumn.menuBlock,
     );
 
-    TaskColumn.addTaskListListener();
     Observable.subscribe(TaskColumn.fillTaskList);
   }
 
@@ -88,7 +91,7 @@ class TaskColumn {
   }
 
   public static fillTaskList(): void {
-    Loader.getListTasks(TaskColumn.nameList)
+    TaskColumn.getListTasks(TaskColumn.listName)
       .then((taskData) => {
         const tasks: HTMLElement[] = taskData.map((item) =>
           TaskView.fillTask(item),
@@ -100,6 +103,21 @@ class TaskColumn {
       .catch((error) => {
         console.error('Error:', error);
       });
+  }
+
+  private static fillTitle(listName: string) {
+    if (listName.includes('custom')) {
+      const id = Number(listName.split('-')[1]);
+      Loader.getList(id)
+        .then((data: TaskList) => {
+          TaskColumn.title.textContent = data.name;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    } else {
+      TaskColumn.title.textContent = i18next.t(`mainScreen.lists.${listName}`);
+    }
   }
 
   private static addInputListener(
@@ -144,19 +162,6 @@ class TaskColumn {
     });
   }
 
-  private static addTaskListListener(): void {
-    TaskColumn.taskList.addEventListener('contextmenu', (e: MouseEvent) => {
-      e.preventDefault();
-      if (e.target instanceof HTMLElement) {
-        const task: HTMLElement | null = Utils.findByClass(e.target, 'task');
-        TaskColumn.menuBlock.dataset.id = task?.dataset.id;
-        TaskColumn.menuBlock.style.top = `${e.clientY}px`;
-        TaskColumn.menuBlock.style.left = `${e.clientX}px`;
-        TaskColumn.menu.show();
-      }
-    });
-  }
-
   private static addCheckListener(tasks: HTMLElement[]): void {
     tasks.forEach((task) => {
       task.addEventListener('change', (e: Event) => {
@@ -173,6 +178,47 @@ class TaskColumn {
         }
       });
     });
+  }
+
+  private static async getListTasks(listName: string): Promise<Task[]> {
+    let tasks: Task[] = [];
+
+    if (listName.includes('custom')) {
+      const id = Number(listName.split('-')[1]);
+      tasks = await Loader.getTasksFromList(id);
+    } else {
+      switch (listName) {
+        case 'all':
+          tasks = await Loader.getAllTasks();
+          break;
+        case 'today':
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(0, 0),
+          );
+          break;
+        case 'tomorrow':
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(1, 1),
+          );
+          break;
+        case 'nextDays':
+          tasks = await Loader.getTasksInInterval(
+            ...Utils.getIntevalInMs(0, 7),
+          );
+          break;
+        case 'completed':
+          tasks = await Loader.getCompletedTask();
+          break;
+        case 'trash':
+          tasks = await Loader.getRemovedTasks();
+          break;
+        default:
+          tasks = await Loader.getAllTasks();
+          break;
+      }
+    }
+
+    return tasks;
   }
 }
 
