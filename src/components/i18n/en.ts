@@ -10,6 +10,11 @@ const en = {
         nextDays: 'Next 7 Days',
         completed: 'Completed',
         trash: 'Trash',
+        listsTitle: 'Lists',
+        addList: 'Add List',
+        editList: 'Edit List',
+        addListPlaceholder: 'List title',
+        save: 'Save',
       },
       tasks: {
         inputPlaceholder: `Add task, press ${
@@ -25,6 +30,8 @@ const en = {
         custom: 'Custom',
         duplicate: 'Duplicate',
         delete: 'Delete',
+        move: 'Move to',
+        edit: 'Edit',
       },
     },
     settings: {

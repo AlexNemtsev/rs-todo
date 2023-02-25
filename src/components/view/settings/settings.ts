@@ -4,7 +4,6 @@ import templateBuilder from './templates';
 import './settings.scss';
 import Router from '../../logic/router';
 import ICurrentSetting from '../../../interfaces/currentsetting';
-import HotkeysList from '../../../interfaces/hotkeys';
 
 class SettingsView {
   public static settings = JSON.parse(
@@ -165,7 +164,7 @@ class SettingsView {
         e.stopPropagation();
         el.classList.remove('active');
         if (changekey) changekey.textContent = 'None';
-        this.settings.hotkeys[i as keyof HotkeysList] = [];
+        this.settings.hotkeys[i] = [];
       });
     });
   }
@@ -251,25 +250,23 @@ class SettingsView {
     document.querySelector('.hotkey__bind')?.classList.remove('active');
     const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
     if (keyvalue?.textContent && changekey) {
-      this.settings.hotkeys[i as keyof HotkeysList] =
-        this.settings.hotkeys[i as keyof HotkeysList].length > 1
-          ? this.settings.hotkeys[i as keyof HotkeysList].splice(1)
-          : this.settings.hotkeys[i as keyof HotkeysList];
-      this.settings.hotkeys[i as keyof HotkeysList].push(
-        keyvalue.textContent.split('+'),
-      );
-      this.settings.hotkeys[i as keyof HotkeysList] =
-        JSON.stringify(this.settings.hotkeys[i as keyof HotkeysList][0]) ===
-        JSON.stringify(this.settings.hotkeys[i as keyof HotkeysList][1])
-          ? this.settings.hotkeys[i as keyof HotkeysList].splice(1)
-          : this.settings.hotkeys[i as keyof HotkeysList];
+      this.settings.hotkeys[i] =
+        this.settings.hotkeys[i].length > 1
+          ? this.settings.hotkeys[i].splice(1)
+          : this.settings.hotkeys[i];
+      this.settings.hotkeys[i].push(keyvalue.textContent.split('+'));
+      this.settings.hotkeys[i] =
+        JSON.stringify(this.settings.hotkeys[i][0]) ===
+        JSON.stringify(this.settings.hotkeys[i][1])
+          ? this.settings.hotkeys[i].splice(1)
+          : this.settings.hotkeys[i];
 
       changekey.textContent = `${
-        this.settings.hotkeys[i as keyof HotkeysList].length > 1
-          ? `${this.settings.hotkeys[i as keyof HotkeysList][0].join(
-              '+',
-            )}/${this.settings.hotkeys[i as keyof HotkeysList][1].join('+')}`
-          : this.settings.hotkeys[i as keyof HotkeysList][0].join('+')
+        this.settings.hotkeys[i].length > 1
+          ? `${this.settings.hotkeys[i][0].join('+')}/${this.settings.hotkeys[
+              i
+            ][1].join('+')}`
+          : this.settings.hotkeys[i][0].join('+')
       }`;
     }
   }
