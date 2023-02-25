@@ -1,22 +1,25 @@
-// eslint-disable-next-line import/no-cycle
-import onDetailsClick from '../../logic/handlers/on-details-click';
+import Caret from '../../logic/caret';
 import Loader from '../../logic/loader';
+// eslint-disable-next-line import/no-cycle
 import MdParser from '../../logic/md-parser';
-import wrapWithPre from '../../logic/wrap-with-pre';
 
 const showDescription = async (id: number): Promise<void> => {
   const details = document.querySelector('.details') as HTMLDivElement;
 
   const { desc } = await Loader.getTask(id);
 
-  // const parsed = MdParser.insertDataMd(desc ?? '');
-  // const wrappedLines = wrapWithPre(parsed, id);
-
-  // details.innerHTML = wrappedLines;
-  // details.addEventListener('click', onDetailsClick);
   const parsed = MdParser.parseMd(desc ?? '');
   details.innerHTML = parsed;
   MdParser.setAttributes(details);
+
+  const elementAtCaretId = sessionStorage.getItem('elId');
+  const caretPos = Number(sessionStorage.getItem('caretPos'));
+
+  if (elementAtCaretId) {
+    const element = document.getElementById(elementAtCaretId) as HTMLElement;
+    Caret.setCaretPosition(element, caretPos);
+    sessionStorage.clear();
+  }
 };
 
 export default showDescription;

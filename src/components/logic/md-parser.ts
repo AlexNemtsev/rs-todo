@@ -19,9 +19,10 @@ class MdParser {
       if (!child.textContent) {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
-      }
+      } else if (child.textContent === '\\') child.textContent = '';
 
       child.contentEditable = 'true';
+      child.id = `string-${i}`;
       child.classList.add('md', 'md__style', `${stylesMap[child.tagName]}`);
       child.addEventListener('keydown', KeyHandler.onKeyDownHandler);
       child.addEventListener('blur', onBlurHandler);
