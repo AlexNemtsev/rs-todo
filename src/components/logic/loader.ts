@@ -9,6 +9,7 @@ interface ParamsForGetTasks {
   removed: boolean;
   completed?: boolean;
   listId?: number;
+  priority?: number;
 }
 
 const enum Mode {
@@ -86,13 +87,15 @@ class Loader {
     removed,
     completed,
     listId,
+    priority,
   }: ParamsForGetTasks): Promise<Task[]> {
     const completedQuery = completed ? '&status=done' : '';
     const listQuery = listId ? `&listId=${listId}` : '';
+    const priorityQuery = priority ? `&priority=${priority}` : '';
     const response = await fetch(
       `${Loader.url}/tasks?removed=${String(
         removed,
-      )}${completedQuery}${listQuery}`,
+      )}${completedQuery}${listQuery}${priorityQuery}`,
       {
         method: 'GET',
       },
