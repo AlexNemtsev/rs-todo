@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import isHeader from '../is-header';
+import getHeaderLevel from '../get-header-level';
 import Loader from '../loader';
 
 const onBlurHandler = () => {
@@ -10,7 +10,7 @@ const onBlurHandler = () => {
   for (let i = 0; i < children.length; i += 1) {
     const child = children[i];
     const childTxt: string = child.textContent || '\\';
-    const hashSigns = '#'.repeat(isHeader(child));
+    const hashSigns = '#'.repeat(getHeaderLevel(child));
     const strToPush: string = hashSigns ? `${hashSigns} ${childTxt}` : childTxt;
     strings.push(strToPush);
   }

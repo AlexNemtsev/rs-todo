@@ -1,7 +1,7 @@
 import createEmptyP from '../create-empty-p';
 import Caret from '../caret';
 import onBlurHandler from './on-blur-handler';
-import isHeader from '../is-header';
+import getHeaderLevel from '../get-header-level';
 // eslint-disable-next-line import/no-cycle
 import Router from '../router';
 
@@ -33,8 +33,8 @@ class KeyHandler {
     const caretPos: number = Caret.getCaretPosition(target);
     const prevSibling: Element | null = target.previousElementSibling;
 
-    if (!caretPos && isHeader(target)) {
-      target.classList.remove(`md__header${isHeader(target)}`);
+    if (!caretPos && getHeaderLevel(target)) {
+      target.classList.remove(`md__header${getHeaderLevel(target)}`);
       Caret.saveCaretPosition();
       Router.handleLocation();
     }
@@ -49,11 +49,15 @@ class KeyHandler {
     }
   }
 
-  private static onSpace(): void {
-    setTimeout(() => {
-      Caret.saveCaretPosition(0);
-      Router.handleLocation();
-    });
+  private static onSpace(event: Event): void {
+    const target = event.target as HTMLElement;
+
+    if (getHeaderLevel(target)) {
+      setTimeout(() => {
+        Caret.saveCaretPosition(0);
+        Router.handleLocation();
+      });
+    }
   }
 
   private static onArrowKey(event: Event, key: 'ArrowDown' | 'ArrowUp'): void {
@@ -87,7 +91,7 @@ class KeyHandler {
         break;
 
       case 'Space':
-        KeyHandler.onSpace();
+        KeyHandler.onSpace(event);
         break;
 
       case 'ArrowDown':
