@@ -7,6 +7,7 @@ import Utils from '../../../utils/utils';
 import TaskList from '../../../interfaces/task-List';
 import Router from '../../logic/router';
 import ListModal from './listModal';
+import Priority from '../../../interfaces/priority';
 
 class ContextMenu {
   type: 'task' | 'list';
@@ -20,7 +21,7 @@ class ContextMenu {
   constructor(type: 'task' | 'list') {
     this.type = type;
     this.menu = Builder.createBlock(['context-menu'], 'ul');
-    this.customDateInput = Builder.createBlock(['dates__item'], 'li');
+    this.customDateInput = Builder.createBlock(['menu-row__item'], 'li');
     this.submenu = Builder.createBlock(['context-menu__submenu'], 'ul');
   }
 
@@ -150,6 +151,18 @@ class ContextMenu {
         break;
       case 'week':
         await Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(7) });
+        break;
+      case 'high':
+        await Loader.updateTask(itemId, { priority: Priority.high });
+        break;
+      case 'medium':
+        await Loader.updateTask(itemId, { priority: Priority.medium });
+        break;
+      case 'low':
+        await Loader.updateTask(itemId, { priority: Priority.low });
+        break;
+      case 'none':
+        await Loader.updateTask(itemId, { priority: Priority.none });
         break;
       default:
         break;
