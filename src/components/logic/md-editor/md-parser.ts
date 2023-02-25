@@ -1,9 +1,9 @@
 import { marked } from 'marked';
 import i18next from 'i18next';
 import stylesMap from './styles-map';
-import onBlurHandler from './handlers/on-blur-handler';
+import onBlurHandler from '../handlers/on-blur-handler';
 // eslint-disable-next-line import/no-cycle
-import KeyHandler from './handlers/key-handler';
+import KeyHandler from '../handlers/key-handler';
 
 class MdParser {
   private static emptyP = '<p id=""></p>';

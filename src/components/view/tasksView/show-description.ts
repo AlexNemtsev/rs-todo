@@ -1,7 +1,7 @@
-import Caret from '../../logic/caret';
+import Caret from '../../logic/md-editor/caret';
 import Loader from '../../logic/loader';
 // eslint-disable-next-line import/no-cycle
-import MdParser from '../../logic/md-parser';
+import MdParser from '../../logic/md-editor/md-parser';
 
 const showDescription = async (id: number): Promise<void> => {
   const details = document.querySelector('.details') as HTMLDivElement;

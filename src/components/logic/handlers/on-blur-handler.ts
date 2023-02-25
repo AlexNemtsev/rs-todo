@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import getHeaderLevel from '../get-header-level';
+import getHeaderLevel from '../md-editor/get-header-level';
 import Loader from '../loader';
 
 const onBlurHandler = () => {

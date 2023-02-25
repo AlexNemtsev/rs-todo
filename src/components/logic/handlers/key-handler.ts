@@ -1,7 +1,7 @@
-import createEmptyP from '../create-empty-p';
-import Caret from '../caret';
+import createEmptyP from '../md-editor/create-empty-p';
+import Caret from '../md-editor/caret';
 import onBlurHandler from './on-blur-handler';
-import getHeaderLevel from '../get-header-level';
+import getHeaderLevel from '../md-editor/get-header-level';
 // eslint-disable-next-line import/no-cycle
 import Router from '../router';
 
