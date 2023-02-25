@@ -14,19 +14,19 @@
   border-radius: 8px;
   background-color: rgb(var(--white));
 
-  &--high {
+  &--high .quadrant__title {
     color: var(--high);
   }
 
-  &--medium {
+  &--medium .quadrant__title {
     color: var(--medium);
   }
 
-  &--low {
+  &--low .quadrant__title {
     color: var(--low);
   }
 
-  &--none {
+  &--none .quadrant__title {
     color: var(--none);
   }
 }
