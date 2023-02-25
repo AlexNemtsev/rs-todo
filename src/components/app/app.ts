@@ -36,15 +36,17 @@ class App {
     Hotkeys.addHotkeys();
     SettingsView.addKeyListener();
 
-    const SettingsButton:Element|null = document.querySelectorAll('.nav__item')[0];
-    SettingsButton?.addEventListener('click', () =>
-      Router.setRoute('/settings/appearance'),
-    );
-
-    const TimerButton:Element|null = document.querySelectorAll('.nav__item')[2];
-    TimerButton?.addEventListener('click', () =>
-      Router.setRoute('/timer'),
-    )
+    const nav: Element | null = document.querySelector('.nav');
+    nav?.addEventListener('click', (e) => {
+      if (e.target instanceof HTMLButtonElement) {
+        const route = String(
+          e.target.dataset.nav === 'settings'
+            ? 'settings/appearance'
+            : e.target.dataset.nav,
+        );
+        Router.setRoute(`/${route}`);
+      }
+    });
   }
 }
 

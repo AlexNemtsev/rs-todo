@@ -59,6 +59,12 @@ const en = {
         shortcuts: 'Shortcuts',
       },
     },
+    matrix: {
+      high: 'Urgent & Important',
+      medium: 'Not Urgent & Important',
+      low: 'Urgent & Unimportant',
+      none: 'Not Urgent & Unimportant',
+    }
   },
 };
 

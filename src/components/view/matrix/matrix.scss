@@ -1,0 +1,38 @@
+.matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(var(--main-color), 0.1);
+}
+
+.quadrant {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: rgb(var(--white));
+
+  &--high {
+    color: var(--high);
+  }
+
+  &--medium {
+    color: var(--medium);
+  }
+
+  &--low {
+    color: var(--low);
+  }
+
+  &--none {
+    color: var(--none);
+  }
+}
+
+.quadrant__title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+}

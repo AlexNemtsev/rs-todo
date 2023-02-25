@@ -4,6 +4,10 @@
   --violet: 112, 86, 179;
   --white: 255, 255, 255;
   --main-color: var(--blue);
+  --high: #e03131;
+  --medium: #ffb000;
+  --low: #08b408;
+  --none: #999;
 }
 
 :root.dark__mode {
@@ -102,7 +106,7 @@ img {
   gap: 20px;
 }
 
-.avatar__picture-main{
+.avatar__picture-main {
   width: 40px;
   height: 40px;
   border: 1px solid rgb(61, 61, 61);
@@ -117,5 +121,9 @@ img {
 
   &:hover {
     opacity: 0.7;
+  }
+
+  & * {
+    pointer-events: none;
   }
 }
