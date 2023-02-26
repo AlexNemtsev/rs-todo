@@ -18,10 +18,15 @@ class MdParser {
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as HTMLElement;
       child.id = `string-${i}`;
-      if (child.id === 'string-0' && !child.textContent) {
+      if (
+        child.id === 'string-0' &&
+        children.length === 1 &&
+        (!child.textContent || child.textContent === '\\')
+      ) {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
-      } else if (child.textContent === '\\') child.textContent = '';
+      }
+      if (child.textContent === '\\') child.textContent = '';
 
       child.contentEditable = 'true';
       child.classList.add('md', 'md__style', `${stylesMap[child.tagName]}`);
