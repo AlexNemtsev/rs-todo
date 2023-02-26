@@ -53,7 +53,11 @@ class KeyHandler {
     const target = event.target as HTMLElement;
 
     const regexTemplate = /#+\s/;
-    const strToTest = `${target.textContent ?? ''} `;
+    const strToTest = `${(target.textContent ?? '').substring(
+      0,
+      Caret.getCaretPosition(target),
+    )} `;
+
     if (regexTemplate.test(strToTest || '')) {
       setTimeout(() => {
         Caret.saveCaretPosition(0);
@@ -63,7 +67,6 @@ class KeyHandler {
   }
 
   private static onArrowKey(event: Event, key: 'ArrowDown' | 'ArrowUp'): void {
-    // TODO: как обработать многострочные элементы?
     event.preventDefault();
     const target = event.target as HTMLElement;
     const sibling: Element | null =
