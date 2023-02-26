@@ -4,6 +4,7 @@ import showDescription from '../view/tasksView/show-description';
 import TasksView from '../view/tasksView/tasksView';
 import TimerTable from '../view/timer/timerTable';
 import TimerView from '../view/timer/timerView';
+import MatrixView from '../view/matrix/matrix';
 
 class Router {
   static setRoute(path: string): void {
@@ -29,6 +30,9 @@ class Router {
       case 'timer':
         TimerView.drawTimer();
         TimerTable.drawTimerTable();
+        break;
+      case 'matrix':
+        MatrixView.draw();
         break;
       default:
         TasksView.draw();
