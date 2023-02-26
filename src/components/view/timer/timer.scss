@@ -5,10 +5,9 @@
   justify-content: center;
   height: 100vh;
   gap: 30px;
-  width: 50%;
-  
+  width: 60%;
 }
- 
+
 .timer {
   position: relative;
   width: 400px;
@@ -21,8 +20,7 @@
     width: 380px;
     height: 380px;
     border-radius: 50%;
-    background-color: rgb(11, 11, 11, 0.1);
-    
+    background-color: #e7f1b8bd;
   }
 
   &__time {
@@ -31,7 +29,7 @@
     align-items: center;
     justify-content: center;
     margin: 0;
-    gap:10px;
+    gap: 10px;
     width: 360px;
     height: 360px;
     border-radius: 50%;
@@ -51,11 +49,10 @@
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  
 
- canvas{
-  visibility: visible;
- }
+  canvas {
+    visibility: visible;
+  }
 
   &-inner {
     position: absolute;
@@ -80,7 +77,7 @@
   visibility: hidden;
   font-size: 28px;
   background-color: rgb(var(--main-color));
-  color: white;
+  color: inherit;
   width: 180px;
   height: 40px;
 }
@@ -95,7 +92,7 @@
   flex-direction: column;
   gap: 10px;
 
-  background-color: white;
+  background-color: inherit;
   border: 1px solid black;
   div {
     display: flex;
@@ -108,6 +105,7 @@
       height: 30px;
     }
     button {
+      background-color: rgb(var(--main-color));
       width: 100px;
       height: 30px;
     }
@@ -117,36 +115,59 @@
   display: flex;
 }
 
-.time__button{
+.time__button {
   visibility: hidden;
   border: none;
   background: white;
   color: rgb(var(--main-color));
   font-size: 24px;
 }
-.time__button.active{
+.time__button.active {
   visibility: visible;
 }
 
 .start-stop__button.active,
-.reset__button.active{
+.reset__button.active {
   visibility: visible;
 }
 
-.timer__window{
+.timer__window {
   display: flex;
 }
 
-.graph__wrapper{
+.graph__wrapper {
   display: flex;
   flex-direction: column;
-  width: 50%;
-   
+  width: 30%;
 }
 
-.timer__history{
-  width: 90%;
+.timer__history {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
   height: 400px;
- border-radius: 10px;
-  background:rgba(11, 11, 11, 0.1);
+  border-radius: 10px;
+  background: rgba(11, 11, 11, 0.05);
+}
+
+.timer__result {
+  height: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.timer__result:hover {
+  background-color: rgba(11, 11, 11, 0.1);
+}
+
+.timer__graph {
+  text-align: center;
+}
+
+:root.dark__mode {
+  .graph__wrapper {
+    border-left: 1px dotted white;
+  }
 }
