@@ -17,13 +17,13 @@ class MdParser {
 
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as HTMLElement;
-      if (!child.textContent) {
+      child.id = `string-${i}`;
+      if (child.id === 'string-0' && !child.textContent) {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
       } else if (child.textContent === '\\') child.textContent = '';
 
       child.contentEditable = 'true';
-      child.id = `string-${i}`;
       child.classList.add('md', 'md__style', `${stylesMap[child.tagName]}`);
       child.addEventListener('keydown', KeyHandler.onKeyDownHandler);
       child.addEventListener('blur', onBlurHandler);
