@@ -52,7 +52,9 @@ class KeyHandler {
   private static onSpace(event: Event): void {
     const target = event.target as HTMLElement;
 
-    if (getHeaderLevel(target)) {
+    const regexTemplate = /#+\s/;
+    const strToTest = `${target.textContent ?? ''} `;
+    if (regexTemplate.test(strToTest || '')) {
       setTimeout(() => {
         Caret.saveCaretPosition(0);
         Router.handleLocation();
