@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import Builder from '../builder/builder';
 import TimerView from './timerView';
 
@@ -18,7 +19,7 @@ class TimerTable {
     const graphWrapper: HTMLElement = Builder.createBlock(['graph__wrapper']);
     const canvas: HTMLCanvasElement = document.createElement('canvas');
     const graph: HTMLElement = Builder.createBlock(['timer__graph']);
-    graph.innerHTML = `Average daily time:${(
+    graph.innerHTML = `${i18next.t( 'timer.average',)}${(
       data.reduce((sum, el) => sum + el) / 7
     ).toFixed(2)} mins`;
     const results: HTMLElement = Builder.createBlock(['timer__history']);
