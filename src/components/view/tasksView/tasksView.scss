@@ -237,11 +237,6 @@ pre {
   }
 }
 
-.md__paragraph {
-  min-width: 100%;
-  min-height: 19.5px;
-}
-
 .empty::before {
   content: attr(data-before);
 }
