@@ -55,6 +55,9 @@ const ru = {
         shortcuts: 'Горячие клавиши',
       },
     },
+    css: {
+      emptyBefore: 'Описание',
+    },
   },
 };
 
