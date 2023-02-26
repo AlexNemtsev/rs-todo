@@ -5,6 +5,7 @@ import en from '../i18n/en';
 import Router from '../logic/router';
 import SettingsView from '../view/settings/settings';
 import Hotkeys from '../view/settings/hotkeys';
+import TimerView from '../view/timer/timerView';
 
 class App {
   public static async start(): Promise<void> {
@@ -35,6 +36,7 @@ class App {
 
     Hotkeys.addHotkeys();
     SettingsView.addKeyListener();
+    TimerView.drawIcontimer();
 
     const nav: Element | null = document.querySelector('.nav');
     nav?.addEventListener('click', (e) => {

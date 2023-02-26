@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import SettingsView from '../view/settings/settings';
+import showDescription from '../view/tasksView/show-description';
 import TasksView from '../view/tasksView/tasksView';
 import TimerView from '../view/timer/timerView';
 import MatrixView from '../view/matrix/matrix';
@@ -21,6 +22,9 @@ class Router {
         break;
       case 'tasks':
         TasksView.draw(segments[2]);
+        if (segments[3]) {
+          showDescription(Number(segments[3])).catch((err) => console.log(err));
+        }
         break;
       case 'timer':
         TimerView.drawTimer();

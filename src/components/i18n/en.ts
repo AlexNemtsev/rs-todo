@@ -64,7 +64,10 @@ const en = {
       medium: 'Not Urgent & Important',
       low: 'Urgent & Unimportant',
       none: 'Not Urgent & Unimportant',
-    }
+    },
+    css: {
+      emptyBefore: 'Description',
+    },
   },
 };
 
