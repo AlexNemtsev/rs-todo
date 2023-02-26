@@ -10,7 +10,8 @@
 }
 
 .quadrant {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
   background-color: rgb(var(--white));
 
@@ -29,10 +30,19 @@
   &--none .quadrant__title {
     color: var(--none);
   }
+
+  &:has(.quadrant__tasks--hover) {
+    outline: 2px solid rgb(var(--main-color));
+  }
 }
 
 .quadrant__title {
-  margin-top: 0;
-  margin-bottom: 15px;
+  margin: 0;
+  padding: 20px 20px 0;
   font-size: 16px;
+}
+
+.quadrant__tasks {
+  flex-grow: 1;
+  padding: 10px 20px 20px;
 }

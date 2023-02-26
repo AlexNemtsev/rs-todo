@@ -5,7 +5,7 @@ import Utils from '../../../utils/utils';
 import Priority from '../../../interfaces/priority';
 
 class TaskView {
-  public static fillTask(item: Task): HTMLElement {
+  public static fillTask(item: Task, isDraggable = false): HTMLElement {
     const {
       id,
       task,
@@ -23,6 +23,7 @@ class TaskView {
     } = item;
     const taskBlock: HTMLElement = Builder.createBlock(['task']);
     taskBlock.dataset.id = id.toString();
+    if (isDraggable) taskBlock.draggable = true;
     taskBlock.innerHTML = `
       <div class="task__main">
         <input class="task__input visually-hidden" type="checkbox" id="${id}" ${
