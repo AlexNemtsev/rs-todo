@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import SettingsView from '../view/settings/settings';
 import TasksView from '../view/tasksView/tasksView';
+import TimerTable from '../view/timer/timerTable';
 import TimerView from '../view/timer/timerView';
 
 class Router {
@@ -23,6 +24,7 @@ class Router {
         break;
       case 'timer':
         TimerView.drawTimer();
+        TimerTable.drawTimerTable();
         break;
       default:
         TasksView.draw();

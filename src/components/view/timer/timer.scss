@@ -5,6 +5,7 @@
   justify-content: center;
   height: 100vh;
   gap: 30px;
+  width: 50%;
   
 }
  
@@ -130,4 +131,22 @@
 .start-stop__button.active,
 .reset__button.active{
   visibility: visible;
+}
+
+.timer__window{
+  display: flex;
+}
+
+.graph__wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+   
+}
+
+.timer__history{
+  width: 90%;
+  height: 400px;
+ border-radius: 10px;
+  background:rgba(11, 11, 11, 0.1);
 }
