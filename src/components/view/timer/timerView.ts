@@ -14,6 +14,8 @@ class TimerView {
 
   private static context2: CanvasRenderingContext2D | null;
 
+  public static history:Set<string[]> = new Set();
+
   private static timerProps: ITimerArguments = {
     radius: 0,
     radius2: 16,
@@ -28,6 +30,7 @@ class TimerView {
   public static drawTimer() {
     if (this.main)
       this.main.innerHTML = `
+      <div class="timer__window">
      <div class="timer__wrapper active">
        <div class="timer">
          <div class="timer__progress"></div>
@@ -43,7 +46,8 @@ class TimerView {
        </div>
        <button class="start-stop__button active">Start</button>
        <button class="reset__button">Reset</button> 
-    </div>`;
+    </div>
+     </div>`;
 
     this.timer = document.querySelector('.timer');
 
@@ -110,6 +114,7 @@ class TimerView {
       document.querySelector('.start-stop__button')?.classList.remove('active');
       document.querySelector('.reset__button')?.classList.add('active');
       cancelAnimationFrame(this.timerProps.animnumber);
+      this.history.add([new Date(Date.now()).getHours().toString(),new Date(Date.now()).getMinutes().toString(),new Date(Date.now()-this.timerProps.duration).getMinutes().toString()] )
     }
     if (window.location.pathname.split('/')[1] !== 'timer' && this.canvas2)
       this.canvas2.style.visibility = 'visible';
