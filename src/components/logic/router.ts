@@ -17,7 +17,7 @@ class Router {
 
     const segments: string[] = path.split('/');
 
-    switch (segments[1]) {
+    switch (segments[1]) { 
       case 'settings':
         SettingsView.drawSettings(segments[2]);
         break;

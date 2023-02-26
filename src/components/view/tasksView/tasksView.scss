@@ -136,6 +136,11 @@
     opacity: 0.5;
   }
 
+  &.str:has(.task__input:checked) {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
   &[draggable="true"] {
     cursor: move;
   }

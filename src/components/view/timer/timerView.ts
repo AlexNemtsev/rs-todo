@@ -141,7 +141,7 @@ class TimerView {
         1000,
     );
 
-    if (time && percent !== 1)
+    if (time && percent !== 1) 
       time.innerHTML = `${
         Math.floor(seconds / 60).toString().length === 1
           ? `0${Math.floor(seconds / 60)}`

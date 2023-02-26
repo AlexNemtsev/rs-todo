@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import SettingTemplate from '../../../interfaces/settings';
 import ICurrentSetting from '../../../interfaces/currentsetting';
+import Utils from '../../../utils/utils';
 
 function templateBuilder(): SettingTemplate {
   const menu = `<div class="hotkey__menu-item">
@@ -67,7 +68,7 @@ function templateBuilder(): SettingTemplate {
   </div>
   <h3>Completed Task Style</h3>
   <div class="setting-appear">
-  <div class="task-type def active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot4.png"><span>Default</span></div>
+  <div class="task-type def "><div class="item-checked "><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot4.png"><span>Default</span></div>
   <div class="task-type str"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot5.png"><span>Striketrough</span></div>
   </div>`,
     Preference: `<div class="setting-pref"><label for="Preference-language">${i18next.t(
@@ -88,20 +89,20 @@ function templateBuilder(): SettingTemplate {
     'settings.settingsList.prefList.DefaultDate',
   )}:</label>
   <select name="Preference-Default__Date" id="Preference-Default__Date">
-    <option value="none">None</option>
-    <option value="Today">Today</option>
-    <option value="Tomorrow">Tomorrow</option>
-    <option value="Day after Tomorrow">Day after Tomorrow</option>
-    <option value="Next Week">Next Week</option>
+    <option value="0">None</option>
+    <option value="${Utils.getDayEndInMs(0)}">Today</option>
+    <option value="${Utils.getDayEndInMs(1)}">Tomorrow</option>
+    <option value="${Utils.getDayEndInMs(2)}">Day after Tomorrow</option>
+    <option value="${Utils.getDayEndInMs(7)}">Next Week</option>
   </select></div>
   <div class="setting-pref"><label for="Preference-Default__Priority">${i18next.t(
     'settings.settingsList.prefList.defaultPriority',
   )}:</label>
   <select name="Preference-Default__Priority" id="Preference-Default__Priority">
-    <option value="none">None</option>
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
+    <option value="0">None</option>
+    <option value="1">Low</option>
+    <option value="2">Medium</option>
+    <option value="3">High</option>
   </select></div>`,
     Hotkeys: `
     <div class="hotkey__bind">
@@ -109,14 +110,14 @@ function templateBuilder(): SettingTemplate {
     </div>
     <h3>General</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Save</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>Update Tasks</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[0].length > 1
       ? `${settings.hotkeys[0][0].join('+')}/${settings.hotkeys[0][1].join(
           '+',
         )}`
       : settings.hotkeys[0][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
-  <div class="shortcut-setting"><span>Undo</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>Uncomplete</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[1].length > 1
       ? `${settings.hotkeys[1][0].join('+')}/${settings.hotkeys[1][1].join(
           '+',
