@@ -55,6 +55,9 @@ const en = {
         shortcuts: 'Shortcuts',
       },
     },
+    css: {
+      emptyBefore: 'Description',
+    },
   },
 };
 
