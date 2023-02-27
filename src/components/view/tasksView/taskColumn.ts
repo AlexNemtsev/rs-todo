@@ -10,6 +10,7 @@ import templateBuilder from '../settings/templates';
 import TaskStatus from '../../../interfaces/status';
 import TaskList from '../../../interfaces/task-List';
 import Task from '../../../interfaces/task';
+import SettingsView from '../settings/settings';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -68,7 +69,7 @@ class TaskColumn {
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
     const inputModal: HTMLInputElement = Builder.createInput(
-      ['modal__input'],
+      ['modal__input-addtask'],
       'text',
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
@@ -139,16 +140,18 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
-        if (el.value)
+        
+        if (el.value){
+           
           Loader.addTask({
             task: el.value,
             listId: 2,
             createdAt: Number(new Date()),
             removed: false,
-            priority: 0,
+            priority: Number(SettingsView.settings.defPrior),
             dueTo: TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
-              : Number(new Date(TaskColumn.dateInput.value)) || 0,
+              : Number(new Date(TaskColumn.dateInput.value)) || SettingsView.settings.defDate,
           })
             .then(() => {
               el.value = '';
@@ -159,6 +162,7 @@ class TaskColumn {
             .catch((error) => {
               console.error('Error:', error);
             });
+          }
       });
     });
   }

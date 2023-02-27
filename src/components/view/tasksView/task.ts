@@ -5,6 +5,7 @@ import TaskStatus from '../../../interfaces/status';
 import Utils from '../../../utils/utils';
 import Priority from '../../../interfaces/priority';
 import onTaskClickHandler from '../../logic/handlers/on-task-click-handler';
+import SettingsView from '../settings/settings';
 
 class TaskView {
   public static fillTask(item: Task, isDraggable = false): HTMLElement {
@@ -28,6 +29,8 @@ class TaskView {
     const list: string = window.location.pathname.split('/')[2];
     const checkedTask: string = window.location.pathname.split('/')[3];
     if (+checkedTask === id) taskBlock.classList.add('task--selected');
+    if(SettingsView.settings.cTaskStyle==='str')
+    taskBlock.classList.add('str')
     taskBlock.dataset.id = id.toString();
     if (isDraggable) taskBlock.draggable = true;
     taskBlock.dataset.href = `tasks/${list ?? 'all'}/${id}`;

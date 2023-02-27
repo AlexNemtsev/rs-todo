@@ -4,6 +4,7 @@ import stylesMap from './styles-map';
 import onBlurHandler from '../handlers/on-blur-handler';
 // eslint-disable-next-line import/no-cycle
 import KeyHandler from '../handlers/key-handler';
+import onInputHandler from '../handlers/on-input-handler';
 
 class MdParser {
   private static emptyP = '<p id=""></p>';
@@ -17,13 +18,20 @@ class MdParser {
 
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as HTMLElement;
-      if (!child.textContent) {
+      child.id = `string-${i}`;
+      if (
+        child.id === 'string-0' &&
+        children.length === 1 &&
+        (!child.textContent || child.textContent === '\\')
+      ) {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
-      } else if (child.textContent === '\\') child.textContent = '';
+        child.addEventListener('input', onInputHandler);
+
+      }
+      if (child.textContent === '\\') child.textContent = '';
 
       child.contentEditable = 'true';
-      child.id = `string-${i}`;
       child.classList.add('md', 'md__style', `${stylesMap[child.tagName]}`);
       child.addEventListener('keydown', KeyHandler.onKeyDownHandler);
       child.addEventListener('blur', onBlurHandler);

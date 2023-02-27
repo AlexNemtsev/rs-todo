@@ -47,6 +47,23 @@
   .task__due-to {
     color: white;
   }
+  
+  .time__button {
+    color: rgb(var(--main-color));
+  }
+  .timer__time-count {
+    color: rgb(var(--main-color));
+  }
+  .timer__progress {
+    background-color: rgba(80, 80, 80, 0.5);
+  }
+  .timer-add_window div {
+    color: rgb(var(--main-color));
+  }
+  .timer__history {
+    margin-left: 10px;
+    background-color: rgba(153, 153, 153, 0.1);
+  }
 }
 
 img {
