@@ -142,7 +142,7 @@ class TaskColumn {
       el.addEventListener('addtask', () => {
         
         if (el.value){
-          console.log(el.value)
+           
           Loader.addTask({
             task: el.value,
             listId: 2,

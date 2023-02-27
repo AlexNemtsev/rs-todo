@@ -42,13 +42,17 @@ class TimerView {
            <p class="timer__time-count">05:00</p>
            <button class="time__button deduct">-</button>
            <div class ="timer-add_window"> 
-           <div><input class="timer__input" type="number" min="0" max="180">${i18next.t( 'timer.minutes',)}</div>
+           <div><input class="timer__input" type="number" min="0" max="180">${i18next.t(
+             'timer.minutes',
+           )}</div>
            <div><button class="timer__cancel">cancel</button><button class="timer__ok">ok</button></div>
            </div>
            </div>
        </div>
-       <button class="start-stop__button active">${i18next.t( 'timer.start',)}</button>
-       <button class="reset__button">${i18next.t( 'timer.reset',)}</button> 
+       <button class="start-stop__button active">${i18next.t(
+         'timer.start',
+       )}</button>
+       <button class="reset__button">${i18next.t('timer.reset')}</button> 
     </div>
      </div>`;
 
@@ -142,7 +146,7 @@ class TimerView {
         1000,
     );
 
-    if (time && percent !== 1) 
+    if (time && percent !== 1)
       time.innerHTML = `${
         Math.floor(seconds / 60).toString().length === 1
           ? `0${Math.floor(seconds / 60)}`
@@ -325,7 +329,9 @@ class TimerView {
       this.start(canvas, context, time);
       if (startButton)
         startButton.innerHTML =
-          this.timerProps.status === true ? `${i18next.t( 'timer.start',)}` : `${i18next.t( 'timer.pause',)}`;
+          this.timerProps.status === true
+            ? `${i18next.t('timer.start')}`
+            : `${i18next.t('timer.pause')}`;
 
       addtime?.classList.toggle('active');
       deducttime?.classList.toggle('active');

@@ -64,11 +64,6 @@ function templateBuilder(): SettingTemplate {
     'settings.settingsList.appearList.dark',
   )}</span></div>
   </div>
-  <h3>${i18next.t('settings.settingsList.appearList.SideCount')}</h3>
-  <div class="setting-appear">
-  <div class="sidebar-count all active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot.png"><span>Show(All)</span></div>
-  <div class="sidebar-count middle"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot2.png"><span>Show(Hide Note)</span></div>
-  <div class="sidebar-count hide"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot3.png"><span>Hide(All)</span></div>
   </div>
   <h3>${i18next.t('settings.settingsList.appearList.Striped')}</h3>
   <div class="setting-appear">
@@ -86,10 +81,10 @@ function templateBuilder(): SettingTemplate {
     'settings.settingsList.prefList.TimeFormat',
   )}:</label>
   <select name="Preference-time__format" id="Preference-time__format">
-    <option value="12h">${i18next.t(
+    <option value="12hrs">${i18next.t(
       'settings.settingsList.prefList.TimeFormat1',
     )}</option>
-    <option value="24h">${i18next.t(
+    <option value="24hrs">${i18next.t(
       'settings.settingsList.prefList.TimeFormat2',
     )}</option>
   </select></div>

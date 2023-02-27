@@ -8,7 +8,7 @@ import ICurrentSetting from '../../../interfaces/currentsetting';
 class SettingsView {
   public static settings = JSON.parse(
     localStorage.getItem('settings') ||
-      '{"mode":"light__mode","cTaskStyle":"def","defPrior":"0","defDate":0,"avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+      '{"mode":"light__mode","cTaskStyle":"def","Timeformat":"24hrs","defPrior":"0","defDate":0,"avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
   ) as ICurrentSetting;
 
   static currentkey: number;
@@ -94,8 +94,6 @@ class SettingsView {
         ?.classList.add('active');
     }
 
-    
-
     ['.theme', '.sidebar-count', '.task-type'].forEach((setting) => {
       const blocks: NodeListOf<Element> = document.querySelectorAll(
         `${setting}`,
@@ -135,6 +133,7 @@ class SettingsView {
     });
     this.addBasePref();
     this.addBaseDate();
+    this.addtimeformat();
   }
 
   private static addBasePref(): void {
@@ -146,10 +145,7 @@ class SettingsView {
       prior.value = savedprior;
     }
     prior.addEventListener('change', () => {
-     
       this.settings.defPrior = prior.value;
-       
-       
     });
   }
 
@@ -162,10 +158,20 @@ class SettingsView {
       date.value = saveddate.toString();
     }
     date.addEventListener('change', () => {
-     
       this.settings.defDate = Number(date.value);
-       
-       
+    });
+  }
+
+  private static addtimeformat(): void {
+    const time = document.getElementById(
+      'Preference-time__format',
+    ) as HTMLSelectElement;
+    const savedtformat = this.settings.Timeformat;
+    if (savedtformat) {
+      time.value = savedtformat;
+    }
+    time.addEventListener('change', () => {
+      this.settings.Timeformat = time.value;
     });
   }
 
@@ -270,14 +276,12 @@ class SettingsView {
         ?.querySelector('.item-checked')
         ?.classList.add('active');
     }
-     
+
     modes.forEach((el) => {
       el.addEventListener('click', () => {
         if (el.classList.contains('def')) {
-        
           this.settings.cTaskStyle = 'def';
         } else {
-        
           this.settings.cTaskStyle = 'str';
         }
       });
