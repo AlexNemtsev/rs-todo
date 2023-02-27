@@ -2,7 +2,7 @@ import TaskColumn from '../tasksView/taskColumn';
 import SettingsView from './settings';
 
 class Hotkeys {
-  public static addHotkeys() {
+  public static addHotkeys(): void {
     const keys: Set<string> = new Set();
     document.addEventListener('keydown', (e) => {
       const target = <HTMLElement>e.target;
@@ -40,7 +40,7 @@ class Hotkeys {
     });
   }
 
-  private static applyHotkey(i: number) {
+  private static applyHotkey(i: number): void {
     const input: HTMLElement | null = document.querySelector('.modal__input');
     switch (i) {
       case 0:

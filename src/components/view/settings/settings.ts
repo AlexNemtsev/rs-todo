@@ -132,7 +132,7 @@ class SettingsView {
     });
   }
 
-  private static addShortcutListeners() {
+  private static addShortcutListeners(): void {
     const menus: NodeListOf<Element> = document.querySelectorAll(
       '.hotkey__menu',
     );
@@ -169,7 +169,7 @@ class SettingsView {
     });
   }
 
-  public static addKeyListener() {
+  public static addKeyListener(): void {
     this.keys.clear();
     document.addEventListener('keydown', (e) => {
       const keyvalue = document.querySelector('.hotkey__now');
@@ -205,7 +205,7 @@ class SettingsView {
     });
   }
 
-  private static darkmode() {
+  private static darkmode(): void {
     const modes: NodeListOf<Element> = document.querySelectorAll('.theme');
     const rootelement: Element | null = document.querySelector(':root');
     modes.forEach((el) => {
@@ -221,7 +221,7 @@ class SettingsView {
     });
   }
 
-  private static avatarChange() {
+  private static avatarChange(): void {
     const imageInput = <HTMLInputElement>document.getElementById('avatarinput');
     const imageOutput = <HTMLDivElement>document.querySelector('.avatar');
     const src = this.settings.avatar;
@@ -246,7 +246,7 @@ class SettingsView {
     });
   }
 
-  private static editHotkey(i: number, keyvalue: Element | null) {
+  private static editHotkey(i: number, keyvalue: Element | null): void {
     document.querySelector('.hotkey__bind')?.classList.remove('active');
     const changekey = document.querySelectorAll('.hotkey')[i].firstChild;
     if (keyvalue?.textContent && changekey) {
