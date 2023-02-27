@@ -1,0 +1,158 @@
+:root {
+  --gray: 49, 54, 67;
+  --blue: 71, 114, 250;
+  --violet: 112, 86, 179;
+  --white: 255, 255, 255;
+  --main-color: var(--blue);
+  --high: #e03131;
+  --medium: #ffb000;
+  --low: #08b408;
+  --none: #999;
+}
+
+:root.dark__mode {
+  --main-color: var(--gray);
+  color: white;
+  border-color: white;
+  outline-color: white;
+  button {
+    color: white;
+  }
+  input {
+    background-color: rgba(var(--main-color));
+    color: white;
+  }
+  background-color: black;
+  .settings-main__container {
+    background-color: rgb(80, 80, 80);
+  }
+  .settings__container .settings-main__container .settings__options {
+    background-color: rgba(39, 39, 39, 0.5);
+    .options__items .option__item {
+      a {
+        color: rgba(226, 223, 223, 0.5);
+      }
+      &.active {
+        a {
+          color: rgba(71, 114, 250);
+        }
+      }
+    }
+  }
+
+  .quadrant {
+    background-color: rgba(var(--main-color), 0.8);
+  }
+
+  .task__due-to {
+    color: white;
+  }
+  
+  .time__button {
+    color: rgb(var(--main-color));
+  }
+  .timer__time-count {
+    color: rgb(var(--main-color));
+  }
+  .timer__progress {
+    background-color: rgba(80, 80, 80, 0.5);
+  }
+  .timer-add_window div {
+    color: rgb(var(--main-color));
+  }
+  .timer__history {
+    margin-left: 10px;
+    background-color: rgba(153, 153, 153, 0.1);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  margin: 0;
+  font-family: Verdana, Arial, sans-serif;
+
+  &:has(.modal__wrapper.active) {
+    overflow: hidden;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 20px 3px;
+
+  background-color: rgb(var(--main-color));
+}
+
+.sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  color: rgb(var(--white));
+}
+
+.sidebar__link {
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.sidebar__icon {
+  width: 30px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar__picture-main {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(61, 61, 61);
+  border-radius: 50%;
+}
+
+.nav__item {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  & * {
+    pointer-events: none;
+  }
+}
