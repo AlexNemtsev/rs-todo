@@ -2,6 +2,7 @@
 import SettingsView from '../view/settings/settings';
 import showDescription from '../view/tasksView/show-description';
 import TasksView from '../view/tasksView/tasksView';
+import TimerTable from '../view/timer/timerTable';
 import TimerView from '../view/timer/timerView';
 import MatrixView from '../view/matrix/matrix';
 
@@ -16,7 +17,7 @@ class Router {
 
     const segments: string[] = path.split('/');
 
-    switch (segments[1]) {
+    switch (segments[1]) { 
       case 'settings':
         SettingsView.drawSettings(segments[2]);
         break;
@@ -28,6 +29,7 @@ class Router {
         break;
       case 'timer':
         TimerView.drawTimer();
+        TimerTable.drawTimerTable();
         break;
       case 'matrix':
         MatrixView.draw();

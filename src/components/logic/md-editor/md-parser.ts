@@ -27,6 +27,7 @@ class MdParser {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
         child.addEventListener('input', onInputHandler);
+
       }
       if (child.textContent === '\\') child.textContent = '';
 

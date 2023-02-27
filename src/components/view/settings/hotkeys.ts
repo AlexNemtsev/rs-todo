@@ -1,3 +1,4 @@
+import Loader from '../../logic/loader';
 import TaskColumn from '../tasksView/taskColumn';
 import SettingsView from './settings';
 
@@ -41,11 +42,15 @@ class Hotkeys {
   }
 
   private static applyHotkey(i: number) {
-    const input: HTMLElement | null = document.querySelector('.modal__input');
+    const input: HTMLElement | null = document.querySelector('.modal__input-addtask');
     switch (i) {
       case 0:
+        TaskColumn.fillTaskList();
         break;
       case 1:
+        if(Number(window.location.pathname.split('/')[3])){
+          Loader.updateTask(Number(window.location.pathname.split('/')[3]),{ status: 'undone' }).catch((err) => console.log(err));
+          TaskColumn.fillTaskList();  }
         break;
       case 2:
         document.querySelector('.modal__wrapper')?.classList.add('active');
@@ -59,7 +64,7 @@ class Hotkeys {
             ?.classList.contains('active')
         ) {
           document
-            .querySelector('.modal__input')
+            .querySelector('.modal__input-addtask')
             ?.dispatchEvent(TaskColumn.addtask);
         } else
           document
@@ -69,8 +74,15 @@ class Hotkeys {
         document.querySelector('.modal__window')?.classList.remove('active');
         break;
       case 4:
+        if(Number(window.location.pathname.split('/')[3])){
+          Loader.updateTask(Number(window.location.pathname.split('/')[3]),{ status: 'done' }).catch((err) => console.log(err));
+          TaskColumn.fillTaskList();  }
         break;
       case 5:
+        if(Number(window.location.pathname.split('/')[3])){
+          Loader.deleteTask(Number(window.location.pathname.split('/')[3])).catch((err) => console.log(err));
+           TaskColumn.fillTaskList();}
+       
         break;
       default:
         break;
