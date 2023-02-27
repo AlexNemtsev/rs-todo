@@ -1,0 +1,48 @@
+.matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(var(--main-color), 0.1);
+}
+
+.quadrant {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: rgb(var(--white));
+
+  &--high .quadrant__title {
+    color: var(--high);
+  }
+
+  &--medium .quadrant__title {
+    color: var(--medium);
+  }
+
+  &--low .quadrant__title {
+    color: var(--low);
+  }
+
+  &--none .quadrant__title {
+    color: var(--none);
+  }
+
+  &:has(.quadrant__tasks--hover) {
+    outline: 2px solid rgb(var(--main-color));
+  }
+}
+
+.quadrant__title {
+  margin: 0;
+  padding: 20px 20px 0;
+  font-size: 16px;
+}
+
+.quadrant__tasks {
+  flex-grow: 1;
+  padding: 10px 20px 20px;
+}

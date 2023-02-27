@@ -3,6 +3,7 @@ import SettingsView from '../view/settings/settings';
 import showDescription from '../view/tasksView/show-description';
 import TasksView from '../view/tasksView/tasksView';
 import TimerView from '../view/timer/timerView';
+import MatrixView from '../view/matrix/matrix';
 
 class Router {
   static setRoute(path: string): void {
@@ -27,6 +28,9 @@ class Router {
         break;
       case 'timer':
         TimerView.drawTimer();
+        break;
+      case 'matrix':
+        MatrixView.draw();
         break;
       default:
         TasksView.draw();

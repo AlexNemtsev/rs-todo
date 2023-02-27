@@ -145,6 +145,7 @@ class TaskColumn {
             listId: 2,
             createdAt: Number(new Date()),
             removed: false,
+            priority: 0,
             dueTo: TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
               : Number(new Date(TaskColumn.dateInput.value)) || 0,
