@@ -1,3 +1,4 @@
+import Priority from '../../interfaces/priority';
 import Task from '../../interfaces/task';
 import TaskList from '../../interfaces/task-List';
 
@@ -8,6 +9,7 @@ interface ParamsForGetTasks {
   removed: boolean;
   completed?: boolean;
   listId?: number;
+  priority?: Priority;
 }
 
 const enum Mode {
@@ -28,6 +30,10 @@ class Loader {
 
   public static getTasksFromList(listId: number): Promise<Task[]> {
     return Loader.getTasks({ removed: false, completed: false, listId });
+  }
+
+  public static getTasksByPriority(taskPriority: Priority): Promise<Task[]> {
+    return Loader.getTasks({ removed: false, priority: taskPriority});
   }
 
   public static async getTask(taskId: number): Promise<Task> {
@@ -85,13 +91,15 @@ class Loader {
     removed,
     completed,
     listId,
+    priority,
   }: ParamsForGetTasks): Promise<Task[]> {
     const completedQuery = completed ? '&status=done' : '';
     const listQuery = listId ? `&listId=${listId}` : '';
+    const priorityQuery = priority !== undefined ? `&priority=${priority}` : '';
     const response = await fetch(
       `${Loader.url}/tasks?removed=${String(
         removed,
-      )}${completedQuery}${listQuery}`,
+      )}${completedQuery}${listQuery}${priorityQuery}`,
       {
         method: 'GET',
       },

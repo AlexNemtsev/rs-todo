@@ -2,7 +2,6 @@
 import i18next from 'i18next';
 import Utils from '../../../utils/utils';
 import Builder from '../builder/builder';
-import TaskColumn from './taskColumn';
 import Router from '../../logic/router';
 import Loader from '../../logic/loader';
 import TaskList from '../../../interfaces/task-List';
@@ -10,15 +9,17 @@ import ContextMenu from './contextMenu';
 import ListModal from './listModal';
 
 class ListColumn {
-  static listItems: HTMLElement[] = [];
+  private static listItems: HTMLElement[] = [];
 
-  static listName: string;
+  private static listName: string;
 
-  static customListBlock: HTMLElement;
+  private static customListBlock: HTMLElement;
 
   public static menu: ContextMenu;
 
   private static menuBlock: HTMLElement;
+
+  private static cachedListData: TaskList[];
 
   public static draw(listsBlock: HTMLElement, listName?: string): void {
     ListColumn.listItems = [];
@@ -111,25 +112,31 @@ class ListColumn {
   }
 
   public static renderCustomLists(): void {
+    function render(data: TaskList[]) {
+      const customListNames = data.map((item) => item.name);
+      const customListIDs = data.map((item) => item.id);
+      const customLists: HTMLElement = ListColumn.createList(
+        ['list'],
+        customListNames,
+        true,
+        customListIDs,
+      );
+      if (ListColumn.customListBlock.children.length > 2) {
+        ListColumn.customListBlock.replaceChild(
+          customLists,
+          ListColumn.customListBlock.childNodes[2],
+        );
+      } else {
+        ListColumn.customListBlock.append(customLists);
+      }
+    }
+
+    if (ListColumn.cachedListData) render(ListColumn.cachedListData);
+
     Loader.getLists()
       .then((data: TaskList[]) => {
-        const customListNames = data.map((item) => item.name);
-        const customListIDs = data.map((item) => item.id);
-
-        const customLists: HTMLElement = ListColumn.createList(
-          ['list'],
-          customListNames,
-          true,
-          customListIDs,
-        );
-        if (ListColumn.customListBlock.children.length > 2) {
-          ListColumn.customListBlock.replaceChild(
-            customLists,
-            ListColumn.customListBlock.childNodes[2],
-          );
-        } else {
-          ListColumn.customListBlock.append(customLists);
-        }
+        ListColumn.cachedListData = data;
+        render(data);
       })
       .catch((error) => {
         console.error(error);
@@ -149,7 +156,6 @@ class ListColumn {
           !listItem.classList.contains('list__item--active')
         ) {
           Router.setRoute(listItem.href);
-          TaskColumn.fillTaskList();
         }
       }
     });

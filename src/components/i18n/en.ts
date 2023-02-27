@@ -28,6 +28,10 @@ const en = {
         tomorrow: 'Tomorrow',
         week: 'Next 7 Days',
         custom: 'Custom',
+        high: 'High',
+        medium: 'Medium',
+        low: 'Low',
+        none: 'None',
         duplicate: 'Duplicate',
         delete: 'Delete',
         move: 'Move to',
@@ -54,6 +58,12 @@ const en = {
         },
         shortcuts: 'Shortcuts',
       },
+    },
+    matrix: {
+      high: 'Urgent & Important',
+      medium: 'Not Urgent & Important',
+      low: 'Urgent & Unimportant',
+      none: 'Not Urgent & Unimportant',
     },
     css: {
       emptyBefore: 'Description',
