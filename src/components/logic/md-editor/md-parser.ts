@@ -4,6 +4,7 @@ import stylesMap from './styles-map';
 import onBlurHandler from '../handlers/on-blur-handler';
 // eslint-disable-next-line import/no-cycle
 import KeyHandler from '../handlers/key-handler';
+import onInputHandler from '../handlers/on-input-handler';
 
 class MdParser {
   private static emptyP = '<p id=""></p>';
@@ -25,6 +26,7 @@ class MdParser {
       ) {
         child.dataset.before = `${i18next.t('css.emptyBefore')}`;
         child.classList.add('empty');
+        child.addEventListener('input', onInputHandler);
       }
       if (child.textContent === '\\') child.textContent = '';
 
