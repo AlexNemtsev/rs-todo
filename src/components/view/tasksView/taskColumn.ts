@@ -69,7 +69,7 @@ class TaskColumn {
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
     const inputModal: HTMLInputElement = Builder.createInput(
-      ['modal__input'],
+      ['modal__input-addtask'],
       'text',
       `${i18next.t('mainScreen.tasks.inputPlaceholder')}`,
     );
@@ -141,7 +141,8 @@ class TaskColumn {
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
         
-        if (el.value)
+        if (el.value){
+          console.log(el.value)
           Loader.addTask({
             task: el.value,
             listId: 2,
@@ -161,6 +162,7 @@ class TaskColumn {
             .catch((error) => {
               console.error('Error:', error);
             });
+          }
       });
     });
   }

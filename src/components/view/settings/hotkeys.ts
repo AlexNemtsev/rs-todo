@@ -42,7 +42,7 @@ class Hotkeys {
   }
 
   private static applyHotkey(i: number) {
-    const input: HTMLElement | null = document.querySelector('.modal__input');
+    const input: HTMLElement | null = document.querySelector('.modal__input-addtask');
     switch (i) {
       case 0:
         TaskColumn.fillTaskList();
@@ -64,7 +64,7 @@ class Hotkeys {
             ?.classList.contains('active')
         ) {
           document
-            .querySelector('.modal__input')
+            .querySelector('.modal__input-addtask')
             ?.dispatchEvent(TaskColumn.addtask);
         } else
           document

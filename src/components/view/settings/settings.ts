@@ -8,7 +8,7 @@ import ICurrentSetting from '../../../interfaces/currentsetting';
 class SettingsView {
   public static settings = JSON.parse(
     localStorage.getItem('settings') ||
-      '{"mode":"light__mode","cTaskStyle":"def","defPrior":"0","defDate":"0","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+      '{"mode":"light__mode","cTaskStyle":"def","defPrior":"0","defDate":0,"avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
   ) as ICurrentSetting;
 
   static currentkey: number;
