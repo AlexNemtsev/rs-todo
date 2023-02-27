@@ -154,10 +154,20 @@
   font-size: large;
   color: rgb(71, 114, 250);
   text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
   h3 {
     padding: 0px;
     margin: 0px;
   }
+}
+
+.timer__history::-webkit-scrollbar {
+  color: rgb(71, 114, 250);
+}
+.timer__history::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgb(71, 114, 250);
 }
 
 .timer__result {

@@ -69,7 +69,7 @@ class TimerTable {
   ) {
     results.innerHTML = '<h3>Timer History</h3>';
     if (history.length > 0)
-      history.forEach((el) => {
+      history.reverse().forEach((el) => {
         const resultdiv = Builder.createBlock(['timer__result']);
         resultdiv.innerHTML += `<span class="result__date">${el[0]} of ${
           months[parseInt(el[1], 10)]

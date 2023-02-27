@@ -121,6 +121,8 @@ class TimerView {
       document.querySelector('.start-stop__button')?.classList.remove('active');
       document.querySelector('.reset__button')?.classList.add('active');
       cancelAnimationFrame(this.timerProps.animnumber);
+      if (new Date(Date.now()).getDay() === 0)
+        this.history = this.history.filter((el) => el[6] === '0');
       this.history.push([
         new Date(Date.now()).getDate().toString(),
         new Date(Date.now()).getMonth().toString(),
