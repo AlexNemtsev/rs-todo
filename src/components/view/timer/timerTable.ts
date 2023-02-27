@@ -13,10 +13,10 @@ class TimerTable {
 
   private static timer: NodeJS.Timeout;
 
-  public static drawTimerTable() {
-    const history = () => TimerView.history;
+  public static drawTimerTable():void {
+    const history:()=>string[][] = () => TimerView.history;
 
-    const data = [0, 0, 0, 0, 0, 0, 0];
+    const data:number[] = [0, 0, 0, 0, 0, 0, 0];
 
     history().forEach((el) => {
       data[parseInt(el[6], 10)] += parseInt(el[7], 10) / 60000;
@@ -55,7 +55,7 @@ class TimerTable {
     this.fillHistory(results, months, history());
   }
 
-  private static scaleGraph(data: number[]) {
+  private static scaleGraph(data: number[]):void  {
     if (data.filter((el) => el > 5 * (this.modifier * 10)).length > 0) {
       this.modifier *= 2;
       this.scaleGraph(data);
@@ -66,7 +66,7 @@ class TimerTable {
     results: HTMLElement,
     months: string[],
     history: Array<string[]>,
-  ) {
+  ):void  {
     results.innerHTML = '<h3>Timer History</h3>';
     if (history.length > 0)
       history.reverse().forEach((el) => {
@@ -129,7 +129,7 @@ class TimerTable {
         ctx.stroke();
       }
 
-      const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut'];
+      const labels:string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut'];
       for (let i = 0; i < 7; i += 1) {
         ctx.fillText(labels[i], 60 + i * 45, 275);
       }
@@ -139,7 +139,7 @@ class TimerTable {
   private static drawTimes(
     data: number[],
     ctx: CanvasRenderingContext2D | null,
-  ) {
+  ):void  {
     if (ctx) ctx.fillStyle = 'rgb(71, 114, 250)';
 
     const y =
