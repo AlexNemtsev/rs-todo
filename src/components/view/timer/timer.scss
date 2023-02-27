@@ -82,6 +82,16 @@
   height: 40px;
 }
 
+.start-stop__button:hover,
+.reset__button:hover {
+  cursor: pointer;
+}
+
+.start-stop__button:active,
+.reset__button:active {
+  transform: scale(0.9);
+}
+
 .timer-add_window {
   width: 200px;
   height: fit-content;
@@ -109,10 +119,22 @@
       width: 100px;
       height: 30px;
     }
+    button:active {
+      transform: scale(0.9);
+    }
   }
 }
 .timer-add_window.active {
   display: flex;
+}
+
+.timer__time-count {
+  box-shadow: inset 5em 1em rgba(158, 135, 241, 0.3);
+  border-radius: 15px;
+}
+
+.timer__time-count:hover {
+  cursor: pointer;
 }
 
 .time__button {
@@ -124,6 +146,10 @@
 }
 .time__button.active {
   visibility: visible;
+}
+
+.time__button:active {
+  color: green;
 }
 
 .start-stop__button.active,
@@ -154,10 +180,20 @@
   font-size: large;
   color: rgb(71, 114, 250);
   text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
   h3 {
     padding: 0px;
     margin: 0px;
   }
+}
+
+.timer__history::-webkit-scrollbar {
+  color: rgb(71, 114, 250);
+}
+.timer__history::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgb(71, 114, 250);
 }
 
 .timer__result {

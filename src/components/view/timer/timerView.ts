@@ -30,7 +30,7 @@ class TimerView {
     now: () => performance.now(),
   };
 
-  public static drawTimer() {
+  public static drawTimer():void {
     if (this.main)
       this.main.innerHTML = `
       <div class="timer__window">
@@ -65,13 +65,13 @@ class TimerView {
     this.init(this.timer, this.canvas, this.context);
   }
 
-  public static drawIcontimer() {
-    const timerSmall = document.querySelector('.timer__circle');
+  public static drawIcontimer():void {
+    const timerSmall:Element|null = document.querySelector('.timer__circle');
     this.canvas2 = document.createElement('canvas');
     this.context2 = this.canvas2.getContext('2d');
 
     if (timerSmall) {
-      const progressBox = timerSmall.getBoundingClientRect();
+      const progressBox:DOMRect = timerSmall.getBoundingClientRect();
       [this.canvas2.width, this.canvas2.height] = [
         progressBox.width,
         progressBox.height,
@@ -88,16 +88,16 @@ class TimerView {
     context: CanvasRenderingContext2D | null,
     canvas: HTMLCanvasElement,
     radius: number,
-  ) {
+  ):void {
     if (context) {
-      const x = canvas.width / 2;
-      const y = canvas.height / 2;
+      const xaxis:number = canvas.width / 2;
+      const yaxis:number = canvas.height / 2;
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.beginPath();
-      context.moveTo(x, y);
+      context.moveTo(xaxis, yaxis);
       context.arc(
-        x,
-        y,
+        xaxis,
+        yaxis,
         radius,
         -this.timerProps.halfPI,
         -this.timerProps.halfPI + 2 * Math.PI * progress,
@@ -112,8 +112,8 @@ class TimerView {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
     time?: Element | null,
-  ) {
-    const delta = this.timerProps.now() - this.timerProps.startTime;
+  ):void {
+    const delta:number = this.timerProps.now() - this.timerProps.startTime;
     if (delta >= this.timerProps.duration) {
       document
         .querySelector('.start-stop__button')
@@ -121,6 +121,8 @@ class TimerView {
       document.querySelector('.start-stop__button')?.classList.remove('active');
       document.querySelector('.reset__button')?.classList.add('active');
       cancelAnimationFrame(this.timerProps.animnumber);
+      if (new Date(Date.now()).getDay() === 0)
+        this.history = this.history.filter((el) => el[6] === '0');
       this.history.push([
         new Date(Date.now()).getDate().toString(),
         new Date(Date.now()).getMonth().toString(),
@@ -138,9 +140,9 @@ class TimerView {
     else if (this.canvas2) {
       this.canvas2.style.visibility = 'hidden';
     }
-    const percent = Math.max(0, Math.min(1, delta / this.timerProps.duration));
+    const percent:number = Math.max(0, Math.min(1, delta / this.timerProps.duration));
 
-    const seconds = Math.round(
+    const seconds:number = Math.round(
       (this.timerProps.duration -
         (delta / this.timerProps.duration) * this.timerProps.duration) /
         1000,
@@ -178,7 +180,7 @@ class TimerView {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
     time: Element | null,
-  ) {
+  ):void {
     this.timerProps.startTime =
       this.timerProps.now() - this.timerProps.startTime;
 
@@ -201,7 +203,7 @@ class TimerView {
     timer: Element | null,
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
-  ) {
+  ):void {
     if (!timer) {
       return;
     }
@@ -255,7 +257,7 @@ class TimerView {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
     time: Element | null,
-  ) {
+  ):void {
     addtime?.addEventListener('click', () => {
       if (this.timerProps.duration < 10800000)
         this.timerProps.duration += 300000;
@@ -286,7 +288,7 @@ class TimerView {
     timerInput: HTMLInputElement | null,
     timerCancel: HTMLElement | null,
     timerOk: HTMLElement | null,
-  ) {
+  ):void {
     time?.addEventListener('click', () => {
       if (timerInput)
         timerInput.value = (this.timerProps.duration / 60000).toString();
@@ -324,7 +326,7 @@ class TimerView {
     deducttime: HTMLElement | null,
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
-  ) {
+  ):void {
     startButton?.addEventListener('click', () => {
       this.start(canvas, context, time);
       if (startButton)
@@ -373,7 +375,7 @@ class TimerView {
     progress: HTMLElement | null,
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
-  ) {
+  ):void {
     if (progress) {
       const progressBox = progress.getBoundingClientRect();
 
@@ -393,7 +395,7 @@ class TimerView {
     deducttime: HTMLElement | null,
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null,
-  ) {
+  ):void {
     if (this.timerProps.status === true) {
       cancelAnimationFrame(this.timerProps.animnumber);
       this.update(canvas, context, time);
