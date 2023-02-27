@@ -39,6 +39,14 @@
       }
     }
   }
+
+  .quadrant {
+    background-color: rgba(var(--main-color), 0.8);
+  }
+
+  .task__due-to {
+    color: white;
+  }
 }
 
 img {
