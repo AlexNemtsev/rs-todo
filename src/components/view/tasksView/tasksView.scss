@@ -128,7 +128,7 @@
 }
 
 .task {
-  padding: 10px 0;
+  padding: 10px;
   border-bottom: 1px solid rgba(var(--main-color), 0.15);
   transition: 0.2s;
 
@@ -138,6 +138,10 @@
 
   &[draggable="true"] {
     cursor: move;
+  }
+
+  &--selected {
+    background-color: rgba(var(--main-color), 0.10);
   }
 }
 

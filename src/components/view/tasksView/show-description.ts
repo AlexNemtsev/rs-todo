@@ -9,7 +9,7 @@ const addEditTitleListener = (
   input: HTMLInputElement,
   taskTitle: string,
   id: number,
-) => {
+): void => {
   input.addEventListener('blur', () => {
     if (input.value !== taskTitle) {
       Loader.updateTask(id, { task: input.value })
