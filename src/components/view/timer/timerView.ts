@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import ITimerArguments from '../../../interfaces/timer';
 import './timer.scss';
 
@@ -14,6 +15,10 @@ class TimerView {
 
   private static context2: CanvasRenderingContext2D | null;
 
+  public static history: Array<string[]> = JSON.parse(
+    localStorage.getItem('timerHistory') || '[]',
+  ) as Array<string[]>;
+
   private static timerProps: ITimerArguments = {
     radius: 0,
     radius2: 16,
@@ -28,6 +33,7 @@ class TimerView {
   public static drawTimer() {
     if (this.main)
       this.main.innerHTML = `
+      <div class="timer__window">
      <div class="timer__wrapper active">
        <div class="timer">
          <div class="timer__progress"></div>
@@ -36,14 +42,19 @@ class TimerView {
            <p class="timer__time-count">05:00</p>
            <button class="time__button deduct">-</button>
            <div class ="timer-add_window"> 
-           <div><input class="timer__input" type="number" min="0" max="180">minutes</div>
+           <div><input class="timer__input" type="number" min="0" max="180">${i18next.t(
+             'timer.minutes',
+           )}</div>
            <div><button class="timer__cancel">cancel</button><button class="timer__ok">ok</button></div>
            </div>
            </div>
        </div>
-       <button class="start-stop__button active">Start</button>
-       <button class="reset__button">Reset</button> 
-    </div>`;
+       <button class="start-stop__button active">${i18next.t(
+         'timer.start',
+       )}</button>
+       <button class="reset__button">${i18next.t('timer.reset')}</button> 
+    </div>
+     </div>`;
 
     this.timer = document.querySelector('.timer');
 
@@ -110,6 +121,17 @@ class TimerView {
       document.querySelector('.start-stop__button')?.classList.remove('active');
       document.querySelector('.reset__button')?.classList.add('active');
       cancelAnimationFrame(this.timerProps.animnumber);
+      this.history.push([
+        new Date(Date.now()).getDate().toString(),
+        new Date(Date.now()).getMonth().toString(),
+        new Date(Date.now()).getHours().toString(),
+        new Date(Date.now()).getMinutes().toString(),
+        new Date(Date.now() - this.timerProps.duration).getHours().toString(),
+        new Date(Date.now() - this.timerProps.duration).getMinutes().toString(),
+        new Date(Date.now()).getDay().toString(),
+        this.timerProps.duration.toString(),
+      ]);
+      localStorage.setItem('timerHistory', JSON.stringify(this.history));
     }
     if (window.location.pathname.split('/')[1] !== 'timer' && this.canvas2)
       this.canvas2.style.visibility = 'visible';
@@ -307,7 +329,9 @@ class TimerView {
       this.start(canvas, context, time);
       if (startButton)
         startButton.innerHTML =
-          this.timerProps.status === true ? 'Start' : 'Pause';
+          this.timerProps.status === true
+            ? `${i18next.t('timer.start')}`
+            : `${i18next.t('timer.pause')}`;
 
       addtime?.classList.toggle('active');
       deducttime?.classList.toggle('active');

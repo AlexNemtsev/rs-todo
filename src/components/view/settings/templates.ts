@@ -1,12 +1,17 @@
 import i18next from 'i18next';
 import SettingTemplate from '../../../interfaces/settings';
 import ICurrentSetting from '../../../interfaces/currentsetting';
+import Utils from '../../../utils/utils';
 
 function templateBuilder(): SettingTemplate {
   const menu = `<div class="hotkey__menu-item">
   <ul>
-  <li class="hotkey__add">add hotkey</li>
-  <li class="hotkey__clear">clear hotkey</li>
+  <li class="hotkey__add">${i18next.t(
+    'settings.settingsList.shortcutMA',
+  )}</li>
+  <li class="hotkey__clear">${i18next.t(
+    'settings.settingsList.shortcutMC',
+  )}</li>
   </ul>
   </div>`;
 
@@ -59,16 +64,11 @@ function templateBuilder(): SettingTemplate {
     'settings.settingsList.appearList.dark',
   )}</span></div>
   </div>
-  <h3>Sidebar Count</h3>
-  <div class="setting-appear">
-  <div class="sidebar-count all active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot.png"><span>Show(All)</span></div>
-  <div class="sidebar-count middle"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot2.png"><span>Show(Hide Note)</span></div>
-  <div class="sidebar-count hide"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot3.png"><span>Hide(All)</span></div>
   </div>
-  <h3>Completed Task Style</h3>
+  <h3>${i18next.t('settings.settingsList.appearList.Striped')}</h3>
   <div class="setting-appear">
-  <div class="task-type def active"><div class="item-checked active"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot4.png"><span>Default</span></div>
-  <div class="task-type str"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot5.png"><span>Striketrough</span></div>
+  <div class="task-type def "><div class="item-checked "><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot4.png"><span>${i18next.t('settings.settingsList.appearList.Striped1')}</span></div>
+  <div class="task-type str"><div class="item-checked"><img src="../../../assets/img/checkmark.svg"></div><img src="../../../assets/img/ScreenShot5.png"><span>${i18next.t('settings.settingsList.appearList.Striped2')}</span></div>
   </div>`,
     Preference: `<div class="setting-pref"><label for="Preference-language">${i18next.t(
       'settings.settingsList.prefList.language',
@@ -81,42 +81,46 @@ function templateBuilder(): SettingTemplate {
     'settings.settingsList.prefList.TimeFormat',
   )}:</label>
   <select name="Preference-time__format" id="Preference-time__format">
-    <option value="12h">12 Hour</option>
-    <option value="24h">24 Hour</option>
+    <option value="12hrs">${i18next.t(
+      'settings.settingsList.prefList.TimeFormat1',
+    )}</option>
+    <option value="24hrs">${i18next.t(
+      'settings.settingsList.prefList.TimeFormat2',
+    )}</option>
   </select></div>
   <div class="setting-pref"><label for="Preference-Default__Date">${i18next.t(
     'settings.settingsList.prefList.DefaultDate',
   )}:</label>
   <select name="Preference-Default__Date" id="Preference-Default__Date">
-    <option value="none">None</option>
-    <option value="Today">Today</option>
-    <option value="Tomorrow">Tomorrow</option>
-    <option value="Day after Tomorrow">Day after Tomorrow</option>
-    <option value="Next Week">Next Week</option>
+    <option value="0">${i18next.t('settings.settingsList.prefList.DefaultDate1',)}</option>
+    <option value="${Utils.getDayEndInMs(0)}">${i18next.t('settings.settingsList.prefList.DefaultDate2',)}</option>
+    <option value="${Utils.getDayEndInMs(1)}">${i18next.t('settings.settingsList.prefList.DefaultDate3',)}</option>
+    <option value="${Utils.getDayEndInMs(2)}">${i18next.t('settings.settingsList.prefList.DefaultDate4',)}</option>
+    <option value="${Utils.getDayEndInMs(7)}">${i18next.t('settings.settingsList.prefList.DefaultDate5',)}</option>
   </select></div>
   <div class="setting-pref"><label for="Preference-Default__Priority">${i18next.t(
     'settings.settingsList.prefList.defaultPriority',
   )}:</label>
   <select name="Preference-Default__Priority" id="Preference-Default__Priority">
-    <option value="none">None</option>
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
+    <option value="0">${i18next.t('settings.settingsList.prefList.defaultPriority1',)}</option>
+    <option value="1">${i18next.t('settings.settingsList.prefList.defaultPriority2',)}</option>
+    <option value="2">${i18next.t('settings.settingsList.prefList.defaultPriority3',)}</option>
+    <option value="3">${i18next.t('settings.settingsList.prefList.defaultPriority4',)}</option>
   </select></div>`,
     Hotkeys: `
     <div class="hotkey__bind">
     <div class="hotkey__now">Current hotkey</div>
     </div>
-    <h3>General</h3>
+    <h3>${i18next.t('settings.settingsList.shortcutsG',)}</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Save</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts1',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[0].length > 1
       ? `${settings.hotkeys[0][0].join('+')}/${settings.hotkeys[0][1].join(
           '+',
         )}`
       : settings.hotkeys[0][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
-  <div class="shortcut-setting"><span>Undo</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts2',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[1].length > 1
       ? `${settings.hotkeys[1][0].join('+')}/${settings.hotkeys[1][1].join(
           '+',
@@ -124,9 +128,9 @@ function templateBuilder(): SettingTemplate {
       : settings.hotkeys[1][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
-  <h3>Add Task</h3>
+  <h3>${i18next.t('settings.settingsList.shortcutsA',)}</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Add Task</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts3',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[2].length > 1
       ? `${settings.hotkeys[2][0].join('+')}/${settings.hotkeys[2][1].join(
           '+',
@@ -134,7 +138,7 @@ function templateBuilder(): SettingTemplate {
       : settings.hotkeys[2][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>${menu}
   </div></div></div>
-  <div class="shortcut-setting"><span>Add Task Below</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts4',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[3].length > 1
       ? `${settings.hotkeys[3][0].join('+')}/${settings.hotkeys[3][1].join(
           '+',
@@ -142,16 +146,16 @@ function templateBuilder(): SettingTemplate {
       : settings.hotkeys[3][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
   </div>
-  <h3>Edit Task</h3>
+  <h3>${i18next.t('settings.settingsList.shortcutsE',)}</h3>
   <div class="setting-shortcuts">
-  <div class="shortcut-setting"><span>Complete Tasks</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts5',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[4].length > 1
       ? `${settings.hotkeys[4][0].join('+')}/${settings.hotkeys[4][1].join(
           '+',
         )}`
       : settings.hotkeys[4][0].join('+')
   }</span> <div class="hotkey__menu"><span>...</span>   ${menu}</div></div></div>
-  <div class="shortcut-setting"><span>Delete Tasks</span> <div class="hotkey"><span class="hotkey__key">${
+  <div class="shortcut-setting"><span>${i18next.t('settings.settingsList.shortcuts6',)}</span> <div class="hotkey"><span class="hotkey__key">${
     settings.hotkeys[5].length > 1
       ? `${settings.hotkeys[5][0].join('+')}/${settings.hotkeys[5][1].join(
           '+',

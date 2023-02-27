@@ -8,7 +8,7 @@ import ICurrentSetting from '../../../interfaces/currentsetting';
 class SettingsView {
   public static settings = JSON.parse(
     localStorage.getItem('settings') ||
-      '{"mode":"light__mode","avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
+      '{"mode":"light__mode","cTaskStyle":"def","Timeformat":"24hrs","defPrior":"0","defDate":0,"avatar":"../../../assets/img/noavatar.png","lang":"en","hotkeys":{"0":[["ctrl","s"]],"1":[["ctrl","z"]],"2":[["tab","n"],["n"]],"3":[["enter"]],"4":[["tab","m"]],"5":[["ctrl","del"]]}}',
   ) as ICurrentSetting;
 
   static currentkey: number;
@@ -110,6 +110,7 @@ class SettingsView {
       });
     });
     this.darkmode();
+    this.cTaskMode();
     this.avatarChange();
   }
 
@@ -129,6 +130,48 @@ class SettingsView {
           this.settings.lang = lang;
         })
         .catch((err) => console.log(err));
+    });
+    this.addBasePref();
+    this.addBaseDate();
+    this.addtimeformat();
+  }
+
+  private static addBasePref(): void {
+    const prior = document.getElementById(
+      'Preference-Default__Priority',
+    ) as HTMLSelectElement;
+    const savedprior = this.settings.defPrior;
+    if (savedprior) {
+      prior.value = savedprior;
+    }
+    prior.addEventListener('change', () => {
+      this.settings.defPrior = prior.value;
+    });
+  }
+
+  private static addBaseDate(): void {
+    const date = document.getElementById(
+      'Preference-Default__Date',
+    ) as HTMLSelectElement;
+    const saveddate = this.settings.defDate;
+    if (saveddate) {
+      date.value = saveddate.toString();
+    }
+    date.addEventListener('change', () => {
+      this.settings.defDate = Number(date.value);
+    });
+  }
+
+  private static addtimeformat(): void {
+    const time = document.getElementById(
+      'Preference-time__format',
+    ) as HTMLSelectElement;
+    const savedtformat = this.settings.Timeformat;
+    if (savedtformat) {
+      time.value = savedtformat;
+    }
+    time.addEventListener('change', () => {
+      this.settings.Timeformat = time.value;
     });
   }
 
@@ -216,6 +259,30 @@ class SettingsView {
         } else {
           rootelement?.classList.add('dark__mode');
           this.settings.mode = 'dark__mode';
+        }
+      });
+    });
+  }
+
+  private static cTaskMode() {
+    const modes: NodeListOf<Element> = document.querySelectorAll('.task-type');
+
+    if (this.settings.cTaskStyle) {
+      document
+        .querySelector(`.task-type.${this.settings.cTaskStyle}`)
+        ?.classList.add('active');
+      document
+        .querySelector(`.task-type.${this.settings.cTaskStyle}`)
+        ?.querySelector('.item-checked')
+        ?.classList.add('active');
+    }
+
+    modes.forEach((el) => {
+      el.addEventListener('click', () => {
+        if (el.classList.contains('def')) {
+          this.settings.cTaskStyle = 'def';
+        } else {
+          this.settings.cTaskStyle = 'str';
         }
       });
     });
