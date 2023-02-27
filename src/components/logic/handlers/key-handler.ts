@@ -52,7 +52,13 @@ class KeyHandler {
   private static onSpace(event: Event): void {
     const target = event.target as HTMLElement;
 
-    if (getHeaderLevel(target)) {
+    const regexTemplate = /#+\s/;
+    const strToTest = `${(target.textContent ?? '').substring(
+      0,
+      Caret.getCaretPosition(target),
+    )} `;
+
+    if (regexTemplate.test(strToTest || '')) {
       setTimeout(() => {
         Caret.saveCaretPosition(0);
         Router.handleLocation();
@@ -61,7 +67,6 @@ class KeyHandler {
   }
 
   private static onArrowKey(event: Event, key: 'ArrowDown' | 'ArrowUp'): void {
-    // TODO: как обработать многострочные элементы?
     event.preventDefault();
     const target = event.target as HTMLElement;
     const sibling: Element | null =
