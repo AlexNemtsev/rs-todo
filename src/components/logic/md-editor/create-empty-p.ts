@@ -1,11 +1,11 @@
 import stylesMap from './styles-map';
+import Builder from '../../view/builder/builder';
 
 const createEmptyP = (): HTMLParagraphElement => {
-  const p = document.createElement('p');
+  const p = Builder.createBlock(['md', 'md__style', `${stylesMap.P}`], 'p');
   p.contentEditable = 'true';
-  p.classList.add('md', 'md__style', `${stylesMap[p.tagName]}`);
 
-  return p;
+  return p as HTMLParagraphElement;
 };
 
 export default createEmptyP;

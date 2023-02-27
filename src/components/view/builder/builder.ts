@@ -15,16 +15,14 @@ class Builder {
     type: string,
     placeholder?: string,
   ): HTMLInputElement {
-    const input = document.createElement('input');
-    input.classList.add(...classes);
+    const input = Builder.createBlock(classes, 'input') as HTMLInputElement;
     input.type = type;
     if (placeholder) input.placeholder = placeholder;
     return input;
   }
 
-  public static createLink(classes: string[], href: string): HTMLElement {
-    const block: HTMLAnchorElement = document.createElement('a');
-    block.classList.add(...classes);
+  public static createLink(classes: string[], href: string): HTMLAnchorElement {
+    const block = Builder.createBlock(classes, 'a') as HTMLAnchorElement;
     block.href = href;
     return block;
   }
