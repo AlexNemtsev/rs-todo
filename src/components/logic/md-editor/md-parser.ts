@@ -12,7 +12,7 @@ class MdParser {
     return md ? marked.parse(md).trim() : MdParser.emptyP;
   }
 
-  public static setAttributes(details: HTMLDivElement): void {
+  public static setAttributes(details: HTMLElement): void {
     const { children } = details;
 
     for (let i = 0; i < children.length; i += 1) {

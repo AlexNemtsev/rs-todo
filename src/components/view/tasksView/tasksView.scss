@@ -230,7 +230,7 @@
 
 .md__style {
   font-weight: 500;
-  margin: 10px;
+  margin: 10px 0;
 }
 
 pre {
@@ -474,4 +474,19 @@ pre {
 
 .modal__input {
   min-width: 250px;
+}
+
+.details {
+  padding: 20px 10px;
+}
+
+.details__title {
+  min-width: 250px;
+  box-sizing: border-box;
+  padding: 8px;
+  font-family: inherit;
+  outline: 2px solid rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s;
 }
