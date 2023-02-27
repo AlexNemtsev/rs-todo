@@ -289,6 +289,7 @@
   background-color: rgba(var(--main-color), 1);
   border-radius: 5px;
   box-shadow: 0 5px 20px rgb(0 0 0 / 25%), 0 5px 10px rgb(0 0 0 / 22%);
+  z-index: 1;
 
   &--active {
     display: block;
@@ -348,6 +349,11 @@
   display: block;
 }
 
+.context-menu--bottom .context-menu__submenu {
+  top: auto;
+  bottom: 0;
+}
+
 .menu-row {
   display: flex;
   gap: 15px;
@@ -395,6 +401,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 .modal__window {
