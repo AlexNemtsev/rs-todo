@@ -33,15 +33,19 @@ class Loader {
   }
 
   public static getTasksByPriority(taskPriority: Priority): Promise<Task[]> {
-    return Loader.getTasks({ removed: false, priority: taskPriority});
+    return Loader.getTasks({ removed: false, priority: taskPriority });
   }
 
-  public static async getTask(taskId: number): Promise<Task> {
+  public static async getTask(taskId: number): Promise<Task> | never {
     const response: Response = await fetch(`${Loader.url}/tasks/${taskId}`, {
       method: 'GET',
     });
-    const res = (await response.json()) as Task;
-    return res;
+
+    if (response.ok) {
+      const res = (await response.json()) as Task;
+      return res;
+    }
+    throw new Error("Task doesn't exist");
   }
 
   public static async getTasksInInterval(

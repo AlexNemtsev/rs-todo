@@ -17,14 +17,16 @@ class Router {
 
     const segments: string[] = path.split('/');
 
-    switch (segments[1]) { 
+    switch (segments[1]) {
       case 'settings':
         SettingsView.drawSettings(segments[2]);
         break;
       case 'tasks':
         TasksView.draw(segments[2]);
         if (segments[3]) {
-          showDescription(Number(segments[3])).catch((err) => console.log(err));
+          showDescription(Number(segments[3])).catch(() =>
+            Router.setRoute('/tasks/all'),
+          );
         }
         break;
       case 'timer':
