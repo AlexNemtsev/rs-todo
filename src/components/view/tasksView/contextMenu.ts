@@ -7,6 +7,7 @@ import Utils from '../../../utils/utils';
 import TaskList from '../../../interfaces/task-List';
 import Router from '../../logic/router';
 import ListModal from './listModal';
+import Priority from '../../../interfaces/priority';
 
 class ContextMenu {
   type: 'task' | 'list';
@@ -20,7 +21,7 @@ class ContextMenu {
   constructor(type: 'task' | 'list') {
     this.type = type;
     this.menu = Builder.createBlock(['context-menu'], 'ul');
-    this.customDateInput = Builder.createBlock(['dates__item'], 'li');
+    this.customDateInput = Builder.createBlock(['menu-row__item'], 'li');
     this.submenu = Builder.createBlock(['context-menu__submenu'], 'ul');
   }
 
@@ -28,7 +29,8 @@ class ContextMenu {
     this.menu.innerHTML = '';
     if (this.type === 'task') {
       this.menu.append(
-        this.createDatesMenu(),
+        this.createMenuRow(['today', 'tomorrow', 'week'], true),
+        this.createMenuRow(['high', 'medium', 'low', 'none']),
         ...this.createTextItems(this.type),
       );
     } else {
@@ -50,38 +52,37 @@ class ContextMenu {
     this.menu.classList.remove('context-menu--active');
   }
 
-  private createDatesMenu(): HTMLElement {
-    const dateBlock: HTMLElement = Builder.createBlock(
-      ['context-menu__item', 'context-menu__item--dates'],
+  private createMenuRow(values: string[], isDate = false): HTMLElement {
+    const block: HTMLElement = Builder.createBlock(
+      ['context-menu__item', 'context-menu__item--row'],
       'li',
     );
-    const dateList: HTMLElement = Builder.createBlock(['dates'], 'ul');
-    const dateItems: HTMLElement[] = ['today', 'tomorrow', 'week'].map(
-      (item: string) => {
-        const dateItem: HTMLElement = Builder.createBlock(
-          ['dates__item'],
-          'li',
-        );
-        dateItem.title = i18next.t(`mainScreen.tasks.${item}`);
-        dateItem.innerHTML = `
-        <img class="dates__icon" src="./assets/img/${item}.svg" data-action="${item}" alt="${i18next.t(
-          `mainScreen.tasks.${item}`,
-        )}">
+    const list: HTMLElement = Builder.createBlock(['menu-row'], 'ul');
+    const items: HTMLElement[] = values.map((value: string) => {
+      const item: HTMLElement = Builder.createBlock(['menu-row__item'], 'li');
+      item.title = i18next.t(`mainScreen.tasks.${value}`);
+      item.innerHTML = `
+        <img class="menu-row__icon" src="./assets/img/${value}.svg" data-action="${value}" alt="${i18next.t(
+        `mainScreen.tasks.${value}`,
+      )}">
       `;
-        return dateItem;
-      },
-    );
+      return item;
+    });
 
+    list.append(...items);
+    block.append(list);
+
+    if (isDate) this.createMenuDateInput(list);
+
+    return block;
+  }
+
+  private createMenuDateInput(list: HTMLElement): void {
     this.customDateInput.innerHTML = `
-      <input class="dates__input" type="date" id="custom-data" data-action="custom">
+      <input class="menu-row__date-input" type="date" id="custom-data" data-action="custom">
     `;
-
-    dateList.append(...dateItems, this.customDateInput);
-    dateBlock.append(dateList);
-
+    list.append(this.customDateInput);
     this.addCustomDateListener();
-
-    return dateBlock;
   }
 
   private createTextItems(type: 'task' | 'list'): HTMLElement[] {
@@ -150,6 +151,18 @@ class ContextMenu {
         break;
       case 'week':
         await Loader.updateTask(itemId, { dueTo: Utils.getDayEndInMs(7) });
+        break;
+      case 'high':
+        await Loader.updateTask(itemId, { priority: Priority.high });
+        break;
+      case 'medium':
+        await Loader.updateTask(itemId, { priority: Priority.medium });
+        break;
+      case 'low':
+        await Loader.updateTask(itemId, { priority: Priority.low });
+        break;
+      case 'none':
+        await Loader.updateTask(itemId, { priority: Priority.none });
         break;
       default:
         break;
