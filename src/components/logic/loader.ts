@@ -18,7 +18,7 @@ const enum Mode {
 }
 
 class Loader {
-  private static url = 'http://127.0.0.1:3000';
+  private static url = 'https://opaque-bumpy-cacao.glitch.me';
 
   public static getAllTasks(): Promise<Task[]> {
     return Loader.getTasks({ removed: false });
