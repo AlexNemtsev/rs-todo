@@ -3,7 +3,9 @@ import Router from '../router';
 
 const onTaskClickHandler = (event: Event): void => {
   const target = event.target as HTMLElement;
+  const page: string = window.location.pathname.split('/')[1];
 
+  if (page === 'matrix') return;
   if (target.classList.contains('task__label')) return;
   if (target.classList.contains('task__input')) return;
 
