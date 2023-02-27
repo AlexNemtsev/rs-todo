@@ -128,7 +128,7 @@
 }
 
 .task {
-  padding: 10px 0;
+  padding: 10px;
   border-bottom: 1px solid rgba(var(--main-color), 0.15);
   transition: 0.2s;
 
@@ -143,6 +143,10 @@
 
   &[draggable="true"] {
     cursor: move;
+  }
+
+  &--selected {
+    background-color: rgba(var(--main-color), 0.10);
   }
 }
 
@@ -231,6 +235,7 @@
 
 .md__style {
   font-weight: 500;
+  margin: 10px 0;
   margin: 10px;
   outline: none;
 }
@@ -284,6 +289,7 @@
   background-color: rgba(var(--main-color), 1);
   border-radius: 5px;
   box-shadow: 0 5px 20px rgb(0 0 0 / 25%), 0 5px 10px rgb(0 0 0 / 22%);
+  z-index: 1;
 
   &--active {
     display: block;
@@ -343,6 +349,11 @@
   display: block;
 }
 
+.context-menu--bottom .context-menu__submenu {
+  top: auto;
+  bottom: 0;
+}
+
 .menu-row {
   display: flex;
   gap: 15px;
@@ -390,6 +401,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 .modal__window {
@@ -485,4 +497,19 @@
 .modal__input,
 .modal__input-addtask {
   min-width: 250px;
+}
+
+.details {
+  padding: 20px 10px;
+}
+
+.details__title {
+  min-width: 250px;
+  box-sizing: border-box;
+  padding: 8px;
+  font-family: inherit;
+  outline: 2px solid rgba(var(--main-color), 0.15);
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s;
 }

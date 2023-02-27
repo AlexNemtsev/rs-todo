@@ -22,21 +22,27 @@ class TaskView {
       dueTo?: Date | number;
       desc?: string;
       status?: TaskStatus;
-      priority?: Priority
+      priority?: Priority;
     } = item;
+
     const taskBlock: HTMLElement = Builder.createBlock(['task']);
     const list: string = window.location.pathname.split('/')[2];
+    const checkedTask: string = window.location.pathname.split('/')[3];
+    if (+checkedTask === id) taskBlock.classList.add('task--selected');
     if(SettingsView.settings.cTaskStyle==='str')
     taskBlock.classList.add('str')
     taskBlock.dataset.id = id.toString();
     if (isDraggable) taskBlock.draggable = true;
     taskBlock.dataset.href = `tasks/${list ?? 'all'}/${id}`;
+
     taskBlock.innerHTML = `
       <div class="task__main">
         <input class="task__input visually-hidden" type="checkbox" id="${id}" ${
       status === 'done' ? 'checked' : ''
     }>
-        <label class="task__label task__label--${priority === undefined ? '0' : priority}" for="${id}">${task}</label>
+        <label class="task__label task__label--${
+          priority === undefined ? '0' : priority
+        }" for="${id}">${task}</label>
         <span class="task__due-to">${Utils.convertDate(dueTo)}</span>
       </div>
     `;

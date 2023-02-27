@@ -43,7 +43,15 @@ class ContextMenu {
 
   public show(id: number, e: MouseEvent) {
     this.menu.dataset.id = id.toString();
-    this.menu.style.top = `${e.clientY}px`;
+    if (e.clientY > window.innerHeight / 2) {
+      this.menu.style.top = 'auto';
+      this.menu.style.bottom = `${window.innerHeight - e.clientY}px`;
+      this.menu.classList.add('context-menu--bottom');
+    } else {
+      this.menu.style.top = `${e.clientY}px`;
+      this.menu.style.bottom = 'auto';
+      this.menu.classList.remove('context-menu--bottom');
+    }
     this.menu.style.left = `${e.clientX}px`;
     this.menu.classList.add('context-menu--active');
   }
