@@ -3,7 +3,9 @@ import getHeaderLevel from '../md-editor/get-header-level';
 import Loader from '../loader';
 
 const onBlurHandler = () => {
-  const details = document.querySelector('.details') as HTMLDivElement;
+  const details = document.querySelector(
+    '.details__description',
+  ) as HTMLDivElement;
   const { children } = details;
 
   const strings: string[] = [];
