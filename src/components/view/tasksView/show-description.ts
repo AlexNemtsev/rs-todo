@@ -4,6 +4,7 @@ import Builder from '../builder/builder';
 // eslint-disable-next-line import/no-cycle
 import MdParser from '../../logic/md-editor/md-parser';
 import Observable from '../../logic/observable';
+import Router from '../../logic/router';
 
 const addEditTitleListener = (
   input: HTMLInputElement,
@@ -26,7 +27,17 @@ const addEditTitleListener = (
 const showDescription = async (id: number): Promise<void> => {
   const details = document.querySelector('.details') as HTMLDivElement;
 
-  const { task, desc } = await Loader.getTask(id);
+  let task = '';
+  let desc: string | undefined = '';
+
+  try {
+    const loadedTask = await Loader.getTask(id);
+    task = loadedTask.task;
+    desc = loadedTask.desc;
+  } catch {
+    Router.setRoute('/tasks/all');
+  }
+
   const editTitle: HTMLInputElement = Builder.createInput(
     ['details__title'],
     'text',

@@ -11,6 +11,7 @@ import TaskStatus from '../../../interfaces/status';
 import TaskList from '../../../interfaces/task-List';
 import Task from '../../../interfaces/task';
 import SettingsView from '../settings/settings';
+import Router from '../../logic/router';
 
 class TaskColumn {
   private static tasksBlock: HTMLElement;
@@ -85,7 +86,7 @@ class TaskColumn {
       .querySelector('.modal__icons')
       ?.prepend(TaskColumn.dateInputModal);
     modalWindow.querySelector('.modal__buttons')?.append(buttonModal);
-    document.querySelector('main')?.append(modalWrapper); 
+    document.querySelector('main')?.append(modalWrapper);
     TaskColumn.addInputListener(input, inputModal, buttonModal, modalWrapper);
     inputWrapper.append(input, TaskColumn.dateInput, modalWindow);
     return inputWrapper;
@@ -113,8 +114,8 @@ class TaskColumn {
         .then((data: TaskList) => {
           TaskColumn.title.textContent = data.name;
         })
-        .catch((error) => {
-          console.error('Error:', error);
+        .catch(() => {
+          Router.setRoute('/tasks/all');
         });
     } else {
       TaskColumn.title.textContent = i18next.t(`mainScreen.lists.${listName}`);
@@ -140,9 +141,7 @@ class TaskColumn {
     });
     [input, inputModal].forEach((el) => {
       el.addEventListener('addtask', () => {
-        
-        if (el.value){
-           
+        if (el.value) {
           Loader.addTask({
             task: el.value,
             listId: 2,
@@ -151,7 +150,8 @@ class TaskColumn {
             priority: Number(SettingsView.settings.defPrior),
             dueTo: TaskColumn.dateInputModal.value
               ? Number(new Date(TaskColumn.dateInputModal.value))
-              : Number(new Date(TaskColumn.dateInput.value)) || SettingsView.settings.defDate,
+              : Number(new Date(TaskColumn.dateInput.value)) ||
+                SettingsView.settings.defDate,
           })
             .then(() => {
               el.value = '';
@@ -162,7 +162,7 @@ class TaskColumn {
             .catch((error) => {
               console.error('Error:', error);
             });
-          }
+        }
       });
     });
   }
